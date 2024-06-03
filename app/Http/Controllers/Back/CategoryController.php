@@ -10,7 +10,11 @@ class CategoryController extends Controller
 {
 
     public function index() {
+        $categories = Categories::all();
 
+        return view("pages.category.index", [
+            "categories" => $categories
+        ]);
     }
 
     public function create(Request $request) {

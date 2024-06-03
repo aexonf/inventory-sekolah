@@ -14,6 +14,11 @@ use Maatwebsite\Excel\Facades\Excel;
 class StudentController extends Controller
 {
 
+    public function index() {
+        return view("pages.student.index", [
+            "students" => Students::all()
+        ]);
+    }
 
     public function create(Request $request) {
         $request->validate([
@@ -46,7 +51,7 @@ class StudentController extends Controller
 
     }
 
-    public function updateStudent(Request $request, $id)
+    public function update(Request $request, $id)
     {
         /*
       1. mencari id student dari request parameters
@@ -78,7 +83,7 @@ class StudentController extends Controller
         return redirect()->back();
     }
 
-    public function deleteStudent($id)
+    public function delete($id)
     {
         /*
       1. mencari id student dari request parameters

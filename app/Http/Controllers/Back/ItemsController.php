@@ -10,6 +10,22 @@ use Illuminate\Support\Str;
 class ItemsController extends Controller
 {
 
+    public function index(Request $request) {
+        $itemsQuery = Items::query();
+
+        if ($request->has("status")) {
+            $itemsQuery->where("status", $request->status);
+        }else {
+            $itemsQuery->where("status", "available");
+        }
+
+        $items = $itemsQuery->get();
+
+        return view("pages.items.index", [
+            "items" => $items
+        ]);
+    }
+
     public function create(Request $request) {
         $request->validate([
             "item_number" => "required",
@@ -34,7 +50,8 @@ class ItemsController extends Controller
             "stock" => $request->stock,
             "description" => $request->description,
             "category_id" => $request->category,
-            "image" => $image
+            "image" => $image,
+            "status" => "availabel"
         ]);
 
         if ($item) {
@@ -45,7 +62,7 @@ class ItemsController extends Controller
     }
 
 
-    public function edit($id, Request $request) {
+    public function update($id, Request $request) {
         $findItem = Items::find($id);
 
         if(!$findItem) {

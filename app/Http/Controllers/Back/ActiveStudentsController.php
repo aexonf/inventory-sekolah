@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
 use App\Models\ActiveStudents;
+use App\Models\Settings;
 use App\Models\Students;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -11,7 +12,17 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ActiveStudentsController extends Controller
 {
-     public function createActiveStudent(Request $request)
+
+    public function index() {
+        $setting = Settings::first();
+        $activeStudentFind = ActiveStudents::where("school_year", $setting->school_year)->get();
+
+        return view("pages.active-student.index",[
+            "active_students" => $activeStudentFind
+        ]);
+    }
+
+     public function create(Request $request)
     {
         $validasi = $request->validate([
             "school_year" => "required",
@@ -37,7 +48,7 @@ class ActiveStudentsController extends Controller
         return redirect()->back();
     }
 
-    public function updateActiveStudent(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $activeStudent = ActiveStudents::findOrFail($id);
 
@@ -75,7 +86,7 @@ class ActiveStudentsController extends Controller
 
 
 
-    public function deleteActiveStudent($id)
+    public function delete($id)
     {
         $activeStudent = ActiveStudents::findOrFail($id);
         $activeStudent->delete();

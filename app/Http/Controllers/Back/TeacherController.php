@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 
 class TeacherController extends Controller
 {
-    public function createTeacher(Request $request)
+    public function create(Request $request)
     {
         $validasi = $request->validate([
             "id_number" => "required|numeric",
@@ -79,7 +79,7 @@ class TeacherController extends Controller
 
 
     // function untuk update guru
-    public function updateTeacher(Request $request, $id)
+    public function update(Request $request, $id)
     {
         /*
         1. mencari id teacher dari request parameters
@@ -119,7 +119,7 @@ class TeacherController extends Controller
         return redirect()->back();
     }
 
-    public function deleteTeacher($id)
+    public function delete($id)
     {
         /*
         1. mencari id teacher dari request parameters
