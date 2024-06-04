@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
+use App\Models\Categories;
 use App\Models\Items;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -12,6 +13,7 @@ class ItemsController extends Controller
 
     public function index(Request $request) {
         $itemsQuery = Items::query();
+        $category = Categories::all();
 
         if ($request->has("status")) {
             $itemsQuery->where("status", $request->status);
@@ -22,18 +24,19 @@ class ItemsController extends Controller
         $items = $itemsQuery->get();
 
         return view("pages.items.index", [
-            "items" => $items
+            "items" => $items,
+            "categories" => $category,
         ]);
     }
 
     public function create(Request $request) {
-        $request->validate([
-            "item_number" => "required",
-            "name" => "required",
-            "stock" => "required",
-            "image" => "image|mimes:jpeg,png,jpg,gif,svg",
-            "description" => "required",
-        ]);
+        // $request->validate([
+        //     "item_number" => "required",
+        //     "name" => "required",
+        //     "stock" => "required",
+        //     "image" => "image|mimes:jpeg,png,jpg,gif,svg",
+        //     "description" => "required",
+        // ]);
 
         $image = null;
 
@@ -44,14 +47,18 @@ class ItemsController extends Controller
             $image = $file_name;
         }
 
+        if (!isset($request->category)) {
+            return redirect()->back()->with("error", "Please select category before create item");
+        }
+
         $item = Items::create([
-            "item_number" => $request->item_number,
+            "id_number" => $request->id_number,
             "name" => $request->name,
             "stock" => $request->stock,
             "description" => $request->description,
-            "category_id" => $request->category,
+            "categories_id" => $request->category,
             "image" => $image,
-            "status" => "availabel"
+            "status" => "available"
         ]);
 
         if ($item) {
@@ -63,6 +70,7 @@ class ItemsController extends Controller
 
 
     public function update($id, Request $request) {
+        $categoryFind = Categories::where("name", $request->category)->first();
         $findItem = Items::find($id);
 
         if(!$findItem) {
@@ -79,11 +87,11 @@ class ItemsController extends Controller
         }
 
         $updateItem = $findItem->update([
-            "item_number" => $request->item_number,
+            "id_number" => $request->id_number,
             "name" => $request->name,
             "stock" => $request->stock,
             "description" => $request->description,
-            "category_id" => $request->category,
+            "categories_id" => $categoryFind->id,
             "image" => $image
         ]);
 

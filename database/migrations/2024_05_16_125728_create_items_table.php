@@ -13,11 +13,16 @@ return new class extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
-            $table->string("item_number");
+            $table->string("id_number");
             $table->string("name");
             $table->string("description");
             $table->integer("stock");
             $table->enum("status", ["available", "not_available"]);
+
+            // relasi ke categories
+            $table->unsignedBigInteger('categories_id');
+            $table->foreign('categories_id')->references('id')->on('categories')->onDelete("cascade")->onUpdate("cascade");
+
             $table->timestamps();
         });
     }
