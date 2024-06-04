@@ -57,8 +57,6 @@ Route::prefix("/admin")->group(function () {
         Route::put("/{id}", "update")->name("admin.category.update");
         Route::delete("/{id}", "delete")->name("admin.category.delete");
     });
-
-
 });
 
 Route::get('/', function () {

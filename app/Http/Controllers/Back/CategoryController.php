@@ -9,7 +9,8 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
 
-    public function index() {
+    public function index()
+    {
         $categories = Categories::all();
 
         return view("pages.category.index", [
@@ -17,58 +18,60 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function create(Request $request) {
+    public function create(Request $request)
+    {
         $request->validate([
             "name" => "required",
         ]);
 
 
         $created = Categories::create([
-            "name"=> $request->name,
+            "name" => $request->name,
         ]);
 
         if ($created) {
-            return redirect()->back()->with("success","Successfully created category");
+            return redirect()->back()->with("success", "Successfully created category");
         }
 
-        return redirect()->back()->with("error","Something went wrong");
+        return redirect()->back()->with("error", "Something went wrong");
     }
 
 
-    public function edit ($id, Request $request) {
+    public function update($id, Request $request)
+    {
         $categoriesUpdated = Categories::find($id);
 
-        if(!$categoriesUpdated) {
-            return redirect()->back()->with("error","Category not found");
+        if (!$categoriesUpdated) {
+            return redirect()->back()->with("error", "Category not found");
         }
 
 
         $updated = $categoriesUpdated->update([
-            "name"=> $request->name,
+            "name" => $request->name,
         ]);
 
         if ($updated) {
-            return redirect()->back()->with("success","Category updated successfully");
+            return redirect()->back()->with("success", "Category updated successfully");
         }
 
-        return redirect()->back()->with("error","Updated category failed");
+        return redirect()->back()->with("error", "Updated category failed");
     }
 
 
-    public function delete($id) {
+    public function delete($id)
+    {
         $categoriesUpdated = Categories::find($id);
 
-        if(!$categoriesUpdated) {
-            return redirect()->back()->with("error","Category not found");
+        if (!$categoriesUpdated) {
+            return redirect()->back()->with("error", "Category not found");
         }
 
         $delete = Categories::destroy($id);
 
         if ($delete) {
-            return redirect()->back()->with("success","Category deleted successfully");
+            return redirect()->back()->with("success", "Category deleted successfully");
         }
 
-        return redirect()->back()->with("error","Deleted category failed");
+        return redirect()->back()->with("error", "Deleted category failed");
     }
-
 }
