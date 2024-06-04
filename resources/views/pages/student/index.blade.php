@@ -40,7 +40,7 @@
                                     <button type="button" class="btn btn-icon icon-left btn-primary mr-2 mb-2"
                                         data-toggle="modal" data-target="#modal-import"><i class="fas fa-upload"></i>
                                         Import</button>
-                                        <form action="{{route("student.export.pdf")}}" method="get">
+                                        <form action="" method="get">
                                             @csrf
                                             @method("GET")
                                             <button type="submit" class="btn btn-icon icon-left btn-primary mr-2 mb-2"
@@ -82,8 +82,8 @@
                                             <td>{{ $student->user->username }}</td>
                                             <td>
                                                 <div
-                                                    class="badge {{ $student->status === 'active' ? 'badge-success' : ($student->status === 'inactive' ? 'badge-danger' : 'badge-warning') }}">
-                                                    {{ $student->status === 'active' ? 'Aktif' : ($student->status === 'inactive' ? 'Tidak Aktif' : '-') }}
+                                                    class="badge {{ $student->user->status === 'active' ? 'badge-success' : ($student->user->status === 'inactive' ? 'badge-danger' : 'badge-warning') }}">
+                                                    {{ $student->user->status === 'active' ? 'Aktif' : ($student->user->status === 'inactive' ? 'Tidak Aktif' : '-') }}
                                                 </div>
                                             </td>
                                             <td>
@@ -91,17 +91,20 @@
                                                     <button type="button" class="btn btn-icon btn-primary mr-2 mb-2"
                                                         data-toggle="modal" data-target="#modal-edit"
                                                         onclick="
-                                                        $('#modal-edit #form-edit').attr('action', 'student/{{ $student->id }}/update');
+                                                        $('#modal-edit #form-edit').attr('action', '{{route('admin.student.update', $student->id)}}');
                                                         $('#modal-edit #form-edit #id_number').attr('value', '{{ $student->id_number }}');
                                                         $('#modal-edit #form-edit #name').attr('value', '{{ $student->name }}');
                                                         $('#modal-edit #form-edit #status').attr('value', '{{ $student->status }}');
                                                         $('#modal-edit #form-edit #nis').attr('value', '{{ $student->nis }}');
+                                                        $('#modal-edit #form-edit #address').attr('value', '{{ $student->address }}');
+                                                        $('#modal-edit #form-edit #phone_number').attr('value', '{{ $student->phone_number }}');
+                                                        $('#modal-edit #form-edit #email').attr('value', '{{ $student->user->email }}');
                                                         $('#modal-edit #form-edit #username').attr('value', '{{ $student->user->username }}');
                                                         "><i
                                                             class="fas fa-edit"></i></button>
                                                     <button type="button" class="btn btn-icon btn-danger mr-2 mb-2"
                                                         data-toggle="modal" data-target="#modal-delete"
-                                                        onclick="$('#modal-delete #form-delete').attr('action', 'student/{{ $student->id }}/delete')"><i
+                                                        onclick="$('#modal-delete #form-delete').attr('action', '{{route('admin.student.delete', $student->id)}}')"><i
                                                             class="fas fa-trash"></i></button>
                                                 </div>
                                             </td>
@@ -128,12 +131,12 @@
                 </div>
                 <div class="modal-body">
                     <form class="needs-validation" novalidate="" method="POST"
-                        action="{{ route('student.create') }}" enctype="multipart/form-data">
+                        action="{{ route('admin.student.create') }}" enctype="multipart/form-data">
                         @csrf
                         @method("POST")
                         <div class="form-group mb-2">
                             <label for="id_number">Nomor ID<span class="text-danger">*</span></label>
-                            <input type="text" id="id_number" class="form-control" name="id_number" required>
+                            <input type="number" id="id_number" class="form-control" name="id_number" required>
                         </div>
                         <div class="form-group mb-2">
                             <label for="name">Nama<span class="text-danger">*</span></label>
@@ -147,8 +150,16 @@
                             </select>
                         </div>
                         <div class="form-group mb-2">
-                            <label for="nis">Nis </label>
-                            <input type="text" id="nis" class="form-control" name="nis">
+                            <label for="address">Alamat<span class="text-danger">*</span></label>
+                            <input type="text" id="address" class="form-control" name="address">
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="phone_number">No HP<span class="text-danger">*</span></label>
+                            <input type="text" id="phone_number" class="form-control" name="phone_number">
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="email">Email<span class="text-danger">*</span></label>
+                            <input type="email" id="email" class="form-control" name="email">
                         </div>
                         <div class="form-group mb-2">
                             <label for="username">Username<span class="text-danger">*</span></label>
@@ -179,14 +190,14 @@
                 </div>
                 <div class="modal-body">
                     <form class="needs-validation" novalidate="" method="POST"
-                        action="{{route('student.import')}}" enctype="multipart/form-data">
+                        action="#" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group mb-2">
                             <label for="students">File </label>
                             <input type="file" id="students" class="form-control" name="students" required>
                         </div>
                         <div>
-                            <a href="{{ route('admin.student.export') }}"
+                            <a href="#"
                                 class="btn btn-icon icon-left btn-info mr-2 mb-2"><i class="fas fa-download"></i>
                                 Unduh Template</a>
                             {{-- <a href="#" class="btn btn-icon icon-left btn-info mr-2 mb-2"><i
@@ -235,6 +246,18 @@
                         <div class="form-group mb-2">
                             <label for="nis">Nis </label>
                             <input type="text" id="nis" class="form-control" name="nis">
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="address">Alamat<span class="text-danger">*</span></label>
+                            <input type="text" id="address" class="form-control" name="address">
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="phone_number">No HP<span class="text-danger">*</span></label>
+                            <input type="text" id="phone_number" class="form-control" name="phone_number">
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="email">Email<span class="text-danger">*</span></label>
+                            <input type="email" id="email" class="form-control" name="email">
                         </div>
                         <div class="form-group mb-2">
                             <label for="username">Username<span class="text-danger">*</span></label>

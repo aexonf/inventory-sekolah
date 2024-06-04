@@ -39,7 +39,7 @@
                                 <button type="button" class="btn btn-icon icon-left btn-primary mr-2 mb-2"
                                     data-toggle="modal" data-target="#modal-import"><i class="fas fa-upload"></i>
                                     Import</button>
-                                    <form action="{{route("active-student.export.pdf")}}" method="get">
+                                    <form action="" method="get">
                                         @csrf
                                         @method("GET")
                                         <button type="submit" class="btn btn-icon icon-left btn-primary mr-2 mb-2"
@@ -57,7 +57,7 @@
                     <div class="card-body">
                         <div class="collapse mb-3 pb-3 border-bottom show" id="section-filter">
                             <form class="needs-validation" novalidate="" method="GET"
-                                action="{{ route('active-student.view') }}" enctype="multipart/form-data">
+                                action="{{ route('admin.active-student.index') }}" enctype="multipart/form-data">
                                 <div class="row">
                                     <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                                         <div class="form-group mb-2">
@@ -125,7 +125,7 @@
                                     </div> --}}
                                 </div>
                                 <div class="d-flex justify-content-end">
-                                    <a href="{{ route('active-student.view') }}" class="btn btn-danger ml-2">Reset</a>
+                                    <a href="{{ route('admin.active-student.index') }}" class="btn btn-danger ml-2">Reset</a>
                                     <button type="submit" class="btn btn-primary ml-2">Kirim</button>
                                 </div>
                             </form>
@@ -202,7 +202,7 @@
                 </div>
                 <div class="modal-body">
                     <form class="needs-validation" novalidate="" method="POST"
-                        action="{{ route('active-student.create') }}" enctype="multipart/form-data">
+                        action="{{ route('admin.active-student.create') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group mb-2">
                             <label>Tahun Pelajaran<span class="text-danger">*</span></label>
@@ -256,14 +256,14 @@
                 </div>
                 <div class="modal-body">
                     <form class="needs-validation" novalidate="" method="POST"
-                        action="{{ route('active-student.import') }}" enctype="multipart/form-data">
+                        action="" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group mb-2">
                             <label>File </label>
                             <input type="file" class="form-control" name="active_students" required>
                         </div>
                         <div>
-                            <a href="{{ route('active-student.export') }}"
+                            <a href=""
                                 class="btn btn-icon icon-left btn-info mr-2 mb-2"><i class="fas fa-download"></i>
                                 Unduh Template</a>
                         </div>

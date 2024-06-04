@@ -20,6 +20,8 @@ return new class extends Migration
 
             $table->string("id_number");
             $table->string("name");
+            $table->string("address");
+            $table->string("phone_number")->unique();
             $table->timestamps();
         });
     }

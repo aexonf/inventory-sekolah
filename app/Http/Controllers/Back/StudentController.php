@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 
 class StudentController extends Controller
@@ -21,12 +22,20 @@ class StudentController extends Controller
     }
 
     public function create(Request $request) {
-        $request->validate([
+        $validators = Validator::make($request->all(), [
             "username" => "required",
             "name" => "required",
             "password" => "required",
             "email" => "required",
+            "address" => "required",
+            "phone_number" => "required",
+            "status" => "required",
+            "id_number" => "required",
         ]);
+
+        if ($validators->fails()) {
+            return redirect()->back()->with("error", "Something went wrong". $validators->errors());
+        }
 
 
         // create student and user
@@ -40,7 +49,10 @@ class StudentController extends Controller
 
         $student = Students::create([
             "user_id" => $user->id,
-            "name" => $request->name
+            "name" => $request->name,
+            "address" => $request->address,
+            "phone_number" => $request->phone_number,
+            "id_number" => $request->id_number,
         ]);
 
         if ($student) {
@@ -63,15 +75,18 @@ class StudentController extends Controller
 
         //mengupdate student
         $student->update([
-            "id_number" => $request->id_number,
             "name" => $request->name,
-            "status" => $request->status,
-            "role" => $request->role,
+            "address" => $request->address,
+            "phone_number" => $request->phone_number,
+            "id_number" => $request->id_number,
         ]);
         // mengudate data user
         $user->update([
             "username" => $request->username,
             "password" => Hash::make($request->password),
+            "email" => $request->email,
+            "role" => "student",
+            "status" => $request->status,
         ]);
 
         if ($student || $user) {

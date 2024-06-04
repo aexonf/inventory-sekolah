@@ -13,12 +13,29 @@ use Maatwebsite\Excel\Facades\Excel;
 class ActiveStudentsController extends Controller
 {
 
-    public function index() {
+    public function index(Request $request) {
         $setting = Settings::first();
-        $activeStudentFind = ActiveStudents::where("school_year", $setting->school_year)->get();
+        $activeStudentQuery = ActiveStudents::query();
+        if ($setting){
+            $activeStudentQuery->where("school_year", $setting->school_year);
+        }else {
+
+            if ($request->has("school_year")) {
+                $activeStudentQuery->where("school_year", $request->school_year);
+            }else {
+                $currentYear = date('Y');
+                $previousYear = $currentYear + 1;
+                $schoolYear = "{$previousYear}/{$currentYear}";
+
+                $activeStudentQuery->where("school_year", $schoolYear);
+            }
+        }
+
+        $activeStudentFind = $activeStudentQuery->get();
 
         return view("pages.active-student.index",[
-            "active_students" => $activeStudentFind
+            "active_students" => $activeStudentFind,
+            "request" => $request
         ]);
     }
 
@@ -30,15 +47,19 @@ class ActiveStudentsController extends Controller
             "class" => "required",
         ]);
 
-        $student_id = Students::where("nis", $request->id_number)->first();
+        $student_id = Students::where("id_number", $request->id_number)->first();
 
         if ($student_id == null) {
             Session::flash("error", "Siswa dengan NIS $request->id_number tidak di temukan!");
             return redirect()->back();
         }
-        $validasi["student_id"] = $student_id->id;
 
-        $res = ActiveStudents::create($validasi);
+        $res = ActiveStudents::create([
+            "school_year" => $validasi['school_year'],
+            "generation" => $validasi['generation'],
+            "class" => $validasi['class'],
+            "student_id" => $student_id->id
+        ]);
         if ($res) {
             Session::flash("success", "Data berhasil masuk ke database");
             return redirect()->back();
