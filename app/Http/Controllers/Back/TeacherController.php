@@ -6,61 +6,56 @@ use App\Http\Controllers\Controller;
 use App\Models\Teachers;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
 class TeacherController extends Controller
 {
+    public function index(Request $request) {
+        $teachers = Teachers::all();
+
+        return view("pages.teacher.index", compact("teachers"));
+    }
+
     public function create(Request $request)
     {
-        $validasi = $request->validate([
-            "id_number" => "required|numeric",
-            "name" => "required",
-            "status" => "required",
-            "username" => "required",
-            "password" => "required",
-            "role" => "required",
-            "image" => "image|mimes:jpeg,png,jpg,gif,svg"
-        ]);
+        // $validasi = $request->validate([
+        //     "id_number" => "required|numeric",
+        //     "name" => "required",
+        //     "status" => "required",
+        //     "username" => "required",
+        //     "password" => "required",
+        //     "image" => "required|image|mimes:jpeg,png,jpg,gif,svg"
+        // ]);
 
 
         $user = User::create([
-            "username" => $validasi["username"],
-            "password" => Hash::make($validasi["password"]),
+            "username" => $request->username,
+            "password" => Hash::make($request->password),
             "role" => "teacher",
+            "status" => $request->status,
+            "email" => $request->email,
         ]);
 
 
+        $imageName = "";
         if ($request->hasFile('image')) {
             $rand = Str::random(8);
             $file_name = $rand . "-" . $request->file('image')->getClientOriginalName();
             $request->file('image')->move('storage/upload/teacher/', $file_name);
-            $validasi["image"] = $file_name;
+            $imageName = $file_name;
         } else {
-            $validasi["image"] = null;
+            $imageName = null;
         }
 
-
-        // deafault role guru
-        if ($request->role == null) {
-            $teacher = Teachers::create([
-                "id_number" => $validasi["id_number"],
-                "name" => $validasi["name"],
-                "status" => $validasi["status"],
-                "role" => "guru",
-                "user_id" => $user->id,
-                "image" => $validasi["image"] != null ? $validasi["image"] : "",
-            ]);
-        }
 
         $teacher = Teachers::create([
-            "id_number" => $validasi["id_number"],
-            "name" => $validasi["name"],
-            "status" => $validasi["status"],
-            "role" => $validasi["role"],
+            "id_number" => $request->id_number,
+            "name" => $request->name,
             "user_id" => $user->id,
-            "image" => $validasi["image"] != null ? $validasi["image"] : "",
+            "image" => $request->hasFile('image') ? $imageName : "",
         ]);
 
         // mengecek jika data berhail masuk ke database
@@ -90,6 +85,11 @@ class TeacherController extends Controller
         $user = User::where("id", $teacher->user_id)->first();
 
         if ($request->hasFile('image')) {
+            // Check if there is an existing image and delete it
+            if ($teacher->image && file_exists('storage/upload/teacher/' . $teacher->image)) {
+                unlink('storage/upload/teacher/' . $teacher->image);
+            }
+
             $rand = Str::random(8);
             $file_name = $rand . "-" . $request->file('image')->getClientOriginalName();
             $request->file('image')->move('storage/upload/teacher/', $file_name);
@@ -100,14 +100,13 @@ class TeacherController extends Controller
         $teacher->update([
             "id_number" => $request->id_number,
             "name" => $request->name,
-            "status" => $request->status,
-            "role" => $request->role,
             "image" => $teacher->image,
         ]);
         // mengudate data user
         $user->update([
             "username" => $request->username,
             "password" => Hash::make($request->password),
+            "status" => $request->status,
         ]);
 
         if ($teacher || $user) {

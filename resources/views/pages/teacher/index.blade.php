@@ -39,7 +39,7 @@
                                     <button type="button" class="btn btn-icon icon-left btn-primary mr-2 mb-2"
                                         data-toggle="modal" data-target="#modal-import"><i class="fas fa-upload"></i>
                                         Import</button>
-                                    <form action="{{ route('teacher.export.pdf') }}" method="get">
+                                    <form action="" method="get">
                                         @csrf
                                         @method('GET')
                                         <button type="submit" class="btn btn-icon icon-left btn-primary mr-2 mb-2"><i
@@ -86,8 +86,8 @@
                                             <td>{{ $teacher->user->username }}</td>
                                             <td>
                                                 <div
-                                                    class="badge {{ $teacher->status === 'active' ? 'badge-success' : ($teacher->status === 'inactive' ? 'badge-danger' : 'badge-warning') }}">
-                                                    {{ $teacher->status === 'active' ? 'Aktif' : ($teacher->status === 'inactive' ? 'Tidak Aktif' : '-') }}
+                                                    class="badge {{ $teacher->user->status === 'active' ? 'badge-success' : ($teacher->user->status === 'inactive' ? 'badge-danger' : 'badge-warning') }}">
+                                                    {{ $teacher->user->status === 'active' ? 'Aktif' : ($teacher->user->status === 'inactive' ? 'Tidak Aktif' : '-') }}
                                                 </div>
                                             </td>
                                             <td>
@@ -95,10 +95,10 @@
                                                 <button type="button" class="btn btn-icon btn-primary mr-2 mb-2"
                                                     data-toggle="modal" data-target="#modal-edit"
                                                     onclick="
-                                                    $('#modal-edit #form-edit').attr('action', 'teacher/{{ $teacher->id }}/update');
+                                                    $('#modal-edit #form-edit').attr('action', '{{route('admin.teacher.update', $teacher->id)}}');
                                                     $('#modal-edit #form-edit #id_number').attr('value', '{{ $teacher->id_number }}');
                                                     $('#modal-edit #form-edit #name').attr('value', '{{ $teacher->name }}');
-                                                    $('#modal-edit #form-edit #status').val('{{ $teacher->status }}');
+                                                    $('#modal-edit #form-edit #status').val('{{ $teacher->user->status }}');
                                                     $('#modal-edit #form-edit #role').val('{{ $teacher->role }}');
                                                     $('#modal-edit #form-edit #username').attr('value', '{{ $teacher->user->username }}');
                                                     @if ($teacher->image)
@@ -134,7 +134,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form class="needs-validation" novalidate="" method="POST" action="{{ route('teacher.create') }}"
+                    <form class="needs-validation" novalidate="" method="POST" action="{{ route('admin.teacher.create') }}"
                         enctype="multipart/form-data">
                         @csrf
                         <div class="form-group mb-2">
@@ -146,19 +146,14 @@
                             <input type="text" id="name" class="form-control" name="name" required>
                         </div>
                         <div class="form-group mb-2">
+                            <label for="email">Email<span class="text-danger">*</span></label>
+                            <input type="text" id="email" class="form-control" name="email" required>
+                        </div>
+                        <div class="form-group mb-2">
                             <label for="status">Status<span class="text-danger">*</span></label>
                             <select class="form-control" name="status" required>
                                 <option value="active" selected>Active</option>
                                 <option value="inactive">In Active</option>
-                            </select>
-                        </div>
-                        <div class="form-group mb-2">
-                            <label for="status">Role<span class="text-danger">*</span></label>
-                            <select class="form-control" name="role" required>
-                                <option value="guru" selected>Guru</option>
-                                <option value="bk">BK</option>
-                                <option value="komite">Komite</option>
-                                <option value="kasir">Kasir</option>
                             </select>
                         </div>
                         <div class="form-group mb-2">
@@ -193,7 +188,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form class="needs-validation" novalidate="" method="POST" action="{{ route('teacher.import') }}"
+                    <form class="needs-validation" novalidate="" method="POST" action=""
                         enctype="multipart/form-data">
                         @csrf
                         <div class="form-group mb-2">
@@ -201,7 +196,7 @@
                             <input type="file" id="teachers" class="form-control" name="teachers" required>
                         </div>
                         <div>
-                            <a href="{{ route('teacher.export') }}" class="btn btn-icon icon-left btn-info mr-2 mb-2"><i
+                            <a href="" class="btn btn-icon icon-left btn-info mr-2 mb-2"><i
                                     class="fas fa-download"></i>
                                 Unduh Template</a>
                             {{-- <a href="#" class="btn btn-icon icon-left btn-info mr-2 mb-2"><i
@@ -245,15 +240,6 @@
                             <select class="form-control" name="status" id="status" required>
                                 <option value="active">Active</option>
                                 <option value="inactive">In Active</option>
-                            </select>
-                        </div>
-                        <div class="form-group mb-2">
-                            <label for="status">Role<span class="text-danger">*</span></label>
-                            <select class="form-control" name="role" id="role" required>
-                                <option value="guru">Guru</option>
-                                <option value="bk">BK</option>
-                                <option value="komite">Komite</option>
-                                <option value="kasir">Kasir</option>
                             </select>
                         </div>
                         <div class="form-group mb-2">
