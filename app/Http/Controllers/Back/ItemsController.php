@@ -5,19 +5,22 @@ namespace App\Http\Controllers\Back;
 use App\Http\Controllers\Controller;
 use App\Models\Categories;
 use App\Models\Items;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 class ItemsController extends Controller
 {
 
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         $itemsQuery = Items::query();
         $category = Categories::all();
 
         if ($request->has("status")) {
             $itemsQuery->where("status", $request->status);
-        }else {
+        } else {
             $itemsQuery->where("status", "available");
         }
 
@@ -29,7 +32,8 @@ class ItemsController extends Controller
         ]);
     }
 
-    public function create(Request $request) {
+    public function create(Request $request)
+    {
         // $request->validate([
         //     "item_number" => "required",
         //     "name" => "required",
@@ -69,11 +73,12 @@ class ItemsController extends Controller
     }
 
 
-    public function update($id, Request $request) {
+    public function update($id, Request $request)
+    {
         $categoryFind = Categories::where("name", $request->category)->first();
         $findItem = Items::find($id);
 
-        if(!$findItem) {
+        if (!$findItem) {
             return redirect()->back()->with("error", "Item not found");
         }
 
@@ -82,8 +87,13 @@ class ItemsController extends Controller
         if ($request->hasFile('image')) {
             $rand = Str::random(8);
             $file_name = $rand . "-" . $request->file('image')->getClientOriginalName();
-            $request->file('image')->move('storage/upload/items/', $file_name);
-            $image = $file_name;
+            $existingFilePath = 'storage/upload/items/' . $findItem->image;
+            if (File::exists($existingFilePath)) {
+                File::delete($existingFilePath);
+            } else {
+                $request->file('image')->move('storage/upload/items/', $file_name);
+                $image = $file_name;
+            }
         }
 
         $updateItem = $findItem->update([
@@ -100,21 +110,29 @@ class ItemsController extends Controller
         }
 
         return redirect()->back()->with("error", "Something went wrong");
-
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         $findItem = Items::find($id);
 
         $delete = $findItem->delete();
 
-        if($delete) {
+        if ($delete) {
             return redirect()->back()->with("success", "Item deleted successfully");
         }
 
-        return redirect()->back()-with("error", "Something went wrong");
+        return redirect()->back() - with("error", "Something went wrong");
     }
 
+    public function printQR($id)
+    {
+        $findItem = Items::with("category")->where("id", $id)->first();
 
+        $pdf = Pdf::loadView('pages.items.printQR', [
+            "item" => $findItem
+        ]);
 
+        return $pdf->download($findItem->name . "-" . $findItem->id_number . ".pdf");
+    }
 }

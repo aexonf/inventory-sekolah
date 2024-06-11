@@ -3,6 +3,8 @@
 use App\Http\Controllers\Back\ActiveStudentsController;
 use App\Http\Controllers\Back\CategoryController;
 use App\Http\Controllers\Back\ItemsController;
+use App\Http\Controllers\Back\LoanController;
+use App\Http\Controllers\Back\SettingController;
 use App\Http\Controllers\Back\StudentController;
 use App\Http\Controllers\Back\TeacherController;
 use App\Models\ActiveStudents;
@@ -34,6 +36,8 @@ Route::prefix("/admin")->group(function () {
         Route::post("/", "create")->name("admin.active-student.create");
         Route::put("/{id}", "update")->name("admin.active-student.update");
         Route::delete("/{id}", "delete")->name("admin.active-student.delete");
+        // generate QR
+        Route::get("/{id}/qr-code", "printQR")->name("admin.active-student.qr-code");
     });
 
     Route::controller(TeacherController::class)->prefix("/teacher")->group(function () {
@@ -49,6 +53,8 @@ Route::prefix("/admin")->group(function () {
         Route::post("/", "create")->name("admin.item.create");
         Route::put("/{id}", "update")->name("admin.item.update");
         Route::delete("/{id}", "delete")->name("admin.item.delete");
+        // Generate QR
+        Route::get("{id}/qr-code", "printQR")->name("admin.item.qr-code");
     });
 
     Route::controller(CategoryController::class)->prefix("/item/category")->group(function () {
@@ -59,10 +65,24 @@ Route::prefix("/admin")->group(function () {
     });
 
 
-    Route
+    Route::controller(SettingController::class)->prefix("/setting")->group(function () {
+        Route::get("/", "index")->name("admin.setting.index");
+        Route::post("/", "create")->name("admin.setting.create");
+        Route::put("/{id}", "update")->name("admin.setting.update");
+        Route::delete("/{id}", "delete")->name("admin.setting.delete");
+    });
+
+    Route::controller(LoanController::class)->prefix("/loan")->group(function () {
+        // Route::get("/", "index")->name("admin.loan.index");
+        // Route::post("/", "create")->name("admin.loan.create");
+        // Route::put("/{id}", "update")->name("admin.loan.update");
+        // Route::delete("/{id}", "delete")->name("admin.loan.delete");
+        Route::get("/notif", "notif")->name("admin.loan.notif");
+    });
 
 });
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('pages.Front.scan-qr.index');
 });
+    

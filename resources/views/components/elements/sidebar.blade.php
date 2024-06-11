@@ -13,6 +13,19 @@
                     <span>Dashboard</span></a>
             </li>
 
+            {{-- Setting --}}
+            <li class="{{ request()->path() === 'admin/setting' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('admin.setting.index') }}"><i class="fa-solid fa-gear"></i>
+                    <span>Setting</span></a>
+            </li>
+
+            {{-- notification --}}
+            <li class="{{ request()->path() === 'admin/teacher' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('admin.teacher.index') }}"><i class="fa-solid fa-bell"></i>
+                    <span>Notification</span></a>
+            </li>
+
+
 
             {{-- student --}}
             <li
@@ -39,7 +52,7 @@
 
             {{-- items and category --}}
             <li
-                class="nav-item dropdown {{ request()->path() === 'admin/student' || request()->path() === 'admin/item' ? 'active' : '' }}">
+                class="nav-item dropdown {{ request()->path() === 'admin/item/category' || request()->path() === 'admin/item' ? 'active' : '' }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fa-solid fa-file"></i>
                     <span>Item & Category</span></a>
                 <ul class="dropdown-menu">
@@ -53,9 +66,6 @@
                     </li>
                 </ul>
             </li>
-
-
-
 
         </ul>
 

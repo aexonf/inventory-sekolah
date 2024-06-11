@@ -39,13 +39,13 @@
                                 <button type="button" class="btn btn-icon icon-left btn-primary mr-2 mb-2"
                                     data-toggle="modal" data-target="#modal-import"><i class="fas fa-upload"></i>
                                     Import</button>
-                                    <form action="" method="get">
-                                        @csrf
-                                        @method("GET")
-                                        <button type="submit" class="btn btn-icon icon-left btn-primary mr-2 mb-2"
-                                        ><i class="fas fa-download"></i>
+                                <form action="" method="get">
+                                    @csrf
+                                    @method('GET')
+                                    <button type="submit" class="btn btn-icon icon-left btn-primary mr-2 mb-2"><i
+                                            class="fas fa-download"></i>
                                         Export</button>
-                                    </form>
+                                </form>
                             </div>
                             <div class="d-flex align-items-center flex-wrap">
                                 <button type="button" class="btn btn-icon icon-left btn-info mr-2 mb-2"
@@ -65,14 +65,23 @@
                                             <select class="form-control select2" name="school_year" required
                                                 onchange="handleChangeFilter(this)">
                                                 @foreach ($school_years as $school_year)
-                                                @php
-                                                    $selected = ($request->school_year === $school_year || (!is_null($setting) && $setting->school_years === $school_year)) ? 'selected' : '';
-                                                    if (is_null($request->school_year) && (is_null($setting) || is_null($setting->school_years))) {
-                                                        $selected = (date('Y') === $school_year) ? 'selected' : '';
-                                                    }
-                                                @endphp
-                                                <option value="{{ $school_year }}" {{ $selected }}>{{ $school_year }}</option>
-                                            @endforeach
+                                                    @php
+                                                        $selected =
+                                                            $request->school_year === $school_year ||
+                                                            (!is_null($setting) &&
+                                                                $setting->school_years === $school_year)
+                                                                ? 'selected'
+                                                                : '';
+                                                        if (
+                                                            is_null($request->school_year) &&
+                                                            (is_null($setting) || is_null($setting->school_years))
+                                                        ) {
+                                                            $selected = date('Y') === $school_year ? 'selected' : '';
+                                                        }
+                                                    @endphp
+                                                    <option value="{{ $school_year }}" {{ $selected }}>
+                                                        {{ $school_year }}</option>
+                                                @endforeach
 
                                             </select>
                                         </div>
@@ -125,7 +134,8 @@
                                     </div> --}}
                                 </div>
                                 <div class="d-flex justify-content-end">
-                                    <a href="{{ route('admin.active-student.index') }}" class="btn btn-danger ml-2">Reset</a>
+                                    <a href="{{ route('admin.active-student.index') }}"
+                                        class="btn btn-danger ml-2">Reset</a>
                                     <button type="submit" class="btn btn-primary ml-2">Kirim</button>
                                 </div>
                             </form>
@@ -176,6 +186,10 @@
                                                         data-toggle="modal" data-target="#modal-delete"
                                                         onclick="$('#modal-delete #form-delete').attr('action', 'active-student/{{ $active_student->id }}/delete')"><i
                                                             class="fas fa-trash"></i></button>
+                                                    {{-- generate QR --}}
+                                                    <a href="{{ route("admin.active-student.qr-code", $active_student->id) }}"
+                                                        class="btn btn-icon btn-warning mr-2 mb-2"><i
+                                                            class="fa-solid fa-qrcode"></i></a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -206,15 +220,22 @@
                         @csrf
                         <div class="form-group mb-2">
                             <label>Tahun Pelajaran<span class="text-danger">*</span></label>
-                            <select class="form-control" id="school_year" name="school_year" >
+                            <select class="form-control" id="school_year" name="school_year">
                                 @foreach ($school_years as $school_year)
-                                @php
-                                    $selected = ($request->school_year === $school_year || (!is_null($setting) && $setting->school_years === $school_year)) ? 'selected' : '';
-                                    if (is_null($request->school_year) && (is_null($setting) || is_null($setting->school_years))) {
-                                        $selected = (date('Y') === $school_year) ? 'selected' : '';
-                                    }
-                                @endphp
-                                <option value="{{ $school_year }}" {{ $selected }}>{{ $school_year }}</option>
+                                    @php
+                                        $selected =
+                                            $request->school_year === $school_year ||
+                                            (!is_null($setting) && $setting->school_years === $school_year)
+                                                ? 'selected'
+                                                : '';
+                                        if (
+                                            is_null($request->school_year) &&
+                                            (is_null($setting) || is_null($setting->school_years))
+                                        ) {
+                                            $selected = date('Y') === $school_year ? 'selected' : '';
+                                        }
+                                    @endphp
+                                    <option value="{{ $school_year }}" {{ $selected }}>{{ $school_year }}</option>
                                     </option>
                                 @endforeach
                             </select>
@@ -255,16 +276,16 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form class="needs-validation" novalidate="" method="POST"
-                        action="" enctype="multipart/form-data">
+                    <form class="needs-validation" novalidate="" method="POST" action=""
+                        enctype="multipart/form-data">
                         @csrf
                         <div class="form-group mb-2">
                             <label>File </label>
                             <input type="file" class="form-control" name="active_students" required>
                         </div>
                         <div>
-                            <a href=""
-                                class="btn btn-icon icon-left btn-info mr-2 mb-2"><i class="fas fa-download"></i>
+                            <a href="" class="btn btn-icon icon-left btn-info mr-2 mb-2"><i
+                                    class="fas fa-download"></i>
                                 Unduh Template</a>
                         </div>
                         <div class="mt-5 d-flex justify-content-end">

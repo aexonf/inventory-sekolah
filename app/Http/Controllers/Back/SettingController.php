@@ -10,11 +10,12 @@ class SettingController extends Controller
 {
 
     public function index() {
-        return view("");
+        $setting = Settings::first();
+        return view("pages.setting.index", compact("setting"));
     }
 
 
-    public function store(Request $request) {
+    public function create(Request $request) {
        $validasi =  $request->validate([
             "name" => "required",
             "school_year" => "required"
@@ -34,14 +35,14 @@ class SettingController extends Controller
     }
 
     public function update($id, Request $request) {
-        $findSettingByID = Settings::find($id);
+        $findSettingByID = Settings::first();
 
         if (!$findSettingByID) {
             return redirect()->back()->with("error", "Setting not found");
         }
 
 
-        $update = Settings::update([
+        $update = $findSettingByID->update([
             "name" => $request->name,
             "school_year" => $request->school_year,
         ]);
@@ -53,7 +54,7 @@ class SettingController extends Controller
         return redirect()->back()->with("error", "Failed to update setting data");
     }
 
-    public function destroy($id) {
+    public function delete($id) {
         $delete = Settings::find($id)->destroy($id);
 
         if ($delete) {

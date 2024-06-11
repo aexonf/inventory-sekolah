@@ -64,7 +64,7 @@
                                             <td>
                                                 <div class="media">
                                                     <img alt="image" class="mr-3 rounded-circle" width="48"
-                                                        src="{{ asset('storage/upload/items/'. $item->image) }}">
+                                                        src="{{ asset('storage/upload/items/' . $item->image) }}">
                                                     <div class="media-body">
                                                         <div class="media-title">
                                                             {{ $item->id_number }}</div>
@@ -73,7 +73,8 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>{{ $item->description }}</td>
+                                            <td>{{ strlen($item->description) > 25 ? substr($item->description, 0, 25) . '...' : $item->description }}
+                                            </td>
                                             <td>{{ $item->stock }}</td>
                                             <td>{{ $item->status }}</td>
                                             <td>
@@ -94,9 +95,13 @@
                                                         data-toggle="modal" data-target="#modal-delete"
                                                         onclick="$('#modal-delete #form-delete').attr('action', '{{ route('admin.item.delete', $item->id) }}')"><i
                                                             class="fas fa-trash"></i></button>
+                                                    {{-- generate QR --}}
+                                                    <a href="{{ route('admin.item.qr-code', $item->id) }}"
+                                                        class="btn btn-icon btn-warning mr-2 mb-2"><i
+                                                            class="fa-solid fa-qrcode"></i></a>
                                                 </div>
                                             </td>
-                                        </tr>
+                                        </tr>s
                                     @endforeach
                                 </tbody>
                             </table>

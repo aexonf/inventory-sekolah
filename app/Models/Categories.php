@@ -13,4 +13,10 @@ class Categories extends Model
     protected $table = "categories";
 
     protected $guarded = [];
+
+    public function item()
+    {
+        return $this->hasMany(Items::class);
+    }
+
 }

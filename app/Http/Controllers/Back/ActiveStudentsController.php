@@ -6,9 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\ActiveStudents;
 use App\Models\Settings;
 use App\Models\Students;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-use Maatwebsite\Excel\Facades\Excel;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class ActiveStudentsController extends Controller
 {
@@ -16,19 +17,18 @@ class ActiveStudentsController extends Controller
     public function index(Request $request) {
         $setting = Settings::first();
         $activeStudentQuery = ActiveStudents::query();
-        if ($setting){
+        if ($request->has("school_year")) {
+            $activeStudentQuery->where("school_year", $request->school_year);
+        }else{
             $activeStudentQuery->where("school_year", $setting->school_year);
-        }else {
+        }
 
-            if ($request->has("school_year")) {
-                $activeStudentQuery->where("school_year", $request->school_year);
-            }else {
-                $currentYear = date('Y');
-                $previousYear = $currentYear + 1;
-                $schoolYear = "{$previousYear}/{$currentYear}";
+        if ($request->has("generation")){
+            $activeStudentQuery->where("generation", $request->generation);
+        }
 
-                $activeStudentQuery->where("school_year", $schoolYear);
-            }
+        if ($request->has("class")){
+            $activeStudentQuery->where("class", $request->class);
         }
 
         $activeStudentFind = $activeStudentQuery->get();
@@ -118,6 +118,20 @@ class ActiveStudentsController extends Controller
         }
         Session::flash("success", "Siswa active gagal di hapus");
         return redirect()->back();
+    }
+
+    public function printQR($id){
+        $activeStudent = ActiveStudents::with("student")->where("id",$id)->first();
+
+        if (!$activeStudent) {
+            return redirect()->back()->with("error", "Active Student not found");
+        }
+
+        $pdf = Pdf::loadView("pages.active-student.pdf-export", [
+            "activeStudent" => $activeStudent
+        ]);
+
+        return $pdf->download($activeStudent->student->name . " - " . $activeStudent->school_year . " - " . $activeStudent->generation . " - " . $activeStudent->class . ".pdf");
     }
 
 

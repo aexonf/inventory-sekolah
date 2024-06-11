@@ -3,10 +3,15 @@
 namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
+use App\Mail\BorrowingMail;
 use App\Models\ActiveStudents;
 use App\Models\Loans;
 use App\Models\Settings;
+use App\Models\User;
+use App\Notifications\EmailNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 
 class LoanController extends Controller
@@ -86,5 +91,31 @@ class LoanController extends Controller
 
        return redirect()->back()->with("error", "Failed to delete loan");
     }
+
+
+    public function notif()
+    {
+
+        $user = User::first();
+
+        if (!$user) {
+            dd('User not found!');
+        }
+
+        $project = [
+            'greeting' => 'Hi '.$user->name.',',
+            'body' => 'This is the project assigned to you.',
+            'thanks' => 'Thank you this is from codeanddeploy.com',
+            'actionText' => 'View Project',
+            'actionURL' => url('/'),
+            'id' => 57
+        ];
+
+        // Send the notification to the dynamically fetched email
+        $user->notify(new EmailNotification($project));
+        // Notification::route('admin.loan.notif', "avinfajar6@gmail.com")->notify(new EmailNotification($project));
+        dd('Notification sent!');
+    }
+
 
 }
