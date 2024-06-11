@@ -89,4 +89,8 @@ Route::get('/', function () {
 Route::get('/login', function () {
     return view('pages.login.index');
 });
+
+Route::get('/register', function () {
+    return view('pages.register.index');
+});
     
