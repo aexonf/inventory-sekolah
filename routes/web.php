@@ -85,4 +85,8 @@ Route::prefix("/admin")->group(function () {
 Route::get('/', function () {
     return view('pages.Front.scan-qr.index');
 });
+
+Route::get('/login', function () {
+    return view('pages.login.index');
+});
     
