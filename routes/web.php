@@ -4,6 +4,7 @@ use App\Http\Controllers\Back\ActiveStudentsController;
 use App\Http\Controllers\Back\CategoryController;
 use App\Http\Controllers\Back\ItemsController;
 use App\Http\Controllers\Back\LoanController;
+use App\Http\Controllers\Back\QRCodeController;
 use App\Http\Controllers\Back\SettingController;
 use App\Http\Controllers\Back\StudentController;
 use App\Http\Controllers\Back\TeacherController;
@@ -80,9 +81,17 @@ Route::prefix("/admin")->group(function () {
         Route::get("/notif", "notif")->name("admin.loan.notif");
     });
 
+
+    Route::controller(QRCodeController::class)->prefix("/qr-code")->group(function () {
+        Route::get("/", "index")->name("admin.qr-code.index");
+    });
+
 });
 
 Route::get('/', function () {
     return view('pages.Front.scan-qr.index');
 });
-    
+
+Route::get("/tracking", function() {
+    return view("pages.tracking.index");
+});

@@ -67,6 +67,13 @@
                 </ul>
             </li>
 
+
+             {{-- Scan QR --}}
+             <li class="{{ request()->path() === 'admin/qr-code' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('admin.qr-code.index') }}"><i class="fa-solid fa-qrcode"></i>
+                    <span>QR Scan</span></a>
+            </li>
+
         </ul>
 
     </aside>
