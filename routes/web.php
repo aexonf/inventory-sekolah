@@ -92,6 +92,11 @@ Route::get('/', function () {
     return view('pages.Front.scan-qr.index');
 });
 
-Route::get("/tracking", function() {
-    return view("pages.tracking.index");
+Route::get('/login', function () {
+    return view('pages.login.index');
 });
+
+Route::get('/register', function () {
+    return view('pages.register.index');
+});
+
