@@ -12,6 +12,7 @@ use App\Models\ActiveStudents;
 use App\Models\Students;
 use App\Models\Teachers;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 
 Route::prefix("/admin")->group(function () {
@@ -89,14 +90,8 @@ Route::prefix("/admin")->group(function () {
 });
 
 Route::get('/', function () {
-    return view('pages.Front.scan-qr.index');
+    return Inertia::render('Home');
 });
 
-Route::get('/login', function () {
-    return view('pages.login.index');
-});
 
-Route::get('/register', function () {
-    return view('pages.register.index');
-});
 
