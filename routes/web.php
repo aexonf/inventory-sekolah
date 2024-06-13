@@ -93,6 +93,14 @@ Route::get('/', function () {
     return Inertia::render('Home');
 });
 
+Route::get('/users', function () {
+    return Inertia::render('Users');
+});
+
+Route::get('/history', function () {
+    return Inertia::render('History');
+});
+
 Route::get('/login', function () {
     return Inertia::render('Login');
 });
