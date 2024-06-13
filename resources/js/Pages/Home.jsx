@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { Button, Card, Navigation } from "../components/ui/index";
-import { User, ScanLine } from "lucide-react";
-import { Link } from "@inertiajs/inertia-react";
+import { CircleUserRound } from "lucide-react";
 import QrReader from "react-qr-scanner";
 import QrCodeIcon from "../../../public/img/qr-code.svg";
 
@@ -35,13 +34,16 @@ const Home = () => {
 
     return (
         <>
-            <main className="h-screen flex justify-center items-center">
+            <main className="h-auto w-full max-w-[420px] mx-auto">
+                <div className="bg-primary-low">
+                    <CircleUserRound />
+                </div>
                 <div
                     className={`${
                         isScannerOpen
                             ? "w-[346px] h-[466px] justify-between px-[20px]"
                             : "w-[240px] h-[331px] px-[39px]"
-                    } transition-all duration-150 flex flex-col items-center  rounded-[10px] py-[20px] bg-[#F7F4FF]`}
+                    } mt-[100px] mx-auto transition-all duration-150 flex flex-col items-center  rounded-[10px] py-[20px] bg-[#F7F4FF]`}
                 >
                     {isScannerOpen && result === "" ? (
                         <div className="w-full">

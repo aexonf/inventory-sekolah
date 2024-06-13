@@ -24,25 +24,27 @@ export function Navigation() {
     const pathname = usePage();
 
     return (
-        <nav className="sticky bottom-0 w-full flex justify-between bg-primary-low items-center max-w-[420px] px-[41px] z-10 mx-auto">
-            {navigationItem.map((item, index) => (
-                <Link
-                    key={index}
-                    href={item.url}
-                    className="w-[64px] py-[14px]"
-                >
-                    <div
-                        className={`${
-                            pathname.url === item.url ? "bg-active/10" : ""
-                        } w-full flex justify-center py-[5px] rounded-[50px]`}
+        <nav className="fixed bottom-0 w-[100vw]">
+            <div className="w-full flex justify-between bg-primary-low items-center max-w-[420px] px-[41px] mx-auto">
+                {navigationItem.map((item, index) => (
+                    <Link
+                        key={index}
+                        href={item.url}
+                        className="w-[64px] py-[14px]"
                     >
-                        {item.icon}
-                    </div>
-                    <p className="text-[14px] text-center mt-[4px]">
-                        {item.name}
-                    </p>
-                </Link>
-            ))}
+                        <div
+                            className={`${
+                                pathname.url === item.url ? "bg-active/10" : ""
+                            } w-full flex justify-center py-[5px] rounded-[50px]`}
+                        >
+                            {item.icon}
+                        </div>
+                        <p className="text-[14px] text-center mt-[4px]">
+                            {item.name}
+                        </p>
+                    </Link>
+                ))}
+            </div>
         </nav>
     );
 }
