@@ -22,7 +22,7 @@ const Home = () => {
     const previewStyle = {
         height: "340px",
         width: "266px",
-        objectFit: "fill",
+        objectFit: "cover",
         borderRadius: "10px",
     };
 
@@ -40,17 +40,34 @@ const Home = () => {
                     isScannerOpen
                         ? "w-[346px] h-[466px] justify-between"
                         : "w-[240px] h-[331px]"
-                } flex flex-col items-center  rounded-[10px] py-[20px] px-[39px] bg-[#F7F4FF]`}
+                } transition-all duration-150 flex flex-col items-center  rounded-[10px] py-[20px] px-[39px] bg-[#F7F4FF]`}
             >
                 {isScannerOpen && result === "" ? (
-                    <QrReader
-                        delay={100}
-                        style={previewStyle}
-                        onError={handleError}
-                        onScan={handleScan}
-                    />
+                    <div>
+                        <QrReader
+                            delay={100}
+                            style={previewStyle}
+                            onError={handleError}
+                            onScan={handleScan}
+                        />
+                        <button
+                            className="mt-[23px] w-full bg-[#7B4DF6] bg-opacity-[45%] text-white font-semibold rounded-[10px] py-[10px] text-[14px]"
+                            onClick={toggleScanner}
+                        >
+                            Cancel Scan
+                        </button>
+                    </div>
                 ) : result !== "" ? (
-                    <div>{result.text}</div>
+                    <div className="h-full flex flex-col justify-between">
+                        <p>{`${result.text}`}</p>
+
+                        <button
+                            className="mt-[23px] w-full bg-[#7B4DF6] bg-opacity-[45%] text-white font-semibold rounded-[10px] py-[10px] text-[14px]"
+                            onClick={toggleScanner}
+                        >
+                            Clear Data
+                        </button>
+                    </div>
                 ) : (
                     <>
                         <img src={QrCodeIcon} alt="" />
@@ -61,49 +78,16 @@ const Home = () => {
                         <p className="text-[12px] mt-[9px] text-center font-bold text-[#414141]">
                             Scan QR Code to get student information
                         </p>
+
+                        <button
+                            className="mt-[23px] w-full bg-[#7B4DF6] bg-opacity-[45%] text-white font-semibold rounded-[10px] py-[10px] text-[14px]"
+                            onClick={toggleScanner}
+                        >
+                            Scan QR
+                        </button>
                     </>
                 )}
-
-                <button
-                    className="mt-[23px] w-full bg-[#7B4DF6] bg-opacity-[45%] text-white font-semibold rounded-[10px] py-[10px] text-[14px]"
-                    onClick={toggleScanner}
-                >
-                    {isScannerOpen && result === ""
-                        ? "Cancel Camera"
-                        : result !== ""
-                        ? "Clear"
-                        : "Open Camera"}
-                </button>
-                {isScannerOpen && <div></div>}
             </div>
-            {/* <>{result}</> */}
-            {/* <div className="w-[400px] py-[20px]">
-                <div className="flex items-center gap-3">
-                    <div className="flex justify-center items-center h-[45px] w-[45px] border-[1px] border-solid border-neutral-800 rounded-full">
-                        <User />
-                    </div>
-                    <h1>
-                        Welcome <br /> <span>John Doe</span>
-                    </h1>
-                </div>
-
-                <Card className="border-neutral-800 mt-[80px] py-[20px] px-[20px]">
-                    <Link href="/detail">
-                        <div className="flex justify-between">
-                            <div>
-                                <h1 className="font-semibold">John Doe</h1>
-                                <p className="text-sm">XII RPL 100</p>
-                            </div>
-                            <div>
-                                <p>ID: 101112131415</p>
-                            </div>
-                        </div>
-                        <div className="flex justify-end">
-                            <ScanLine size={70} />
-                        </div>
-                    </Link>
-                </Card>
-            </div> */}
         </div>
     );
 };
