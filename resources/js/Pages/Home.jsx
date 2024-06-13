@@ -20,8 +20,8 @@ const Home = () => {
     }, []);
 
     const previewStyle = {
-        height: "340px",
-        width: "266px",
+        height: "360px",
+        width: "100%",
         objectFit: "cover",
         borderRadius: "10px",
     };
@@ -38,35 +38,29 @@ const Home = () => {
             <div
                 className={`${
                     isScannerOpen
-                        ? "w-[346px] h-[466px] justify-between"
-                        : "w-[240px] h-[331px]"
-                } transition-all duration-150 flex flex-col items-center  rounded-[10px] py-[20px] px-[39px] bg-[#F7F4FF]`}
+                        ? "w-[346px] h-[466px] justify-between px-[20px]"
+                        : "w-[240px] h-[331px] px-[39px]"
+                } transition-all duration-150 flex flex-col items-center  rounded-[10px] py-[20px] bg-[#F7F4FF]`}
             >
                 {isScannerOpen && result === "" ? (
-                    <div>
+                    <div className="w-full">
                         <QrReader
                             delay={100}
                             style={previewStyle}
                             onError={handleError}
                             onScan={handleScan}
                         />
-                        <button
-                            className="mt-[23px] w-full bg-[#7B4DF6] bg-opacity-[45%] text-white font-semibold rounded-[10px] py-[10px] text-[14px]"
-                            onClick={toggleScanner}
-                        >
+                        <Button className="mt-[23px]" onClick={toggleScanner}>
                             Cancel Scan
-                        </button>
+                        </Button>
                     </div>
                 ) : result !== "" ? (
-                    <div className="h-full flex flex-col justify-between">
+                    <div className="h-full w-full flex flex-col justify-between">
                         <p>{`${result.text}`}</p>
 
-                        <button
-                            className="mt-[23px] w-full bg-[#7B4DF6] bg-opacity-[45%] text-white font-semibold rounded-[10px] py-[10px] text-[14px]"
-                            onClick={toggleScanner}
-                        >
+                        <Button className="mt-[23px]" onClick={toggleScanner}>
                             Clear Data
-                        </button>
+                        </Button>
                     </div>
                 ) : (
                     <>
@@ -79,12 +73,9 @@ const Home = () => {
                             Scan QR Code to get student information
                         </p>
 
-                        <button
-                            className="mt-[23px] w-full bg-[#7B4DF6] bg-opacity-[45%] text-white font-semibold rounded-[10px] py-[10px] text-[14px]"
-                            onClick={toggleScanner}
-                        >
+                        <Button className="mt-[17px]" onClick={toggleScanner}>
                             Scan QR
-                        </button>
+                        </Button>
                     </>
                 )}
             </div>
