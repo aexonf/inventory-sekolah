@@ -35,9 +35,9 @@ const Home = () => {
     return (
         <>
             <main className="h-auto w-full max-w-[420px] mx-auto pb-[110px]">
-                <div className="px-[17px] flex items-center bg-primary-low gap-1 pt-[10px] pb-[5px]">
+                <div className="px-[17px] flex items-center bg-primary-low gap-1 py-[5px]">
                     <CircleUserRound className="h-[56px] w-[46px] stroke-1" />
-                    <h1 className="flex flex-col justify-center font-bold leading-[17px]">
+                    <h1 className="text-[14px] flex flex-col justify-center font-bold leading-[17px]">
                         Welcome <br />
                         John Doe👋
                     </h1>
@@ -47,7 +47,7 @@ const Home = () => {
                     className={`${
                         isScannerOpen
                             ? "w-[346px] h-[466px] justify-between px-[20px]"
-                            : "w-[270px] h-[300px] px-[30px]"
+                            : "w-[320px] h-[330px] px-[30px]"
                     } mt-[50px] mx-auto transition-all duration-150 flex flex-col items-center  rounded-[10px] py-[20px] bg-[#F7F4FF]`}
                 >
                     {isScannerOpen && result === "" ? (
@@ -78,17 +78,17 @@ const Home = () => {
                         </div>
                     ) : (
                         <>
+                            <h2 className="font-bold text-[20px]">
+                                Scan QR Code
+                            </h2>
                             <img
-                                className="h-[90px] w-[90px]"
+                                className="h-[120px] w-[120px]"
                                 src={QrCodeIcon}
                                 alt=""
                             />
-
-                            <h2 className="font-bold text-[18px] mt-[20px]">
-                                Scan QR Code
-                            </h2>
-                            <p className="text-[16px] mt-[9px] text-center font-bold text-[#414141]">
-                                Scan QR Code to get student information
+                            <p className="text-[15px] mt-[9px] text-center font-bold text-[#414141]">
+                                We need your permission to access the camera for
+                                QR code scanning. Please allow it.
                             </p>
 
                             <Button
