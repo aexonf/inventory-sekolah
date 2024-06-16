@@ -36,7 +36,7 @@ const Home = () => {
         <>
             <main className="h-auto w-full max-w-[420px] mx-auto pb-[110px]">
                 <div className="px-[25px] flex items-center bg-primary-low gap-2 py-[5px]">
-                    <CircleUserRound className="h-[56px] w-[46px] stroke-1" />
+                    <CircleUserRound className="h-[42px] w-[42px] stroke-1" />
                     <h1 className="text-[14px] flex flex-col justify-center leading-[17px]">
                         Welcome <br />
                         <span className="font-semibold">John Doe</span>
