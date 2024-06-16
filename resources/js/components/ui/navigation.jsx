@@ -9,11 +9,6 @@ const navigationItem = [
         icon: <Home size={21} />,
     },
     {
-        name: "Users",
-        url: "/users",
-        icon: <Users size={21} />,
-    },
-    {
         name: "History",
         url: "/history",
         icon: <History size={21} />,
@@ -25,12 +20,13 @@ export function Navigation() {
 
     return (
         <nav className="fixed bottom-0 w-[100%]">
-            <div className="w-full flex justify-between bg-primary-low items-center max-w-[420px] px-[41px] mx-auto">
+            <div className="w-full flex gap-[100px] justify-center bg-primary-low items-center max-w-[420px] px-[41px] mx-auto">
                 {navigationItem.map((item, index) => (
                     <Link
                         key={index}
                         href={item.url}
-                        className="w-[64px] py-[14px]"
+                        className="w-[64px] pt-[10px] pb-[5px]"
+                        m
                     >
                         <div
                             className={`${
@@ -39,7 +35,7 @@ export function Navigation() {
                         >
                             {item.icon}
                         </div>
-                        <p className="text-[14px] text-center mt-[4px]">
+                        <p className="text-[14px] text-center leading-none mt-[8px]">
                             {item.name}
                         </p>
                     </Link>
