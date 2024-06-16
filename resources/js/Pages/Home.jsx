@@ -35,11 +35,11 @@ const Home = () => {
     return (
         <>
             <main className="h-auto w-full max-w-[420px] mx-auto pb-[110px]">
-                <div className="px-[17px] flex items-center bg-primary-low gap-1 py-[5px]">
+                <div className="px-[25px] flex items-center bg-primary-low gap-2 py-[5px]">
                     <CircleUserRound className="h-[56px] w-[46px] stroke-1" />
-                    <h1 className="text-[14px] flex flex-col justify-center font-bold leading-[17px]">
+                    <h1 className="text-[14px] flex flex-col justify-center leading-[17px]">
                         Welcome <br />
-                        John Doe👋
+                        <span className="font-semibold">John Doe</span>
                     </h1>
                 </div>
 
@@ -86,16 +86,16 @@ const Home = () => {
                                 src={QrCodeIcon}
                                 alt=""
                             />
-                            <p className="text-[15px] mt-[9px] text-center font-bold text-[#414141]">
+                            <p className="text-[15px] mt-[9px] text-center text-[#414141]">
                                 We need your permission to access the camera for
                                 QR code scanning. Please allow it.
                             </p>
 
                             <Button
-                                className="mt-[17px]"
+                                className="mt-[17px] font-semibold"
                                 onClick={toggleScanner}
                             >
-                                Scan QR
+                                Scan
                             </Button>
                         </>
                     )}
