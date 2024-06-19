@@ -3,6 +3,8 @@ import { Button, Card, Navigation } from "../components/ui/index";
 import { CircleUserRound } from "lucide-react";
 import QrReader from "react-qr-scanner";
 import QrCodeIcon from "../../../public/img/qr-code.svg";
+import CloseIcon from "../../../public/img/close-icon.svg";
+import InformationIcon from "../../../public/img/information-icon.svg";
 
 const Home = () => {
     const [result, setResult] = useState("");
@@ -67,10 +69,6 @@ const Home = () => {
                                 </Button>
                             </div>
                         </>
-                    ) : result !== "" && alertOpen ? (
-                        <div className="bg-red-500 absolute top-[20px] z-20">
-                            <h1>Hello</h1>
-                        </div>
                     ) : (
                         // <div className="h-full w-full flex flex-col justify-between">
                         //     <p>{`${result.text}`}</p>
@@ -83,16 +81,29 @@ const Home = () => {
                         //     </Button>
                         // </div>
                         <>
-                            <div className="w-full bg-[#D1C6ED] absolute top-[20px] z-20">
-                                <div>
-                                    <div>
-                                        <img src="" alt="" />
-                                        <h1></h1>
+                            {alertOpen && result !== "" ? (
+                                <div className="w-full bg-[#F2EFFB] border-[1.5px] border-solid border-[#D1C6ED] absolute top-[20px] z-20 pt-[11px] px-[15px] pb-[11px] rounded-md">
+                                    <div className="flex justify-between items-center">
+                                        <div className="flex items-center gap-2">
+                                            <img src={InformationIcon} alt="" />
+                                            <h1 className=" leading-3 p-0 m-0 h-auto flex pt-[3px] font-medium">
+                                                Berhasil!
+                                            </h1>
+                                        </div>
+                                        <Button
+                                            className="h-auto px-0 py-0 w-auto bg-transparent hover:bg-transparent"
+                                            onClick={() => setAlertOpen(false)}
+                                        >
+                                            <img src={CloseIcon} alt="" />
+                                        </Button>
                                     </div>
-                                    <div>x</div>
+                                    <p className="ml-[25px] mt-[5px] text-[14px]">
+                                        QR Code anda berhasil dipindai
+                                    </p>
                                 </div>
-                                <p></p>
-                            </div>
+                            ) : (
+                                ""
+                            )}
                             <h2 className="font-bold text-[20px]">
                                 Scan QR Code
                             </h2>
@@ -108,6 +119,7 @@ const Home = () => {
 
                             <Button
                                 className="mt-[17px] font-semibold"
+                                disabled={alertOpen}
                                 onClick={toggleScanner}
                             >
                                 Scan
