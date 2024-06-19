@@ -23,9 +23,9 @@ return new class extends Migration
             $table->foreign('item_id')->references('id')->on('items')->onDelete("cascade")->onUpdate("cascade");
 
             $table->string("loan_date");
-            $table->string("return_date");
+            $table->string("return_date")->nullable(true);
 
-            $table->unsignedBigInteger('teacher_id');
+            $table->unsignedBigInteger('teacher_id')->nullable(true);
 
             $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete("cascade")->onUpdate("cascade");
 

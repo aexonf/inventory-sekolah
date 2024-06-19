@@ -20,7 +20,7 @@ class AuthController extends Controller
      * Register a new user.
      *
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function register(Request $request) {
         // Validate the incoming request data
@@ -33,16 +33,23 @@ class AuthController extends Controller
             "phone_number" => "required|string",
         ]);
 
-        // If validation fails, redirect back to the registration page with errors and input data
+        // If validation fails, return error response
         if ($validasi->fails()) {
-            return redirect('/register')->back()->withErrors($validasi)->withInput();
+            return response()->json([
+                "status" => "error",
+                "message" => "Validation failed",
+                "errors" => $validasi->errors()
+            ], 422);
         }
         $validasi["role"] = "student";
 
         // Check if the ID number already exists in the database
         $cek = Students::where("id_number", $validasi["id_number"])->first();
         if ($cek) {
-            return redirect('/register')->back()->with('failed', 'ID number already exists');
+            return response()->json([
+                "status" => "error",
+                "message" => "ID number already exists"
+            ], 422);
         }
 
         // Create a new user
@@ -62,13 +69,19 @@ class AuthController extends Controller
             "user_id" => $user->id,
         ]);
 
-        // If student creation is successful, redirect to the login page with a success message
+        // If student creation is successful, return success response
         if ($student) {
-            return redirect('/login')->with('success', 'Registration successful');
+            return response()->json([
+                "status" => "success",
+                "message" => "Registration successful"
+            ]);
         }
 
-        // If student creation fails, redirect back to the registration page with a failure message
-        return redirect('/register')->back()->with('failed', 'Registration failed');
+        // If student creation fails, return error response
+        return response()->json([
+            "status" => "error",
+            "message" => "Registration failed"
+        ], 422);
     }
 
 
@@ -76,7 +89,7 @@ class AuthController extends Controller
      * Handle the login request.
      *
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function login(Request $request) {
         // Validate the request data
@@ -92,13 +105,21 @@ class AuthController extends Controller
         // Check if user exists and password is correct
         if ($cek) {
             if (Hash::check($validasi["password"], $cek->password)) {
-                // Redirect to home page on successful login
-                return redirect('/')->with("success", "Login Success");
+                $token = $cek->createToken('username')->plainTextToken;
+                // Return success response with token
+                return response()->json([
+                    "status" => "success",
+                    "message" => "Login successful",
+                    "token" => $token
+                ]);
             }
         }
 
-        // Redirect back to login page on failure
-        return redirect('/login')->back()->with("failed", "Login Failed");
+        // Return error response on failure
+        return response()->json([
+            "status" => "error",
+            "message" => "Login failed"
+        ], 422);
     }
 
 }
