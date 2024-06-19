@@ -26,7 +26,6 @@ export function Navigation() {
                         key={index}
                         href={item.url}
                         className="w-[64px] pt-[10px] pb-[5px]"
-                        m
                     >
                         <div
                             className={`${
