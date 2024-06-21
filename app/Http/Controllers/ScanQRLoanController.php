@@ -6,11 +6,8 @@ use App\Http\Resources\ScanQRLoanResource;
 use App\Models\Loans;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Students;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 /**
  * ScanQRLoanController handles the loan process for students.
