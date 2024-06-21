@@ -105,9 +105,9 @@ Route::get('/login', function () {
     return Inertia::render('Login');
 });
 
-Route::get('/register', function () {
-    return Inertia::render('Register');
-});
+// Route::get('/register', function () {
+//     return Inertia::render('Register');
+// });
 
 Route::get('/detail', function () {
     return Inertia::render('Detail');

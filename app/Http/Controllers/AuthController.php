@@ -24,7 +24,7 @@ class AuthController extends Controller
      */
     public function register(Request $request) {
         // Validate the incoming request data
-        $validasi = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'username' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
@@ -33,18 +33,12 @@ class AuthController extends Controller
             "phone_number" => "required|string",
         ]);
 
-        // If validation fails, return error response
-        if ($validasi->fails()) {
-            return response()->json([
-                "status" => "error",
-                "message" => "Validation failed",
-                "errors" => $validasi->errors()
-            ], 422);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
         }
-        $validasi["role"] = "student";
 
         // Check if the ID number already exists in the database
-        $cek = Students::where("id_number", $validasi["id_number"])->first();
+        $cek = Students::where("id_number", $request->id_number)->first();
         if ($cek) {
             return response()->json([
                 "status" => "error",
@@ -52,30 +46,33 @@ class AuthController extends Controller
             ], 422);
         }
 
+        dd("TESTING");
         // Create a new user
         $user = User::create([
-            "username" => $validasi["username"],
-            "email" => $validasi["email"],
-            "password" => Hash::make($validasi["password"]),
-            "role" => $validasi["role"],
+            "username" => $request->username,
+            "email" => $request->email,
+            "password" => Hash::make($request->password),
+            "role" => "student",
         ]);
-
-        // Create a new student associated with the user
-        $student = Students::create([
-            "id_number" => $validasi["id_number"],
-            "address" => $validasi["address"],
-            "phone_number" => $validasi["phone_number"],
-            "name" => $validasi["name"],
-            "user_id" => $user->id,
-        ]);
-
-        // If student creation is successful, return success response
-        if ($student) {
-            return response()->json([
-                "status" => "success",
-                "message" => "Registration successful"
+        if ($user) {
+            // Create a new student associated with the user
+            $student = Students::create([
+                "id_number" => $request->id_number,
+                "address" => $request->address,
+                "phone_number" => $request->phone_number,
+                "name" => $request->username,
+                "user_id" => $user->id,
             ]);
+
+            // If student creation is successful, return success response
+            if ($student) {
+                return response()->json([
+                    "status" => "success",
+                    "message" => "Registration successful"
+                ]);
+            }
         }
+
 
         // If student creation fails, return error response
         return response()->json([
@@ -93,19 +90,19 @@ class AuthController extends Controller
      */
     public function login(Request $request) {
         // Validate the request data
-        $validasi = Validator::make($request->all(), [
+        $validatedData = $request->validate([
             'email' => 'email|max:255',
             'username' => 'string|max:255',
             'password' => 'required|string|min:8',
         ]);
 
         // Attempt to find the user by email or username
-        $cek = User::where("email", $validasi["email"])->orWhere("username", $validasi["username"])->first();
+        $cek = User::where("email", $request->email)->orWhere("username", $request->username)->first();
 
         // Check if user exists and password is correct
         if ($cek) {
-            if (Hash::check($validasi["password"], $cek->password)) {
-                $token = $cek->createToken('username')->plainTextToken;
+            if (Hash::check($request->password, $cek->password)) {
+                $token = $cek->createToken($request->username)->plainTextToken;
                 // Return success response with token
                 return response()->json([
                     "status" => "success",
