@@ -1,46 +1,76 @@
 import React from "react";
+import { Input, Button } from "../components/ui/index";
+import { Link } from "@inertiajs/inertia-react";
 
 export default function Register() {
     return (
-        <div className="h-screen flex justify-center items-center">
+        <div className="pt-[40px] pb-[50px] gap-[60px] flex justify-center flex-col items-center w-full max-w-[420px] mx-auto">
+            <div>
+                <h1 className="text-center leading-8 text-[27px]">
+                    Create Account
+                </h1>
+                <p className="text-center">Create a New Account</p>
+            </div>
             <form
-                className="flex flex-col gap-5 border-[1.5px] rounded-md border-solid border-neutral-800 px-[30px] py-[20px]"
+                className="flex flex-col gap-8 rounded-md px-[30px] w-full"
                 action=""
             >
-                <h1 className="text-center text-neutral-900 text-2xl">
-                    Register
-                </h1>
-
                 <label className="flex flex-col">
-                    <span className="mb-[2px]">Username</span>
-                    <input
-                        className="outline outline-[1px] outline-neutral-900 focus:outline-[2px] px-[7px] rounded-sm py-[3px]"
-                        type="text"
-                        placeholder="enter your name"
-                    />
+                    <span className=" text-neutral-800 leading-3 mb-[4px]">
+                        Username
+                    </span>
+                    <Input type="text" placeholder="Username. . ." />
                 </label>
 
                 <label className="flex flex-col">
-                    <span className="mb-[2px]">Create Password</span>
-                    <input
-                        className="outline outline-[1px] outline-neutral-900 focus:outline-[2px] px-[7px] rounded-sm py-[3px]"
-                        type="text"
-                        placeholder="enter your password"
-                    />
+                    <span className="text-neutral-800 leading-3 mb-[4px]">
+                        Password
+                    </span>
+                    <Input type="text" placeholder="Password. . ." />
                 </label>
 
                 <label className="flex flex-col">
-                    <span className="mb-[2px]">Confirm Password</span>
-                    <input
-                        className="outline outline-[1px] outline-neutral-900 focus:outline-[2px] px-[7px] rounded-sm py-[3px]"
-                        type="text"
-                        placeholder="enter your password"
-                    />
+                    <span className="text-neutral-800 leading-3 mb-[4px]">
+                        Email
+                    </span>
+                    <Input type="text" placeholder="Email. . ." />
                 </label>
 
-                <button className="mt-[10px] mb-[10px] text-white bg-neutral-700 py-[5px] rounded-md hover:bg-neutral-500 active:scale-[0.98] transition-all duration-100">
-                    Register
-                </button>
+                <label className="flex flex-col">
+                    <span className="text-neutral-800 leading-3 mb-[4px]">
+                        Nis
+                    </span>
+                    <Input type="text" placeholder="Nis. . ." />
+                </label>
+
+                <label className="flex flex-col">
+                    <span className="text-neutral-800 leading-3 mb-[4px]">
+                        No HP
+                    </span>
+                    <Input type="text" placeholder="No. . ." />
+                </label>
+
+                <label className="flex flex-col">
+                    <span className="text-neutral-800 leading-3 mb-[4px]">
+                        Address
+                    </span>
+                    <Input type="text" placeholder="Address. . ." />
+                </label>
+
+                <div>
+                    <Button className="mt-[50px]">
+                        <span className="text-lg">Register</span>
+                    </Button>
+                    <p className="text-center text-[13px] mt-[6px]">
+                        Already have an account ?{" "}
+                        <Link
+                            href="/login"
+                            className="text-[#A27FFE] font-semibold hover:underline"
+                        >
+                            Login
+                        </Link>
+                    </p>
+                </div>
             </form>
         </div>
     );
