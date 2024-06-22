@@ -11,7 +11,7 @@ export default function Login() {
                 <h1 className="text-center text-neutral-900 text-2xl">Login</h1>
 
                 <label className="flex flex-col">
-                    <span className="mb-[2px]">Create Usere</span>
+                    <span className="mb-[2px]">Create Username</span>
                     <Input />
                     <input
                         className="outline outline-[1px] outline-neutral-900 focus:outline-[2px] px-[7px] rounded-sm py-[3px]"
