@@ -16,49 +16,49 @@ export default function Register() {
                 action=""
             >
                 <label className="flex flex-col">
-                    <span className=" text-neutral-800 leading-3 mb-[4px]">
+                    <span className=" text-neutral-800 leading-3 mb-[6px]">
                         Username
                     </span>
                     <Input type="text" placeholder="Username. . ." />
                 </label>
 
                 <label className="flex flex-col">
-                    <span className="text-neutral-800 leading-3 mb-[4px]">
+                    <span className="text-neutral-800 leading-3 mb-[6px]">
                         Password
                     </span>
                     <Input type="text" placeholder="Password. . ." />
                 </label>
 
                 <label className="flex flex-col">
-                    <span className="text-neutral-800 leading-3 mb-[4px]">
+                    <span className="text-neutral-800 leading-3 mb-[6px]">
                         Email
                     </span>
                     <Input type="text" placeholder="Email. . ." />
                 </label>
 
                 <label className="flex flex-col">
-                    <span className="text-neutral-800 leading-3 mb-[4px]">
+                    <span className="text-neutral-800 leading-3 mb-[6px]">
                         Nis
                     </span>
                     <Input type="text" placeholder="Nis. . ." />
                 </label>
 
                 <label className="flex flex-col">
-                    <span className="text-neutral-800 leading-3 mb-[4px]">
+                    <span className="text-neutral-800 leading-3 mb-[6px]">
                         No HP
                     </span>
                     <Input type="text" placeholder="No. . ." />
                 </label>
 
                 <label className="flex flex-col">
-                    <span className="text-neutral-800 leading-3 mb-[4px]">
+                    <span className="text-neutral-800 leading-3 mb-[6px]">
                         Address
                     </span>
                     <Input type="text" placeholder="Address. . ." />
                 </label>
 
                 <div>
-                    <Button className="mt-[50px]">
+                    <Button className="bg-[#A27FFE] mt-[50px]">
                         <span className="text-lg">Register</span>
                     </Button>
                     <p className="text-center text-[13px] mt-[6px]">
