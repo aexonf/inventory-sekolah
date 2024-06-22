@@ -1,4 +1,5 @@
 import React from "react";
+import { Input } from "../components/ui/index";
 
 export default function Login() {
     return (
@@ -11,6 +12,7 @@ export default function Login() {
 
                 <label className="flex flex-col">
                     <span className="mb-[2px]">Create Username</span>
+                    <Input />
                     <input
                         className="outline outline-[1px] outline-neutral-900 focus:outline-[2px] px-[7px] rounded-sm py-[3px]"
                         type="text"
