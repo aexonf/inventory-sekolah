@@ -1,16 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { Input, Button } from "../components/ui/index";
 import { Link } from "@inertiajs/inertia-react";
 import { useForm } from "react-hook-form";
+import axios from "axios";
 import { Inertia } from "@inertiajs/inertia";
 
-export default function Register({ props }) {
+export default function Register() {
     const {
         register,
         handleSubmit,
         watch,
         formState: { errors },
     } = useForm();
+    const [isLoading, setIsLoading] = useState(false);
 
     const onSubmit = async (data) => {
         const { username, email, password, id_number, address, phone_number } =
@@ -34,12 +36,16 @@ export default function Register({ props }) {
         ) {
             return;
         }
-        Inertia.post("/api/v1/auth/register", body),
-            {
-                onError: (errors) => {
-                    console.log(errors);
-                },
-            };
+        setIsLoading(true);
+        try {
+            const postData = await axios.post("/api/v1/auth/register", body);
+            console.log(postData);
+            setIsLoading(false);
+            Inertia.visit("/login");
+        } catch (error) {
+            setIsLoading(false);
+            console.log(error);
+        }
     };
 
     return (
@@ -131,12 +137,23 @@ export default function Register({ props }) {
                         Nis
                     </span>
                     <Input
-                        {...register("id_number")}
+                        {...register("id_number", {
+                            required: "Nis is Required",
+                        })}
                         value={watch("id_number")}
                         id="nis"
                         type="text"
                         placeholder="Nis. . ."
+                        className={`${
+                            errors.id_number &&
+                            "outline-red-500 focus:outline-red-400"
+                        }`}
                     />
+                    {errors.id_number && (
+                        <span className="text-[13px] mt-[4px] text-red-500">
+                            {errors.id_number.message}
+                        </span>
+                    )}
                 </label>
 
                 <label htmlFor="no" className="flex flex-col">
@@ -144,12 +161,23 @@ export default function Register({ props }) {
                         No HP
                     </span>
                     <Input
-                        {...register("phone_number")}
+                        {...register("phone_number", {
+                            required: "Phone Number is Required",
+                        })}
                         value={watch("phone_number")}
                         id="no"
                         type="text"
                         placeholder="No. . ."
+                        className={`${
+                            errors.phone_number &&
+                            "outline-red-500 focus:outline-red-400"
+                        }`}
                     />
+                    {errors.phone_number && (
+                        <span className="text-[13px] mt-[4px] text-red-500">
+                            {errors.phone_number.message}
+                        </span>
+                    )}
                 </label>
 
                 <label htmlFor="address" className="flex flex-col">
@@ -157,16 +185,30 @@ export default function Register({ props }) {
                         Address
                     </span>
                     <Input
-                        {...register("address")}
+                        {...register("address", {
+                            required: "Address is Required",
+                        })}
                         value={watch("address")}
                         id="address"
                         type="text"
                         placeholder="Address. . ."
+                        className={`${
+                            errors.address &&
+                            "outline-red-500 focus:outline-red-400"
+                        }`}
                     />
+                    {errors.address && (
+                        <span className="text-[13px] mt-[4px] text-red-500">
+                            {errors.address.message}
+                        </span>
+                    )}
                 </label>
 
                 <div>
-                    <Button className="bg-[#A27FFE] mt-[50px]">
+                    <Button
+                        className="bg-[#A27FFE] mt-[50px]"
+                        disable={isLoading}
+                    >
                         <span className="text-lg">Register</span>
                     </Button>
                     <p className="text-center text-[13px] mt-[6px]">
