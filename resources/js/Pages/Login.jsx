@@ -39,7 +39,7 @@ export default function Login() {
                             href="/register"
                             className="text-[#A27FFE] font-semibold hover:underline"
                         >
-                            Login
+                            Register
                         </Link>
                     </p>
                 </div>
