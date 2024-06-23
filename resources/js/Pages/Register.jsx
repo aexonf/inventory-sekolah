@@ -2,11 +2,25 @@ import React from "react";
 import { Input, Button } from "../components/ui/index";
 import { Link } from "@inertiajs/inertia-react";
 import { useForm } from "react-hook-form";
+import { Inertia } from "@inertiajs/inertia";
 
 export default function Register() {
     const { register, handleSubmit, watch } = useForm();
 
-    const onSubmit = (data) => alert(JSON.stringify(data));
+    const onSubmit = async (data) => {
+        const { username, email, password, id_number, address, phone_number } =
+            data;
+        const body = {
+            username: username,
+            email: email,
+            password: password,
+            id_number: id_number,
+            address: address,
+            phone_number: phone_number,
+        };
+
+        Inertia.post("/api/v1/auth/register", body);
+    };
 
     return (
         <div className="pt-[40px] pb-[50px] gap-[60px] flex justify-center flex-col items-center w-full max-w-[420px] mx-auto">
