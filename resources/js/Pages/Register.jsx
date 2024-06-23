@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { Inertia } from "@inertiajs/inertia";
 import Cookies from "js-cookie";
+import { Info } from "lucide-react";
 
 export default function Register() {
     const {
@@ -105,7 +106,7 @@ export default function Register() {
                             </span>
                             <Input
                                 {...register("username", {
-                                    required: "Username is Required",
+                                    required: "Username is Empty",
                                 })}
                                 value={watch("username")}
                                 id="username"
@@ -117,9 +118,12 @@ export default function Register() {
                                 placeholder="Username. . ."
                             />
                             {errors.username && (
-                                <span className="text-[13px] mt-[4px] text-red-500">
-                                    {errors.username.message}
-                                </span>
+                                <div className="text-[13px] mt-[4px] text-red-500 leading-none flex items-center gap-1">
+                                    <Info size={14} />
+                                    <span className="mt-[3px] leading-none">
+                                        {errors.username.message}
+                                    </span>
+                                </div>
                             )}
                         </label>
 
@@ -129,7 +133,7 @@ export default function Register() {
                             </span>
                             <Input
                                 {...register("password", {
-                                    required: "Password is Required",
+                                    required: "Password is Empty",
                                 })}
                                 value={watch("password")}
                                 id="password"
@@ -141,9 +145,12 @@ export default function Register() {
                                 placeholder="Password. . ."
                             />
                             {errors.password && (
-                                <span className="text-[13px] mt-[4px] text-red-500">
-                                    {errors.password.message}
-                                </span>
+                                <div className="text-[13px] mt-[4px] text-red-500 leading-none flex items-center gap-1">
+                                    <Info size={14} />
+                                    <span className="mt-[3px] leading-none">
+                                        {errors.password.message}
+                                    </span>
+                                </div>
                             )}
                         </label>
 
@@ -153,7 +160,7 @@ export default function Register() {
                             </span>
                             <Input
                                 {...register("email", {
-                                    required: "Email is Required",
+                                    required: "Email is Empty",
                                 })}
                                 value={watch("email")}
                                 id="email"
@@ -165,9 +172,12 @@ export default function Register() {
                                 }`}
                             />
                             {errors.email && (
-                                <span className="text-[13px] mt-[4px] text-red-500">
-                                    {errors.email.message}
-                                </span>
+                                <div className="text-[13px] mt-[4px] text-red-500 leading-none flex items-center gap-1">
+                                    <Info size={14} />
+                                    <span className="mt-[3px] leading-none">
+                                        {errors.email.message}
+                                    </span>
+                                </div>
                             )}
                         </label>
 
@@ -177,7 +187,7 @@ export default function Register() {
                             </span>
                             <Input
                                 {...register("id_number", {
-                                    required: "Nis is Required",
+                                    required: "Nis is Empty",
                                 })}
                                 value={watch("id_number")}
                                 id="nis"
@@ -189,9 +199,12 @@ export default function Register() {
                                 }`}
                             />
                             {errors.id_number && (
-                                <span className="text-[13px] mt-[4px] text-red-500">
-                                    {errors.id_number.message}
-                                </span>
+                                <div className="text-[13px] mt-[4px] text-red-500 leading-none flex items-center gap-1">
+                                    <Info size={14} />
+                                    <span className="mt-[3px] leading-none">
+                                        {errors.id_number.message}
+                                    </span>
+                                </div>
                             )}
                         </label>
 
@@ -201,7 +214,7 @@ export default function Register() {
                             </span>
                             <Input
                                 {...register("phone_number", {
-                                    required: "Phone Number is Required",
+                                    required: "Phone Number is Empty",
                                 })}
                                 value={watch("phone_number")}
                                 id="no"
@@ -213,9 +226,12 @@ export default function Register() {
                                 }`}
                             />
                             {errors.phone_number && (
-                                <span className="text-[13px] mt-[4px] text-red-500">
-                                    {errors.phone_number.message}
-                                </span>
+                                <div className="text-[13px] mt-[4px] text-red-500 leading-none flex items-center gap-1">
+                                    <Info size={14} />
+                                    <span className="mt-[3px] leading-none">
+                                        {errors.phone_number.message}
+                                    </span>
+                                </div>
                             )}
                         </label>
 
@@ -225,7 +241,7 @@ export default function Register() {
                             </span>
                             <Input
                                 {...register("address", {
-                                    required: "Address is Required",
+                                    required: "Address is Empty",
                                 })}
                                 value={watch("address")}
                                 id="address"
@@ -237,9 +253,12 @@ export default function Register() {
                                 }`}
                             />
                             {errors.address && (
-                                <span className="text-[13px] mt-[4px] text-red-500">
-                                    {errors.address.message}
-                                </span>
+                                <div className="text-[13px] mt-[4px] text-red-500 leading-none flex items-center gap-1">
+                                    <Info size={14} />
+                                    <span className="mt-[3px] leading-none">
+                                        {errors.address.message}
+                                    </span>
+                                </div>
                             )}
                         </label>
 
