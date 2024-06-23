@@ -4,14 +4,19 @@ import { Link } from "@inertiajs/inertia-react";
 import { useForm } from "react-hook-form";
 import { Inertia } from "@inertiajs/inertia";
 
-export default function Register() {
-    const { register, handleSubmit, watch } = useForm();
+export default function Register({ props }) {
+    const {
+        register,
+        handleSubmit,
+        watch,
+        formState: { errors },
+    } = useForm();
 
     const onSubmit = async (data) => {
         const { username, email, password, id_number, address, phone_number } =
             data;
         const body = {
-            username: username,
+            username: username.trim(),
             email: email,
             password: password,
             id_number: id_number,
@@ -19,7 +24,22 @@ export default function Register() {
             phone_number: phone_number,
         };
 
-        Inertia.post("/api/v1/auth/register", body);
+        if (
+            body.username === "" ||
+            body.email === "" ||
+            body.password === "" ||
+            body.id_number === "" ||
+            body.address === "" ||
+            body.phone_number === ""
+        ) {
+            return;
+        }
+        Inertia.post("/api/v1/auth/register", body),
+            {
+                onError: (errors) => {
+                    console.log(errors);
+                },
+            };
     };
 
     return (
@@ -39,12 +59,23 @@ export default function Register() {
                         Username
                     </span>
                     <Input
-                        {...register("username")}
+                        {...register("username", {
+                            required: "Username is Required",
+                        })}
                         value={watch("username")}
                         id="username"
+                        className={`${
+                            errors.username &&
+                            "outline-red-500 focus:outline-red-400"
+                        }`}
                         type="text"
                         placeholder="Username. . ."
                     />
+                    {errors.username && (
+                        <span className="text-[13px] mt-[4px] text-red-500">
+                            {errors.username.message}
+                        </span>
+                    )}
                 </label>
 
                 <label htmlFor="password" className="flex flex-col">
@@ -52,12 +83,23 @@ export default function Register() {
                         Password
                     </span>
                     <Input
-                        {...register("password")}
+                        {...register("password", {
+                            required: "Password is Required",
+                        })}
                         value={watch("password")}
                         id="password"
+                        className={`${
+                            errors.password &&
+                            "outline-red-500 focus:outline-red-400"
+                        }`}
                         type="text"
                         placeholder="Password. . ."
                     />
+                    {errors.password && (
+                        <span className="text-[13px] mt-[4px] text-red-500">
+                            {errors.password.message}
+                        </span>
+                    )}
                 </label>
 
                 <label htmlFor="email" className="flex flex-col">
@@ -65,12 +107,23 @@ export default function Register() {
                         Email
                     </span>
                     <Input
-                        {...register("email")}
+                        {...register("email", {
+                            required: "Email is Required",
+                        })}
                         value={watch("email")}
                         id="email"
                         type="text"
                         placeholder="Email. . ."
+                        className={`${
+                            errors.email &&
+                            "outline-red-500 focus:outline-red-400"
+                        }`}
                     />
+                    {errors.email && (
+                        <span className="text-[13px] mt-[4px] text-red-500">
+                            {errors.email.message}
+                        </span>
+                    )}
                 </label>
 
                 <label htmlFor="nis" className="flex flex-col">
