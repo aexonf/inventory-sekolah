@@ -4,6 +4,7 @@ import { Link } from "@inertiajs/inertia-react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { Inertia } from "@inertiajs/inertia";
+import Cookies from "js-cookie";
 
 export default function Login() {
     const {
@@ -26,9 +27,13 @@ export default function Login() {
         }
         setIsLoading(true);
         try {
-            const postData = await axios.post("/api/v1/auth/login", body);
+            const { data: postData } = await axios.post(
+                "/api/v1/auth/login",
+                body
+            );
             console.log(postData);
             setIsLoading(false);
+            Cookies.set("inventory_token", postData.token, { expires: 7 });
             Inertia.visit("/");
         } catch (error) {
             setIsLoading(false);

@@ -7,12 +7,14 @@ import CloseIcon from "../../../public/img/close-icon.svg";
 import InformationIcon from "../../../public/img/information-icon.svg";
 import axios from "axios";
 import { Inertia } from "@inertiajs/inertia";
+import Cookie from "js-cookie";
 
 const Home = () => {
     const [result, setResult] = useState("");
     const [isScannerOpen, setIsScannerOpen] = useState(false);
     const [alertOpen, setAlertOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const inventoryToken = Cookie.get("inventory_token");
 
     const handleScan = useCallback((data) => {
         if (data) {
@@ -40,8 +42,12 @@ const Home = () => {
     const getData = async () => {
         setIsLoading(true);
         try {
-            const getUser = await axios("/api/user");
-            console.log(user);
+            const getUser = await axios("/api/user", {
+                headers: {
+                    Authorization: `Bearer ${inventoryToken}`,
+                },
+            });
+
             setIsLoading(false);
         } catch (error) {
             console.log(error);
