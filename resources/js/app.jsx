@@ -10,4 +10,10 @@ createInertiaApp({
     setup({ el, App, props }) {
         createRoot(el).render(<App {...props} />);
     },
+    // onError: (error) => {
+    //     if (error.response && error.response.status === 401) {
+    //         // Redirect to login page if unauthorized
+    //         Inertia.visit("/login");
+    //     }
+    // },
 });
