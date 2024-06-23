@@ -6,6 +6,7 @@ import axios from "axios";
 import { Inertia } from "@inertiajs/inertia";
 import Cookies from "js-cookie";
 import { Toaster, toast } from "sonner";
+import { Info } from "lucide-react";
 
 export default function Login() {
     const {
@@ -110,7 +111,7 @@ export default function Login() {
                                 </span>
                                 <Input
                                     {...register("username", {
-                                        required: "Username is Required",
+                                        required: "Username is Empty",
                                     })}
                                     value={watch("username")}
                                     type="text"
@@ -121,9 +122,12 @@ export default function Login() {
                                     }`}
                                 />
                                 {errors.username && (
-                                    <span className="text-[13px] mt-[4px] text-red-500">
-                                        {errors.username.message}
-                                    </span>
+                                    <div className="text-[13px] mt-[4px] text-red-500 leading-none flex items-center gap-1">
+                                        <Info size={14} />
+                                        <span className="mt-[3px] leading-none">
+                                            {errors.username.message}
+                                        </span>
+                                    </div>
                                 )}
                             </label>
 
@@ -133,7 +137,7 @@ export default function Login() {
                                 </span>
                                 <Input
                                     {...register("password", {
-                                        required: "Password is Required",
+                                        required: "Password is Empty",
                                     })}
                                     value={watch("password")}
                                     type="password"
@@ -144,9 +148,12 @@ export default function Login() {
                                     }`}
                                 />
                                 {errors.password && (
-                                    <span className="text-[13px] mt-[4px] text-red-500">
-                                        {errors.password.message}
-                                    </span>
+                                    <div className="text-[13px] mt-[4px] text-red-500 leading-none flex items-center gap-1">
+                                        <Info size={14} />
+                                        <span className="mt-[3px] leading-none">
+                                            {errors.password.message}
+                                        </span>
+                                    </div>
                                 )}
                             </label>
 
