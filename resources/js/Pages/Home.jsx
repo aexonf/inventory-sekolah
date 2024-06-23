@@ -101,16 +101,6 @@ const Home = () => {
                                     </div>
                                 </>
                             ) : (
-                                // <div className="h-full w-full flex flex-col justify-between">
-                                //     <p>{`${result.text}`}</p>
-
-                                //     <Button
-                                //         className="mt-[23px]"
-                                //         onClick={toggleScanner}
-                                //     >
-                                //         Clear Data
-                                //     </Button>
-                                // </div>
                                 <>
                                     {alertOpen && result !== "" ? (
                                         <div className="w-full bg-[#F2EFFB] border-[1.5px] border-solid border-[#D1C6ED] absolute top-[20px] z-20 pt-[11px] px-[15px] pb-[11px] rounded-md">
