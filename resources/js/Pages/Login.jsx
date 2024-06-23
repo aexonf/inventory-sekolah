@@ -125,7 +125,7 @@ export default function Login() {
                                     required: "Password is Required",
                                 })}
                                 value={watch("password")}
-                                type="text"
+                                type="password"
                                 placeholder="Password. . ."
                                 className={`${
                                     errors.password &&

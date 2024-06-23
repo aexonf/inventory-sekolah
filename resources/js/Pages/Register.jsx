@@ -137,7 +137,7 @@ export default function Register() {
                                     errors.password &&
                                     "outline-red-500 focus:outline-red-400"
                                 }`}
-                                type="text"
+                                type="password"
                                 placeholder="Password. . ."
                             />
                             {errors.password && (
@@ -157,7 +157,7 @@ export default function Register() {
                                 })}
                                 value={watch("email")}
                                 id="email"
-                                type="text"
+                                type="email"
                                 placeholder="Email. . ."
                                 className={`${
                                     errors.email &&
