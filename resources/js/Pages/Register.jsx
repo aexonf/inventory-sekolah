@@ -1,8 +1,13 @@
 import React from "react";
 import { Input, Button } from "../components/ui/index";
 import { Link } from "@inertiajs/inertia-react";
+import { useForm } from "react-hook-form";
 
 export default function Register() {
+    const { register, handleSubmit, watch } = useForm();
+
+    const onSubmit = (data) => alert(JSON.stringify(data));
+
     return (
         <div className="pt-[40px] pb-[50px] gap-[60px] flex justify-center flex-col items-center w-full max-w-[420px] mx-auto">
             <div>
@@ -13,48 +18,84 @@ export default function Register() {
             </div>
             <form
                 className="flex flex-col gap-8 rounded-md px-[30px] w-full"
-                action=""
+                onSubmit={handleSubmit(onSubmit)}
             >
-                <label className="flex flex-col">
+                <label htmlFor="username" className="flex flex-col">
                     <span className=" text-neutral-800 leading-3 mb-[6px]">
                         Username
                     </span>
-                    <Input type="text" placeholder="Username. . ." />
+                    <Input
+                        {...register("username")}
+                        value={watch("username")}
+                        id="username"
+                        type="text"
+                        placeholder="Username. . ."
+                    />
                 </label>
 
-                <label className="flex flex-col">
+                <label htmlFor="password" className="flex flex-col">
                     <span className="text-neutral-800 leading-3 mb-[6px]">
                         Password
                     </span>
-                    <Input type="text" placeholder="Password. . ." />
+                    <Input
+                        {...register("password")}
+                        value={watch("password")}
+                        id="password"
+                        type="text"
+                        placeholder="Password. . ."
+                    />
                 </label>
 
-                <label className="flex flex-col">
+                <label htmlFor="email" className="flex flex-col">
                     <span className="text-neutral-800 leading-3 mb-[6px]">
                         Email
                     </span>
-                    <Input type="text" placeholder="Email. . ." />
+                    <Input
+                        {...register("email")}
+                        value={watch("email")}
+                        id="email"
+                        type="text"
+                        placeholder="Email. . ."
+                    />
                 </label>
 
-                <label className="flex flex-col">
+                <label htmlFor="nis" className="flex flex-col">
                     <span className="text-neutral-800 leading-3 mb-[6px]">
                         Nis
                     </span>
-                    <Input type="text" placeholder="Nis. . ." />
+                    <Input
+                        {...register("id_number")}
+                        value={watch("id_number")}
+                        id="nis"
+                        type="text"
+                        placeholder="Nis. . ."
+                    />
                 </label>
 
-                <label className="flex flex-col">
+                <label htmlFor="no" className="flex flex-col">
                     <span className="text-neutral-800 leading-3 mb-[6px]">
                         No HP
                     </span>
-                    <Input type="text" placeholder="No. . ." />
+                    <Input
+                        {...register("phone_number")}
+                        value={watch("phone_number")}
+                        id="no"
+                        type="text"
+                        placeholder="No. . ."
+                    />
                 </label>
 
-                <label className="flex flex-col">
+                <label htmlFor="address" className="flex flex-col">
                     <span className="text-neutral-800 leading-3 mb-[6px]">
                         Address
                     </span>
-                    <Input type="text" placeholder="Address. . ." />
+                    <Input
+                        {...register("address")}
+                        value={watch("address")}
+                        id="address"
+                        type="text"
+                        placeholder="Address. . ."
+                    />
                 </label>
 
                 <div>
