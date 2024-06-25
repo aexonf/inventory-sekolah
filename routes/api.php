@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HistoryLoanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ScanQRLoanController;
 use Illuminate\Http\Request;
@@ -25,6 +26,10 @@ Route::prefix("/v1")->group(function () {
 
     Route::controller(ProfileController::class)->middleware('auth:sanctum')->prefix("/profile")->group(function() {
         Route::get("/", "profile");
+    });
+
+    Route::controller(HistoryLoanController::class)->middleware('auth:sanctum')->prefix("/history")->group(function() {
+        Route::get("/", "index");
     });
 
 });

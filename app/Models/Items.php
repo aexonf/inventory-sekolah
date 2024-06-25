@@ -22,4 +22,10 @@ class Items extends Model
         return $this->belongsTo(Categories::class, 'categories_id');
     }
 
+    public function loan(): BelongsTo
+    {
+        return $this->belongsTo(Loans::class, 'item_id');
+    }
+
+
 }
