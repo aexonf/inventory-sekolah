@@ -135,7 +135,7 @@ export default function History() {
                                     <div className="bg-[#F4F0FF] rounded-sm flex items-start justify-between py-[7px] px-[17px]">
                                         <p>{userInformation.address}</p>
 
-                                        <MapPin size={21} />
+                                        <MapPin size={19} />
                                     </div>
                                 </div>
                             </div>

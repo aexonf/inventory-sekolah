@@ -24,7 +24,7 @@ export function Navigation() {
     const pathname = usePage();
 
     return (
-        <nav className="fixed bottom-0 w-[100%]">
+        <nav className="fixed bottom-0 w-[100%] pt-[5px] bg-white">
             <div className="w-full flex gap-[50px] justify-center bg-primary-low items-center max-w-[420px] px-[41px] mx-auto">
                 {navigationItem.map((item, index) => (
                     <Link
