@@ -14,9 +14,9 @@ import {
     DialogTrigger,
 } from "../ui/index";
 
-export function Header({ title }) {
+export function Header({ title, profilePage }) {
     return (
-        <div className="px-[25px] flex items-center bg-primary-low  justify-between py-[10px]">
+        <div className="px-[25px] flex items-center bg-primary-low  justify-between py-[17px]">
             <div className="flex items-center gap-2">
                 {/* <CircleUserRound className="h-[42px] w-[42px] stroke-1" /> */}
                 <h1 className="text-[20px] font-[500] flex flex-col justify-center leading-[17px]">
@@ -26,36 +26,6 @@ export function Header({ title }) {
                                         John Doe
                                     </span> */}
                 </h1>
-            </div>
-
-            <div className="bg-[#4600FF] bg-opacity-[10%] flex justify-center items-center h-[45px] w-[45px] rounded-full p-0">
-                <span className="text-[20px] pt-[4px] text-center leading-none">
-                    JD
-                </span>
-
-                {/* <Popover>
-                    <PopoverTrigger
-                       
-                        // onClick={() => {
-                        //     Cookies.remove("inventory_token");
-                        //     Inertia.visit("/");
-                        // }}
-                    >
-                        {" "}
-                        
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto">
-                        <div>John Doe</div>
-                        <div>johndoe@gmail.com</div>
-
-                        <LogoutDialog />
-                    </PopoverContent>
-                </Popover> */}
-                {/* <button
-                    
-                >
-                   
-                </button> */}
             </div>
         </div>
     );
@@ -80,3 +50,32 @@ export function LogoutDialog() {
         </Dialog>
     );
 }
+
+/*
+   {!profilePage && (
+                <div className="bg-[#4600FF] bg-opacity-[10%] flex justify-center items-center h-[45px] w-[45px] rounded-full p-0">
+                    <span className="text-[20px] pt-[4px] text-center leading-none">
+                        JD
+                    </span>
+
+                    {/* <Popover>
+                    <PopoverTrigger
+                       
+                        // onClick={() => {
+                        //     Cookies.remove("inventory_token");
+                        //     Inertia.visit("/");
+                        // }}
+                    >
+                        {" "}
+                        
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto">
+                        <div>John Doe</div>
+                        <div>johndoe@gmail.com</div>
+
+                        <LogoutDialog />
+                    </PopoverContent>
+                
+                </div>
+            )}
+*/

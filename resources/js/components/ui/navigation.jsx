@@ -1,5 +1,5 @@
 import React from "react";
-import { Home, Users, History } from "lucide-react";
+import { Home, User, History } from "lucide-react";
 import { Link, usePage } from "@inertiajs/inertia-react";
 
 const navigationItem = [
@@ -13,6 +13,11 @@ const navigationItem = [
         url: "/history",
         icon: <History size={21} />,
     },
+    {
+        name: "Profile",
+        url: "/profile",
+        icon: <User size={21} />,
+    },
 ];
 
 export function Navigation() {
@@ -20,7 +25,7 @@ export function Navigation() {
 
     return (
         <nav className="fixed bottom-0 w-[100%]">
-            <div className="w-full flex gap-[100px] justify-center bg-primary-low items-center max-w-[420px] px-[41px] mx-auto">
+            <div className="w-full flex gap-[50px] justify-center bg-primary-low items-center max-w-[420px] px-[41px] mx-auto">
                 {navigationItem.map((item, index) => (
                     <Link
                         key={index}
