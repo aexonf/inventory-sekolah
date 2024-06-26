@@ -9,17 +9,30 @@ import { Mail, Phone, BookOpen, GraduationCap, MapPin } from "lucide-react";
 export default function History() {
     const [isVerifyUser, setIsVerifyUser] = useState(true);
     const inventoryToken = Cookies.get("inventory_token");
+    const [userInformation, setUserInformation] = useState({
+        id: null,
+        name: "",
+        id_number: "",
+        address: "",
+        phone_number: "",
+        email: "",
+        status: "",
+        class: "",
+        generation: "",
+        school_year: "",
+    });
 
     const verifyUser = async () => {
         setIsVerifyUser(true);
         try {
-            const getUser = await axios("/api/user", {
+            const { data: getUser } = await axios("/api/v1/profile", {
                 headers: {
                     Authorization: `Bearer ${inventoryToken}`,
                 },
             });
 
             setIsVerifyUser(false);
+            setUserInformation(getUser.data);
         } catch (error) {
             console.log(error);
             if (error.response.data.message === "Unauthenticated.") {
@@ -33,6 +46,14 @@ export default function History() {
     useEffect(() => {
         verifyUser();
     }, []);
+
+    let words = userInformation.name.split(" ");
+    let firstWordFirstChar = words[0] ? words[0].charAt(0) : "";
+    let secondWordSecondChar = words[1] ? words[1].charAt(1) : "";
+    let firstWordFirstCharUppercase = firstWordFirstChar.toUpperCase();
+    let secondWordSecondCharUppercase = secondWordSecondChar.toUpperCase();
+    let UppercaseText =
+        `${firstWordFirstChar}${secondWordSecondChar}`.toUpperCase();
 
     return (
         <>
@@ -57,12 +78,12 @@ export default function History() {
                         <div className="mt-[40px] pb-[100px]">
                             <div className="flex flex-col items-center">
                                 <div className="bg-[#4600FF] bg-opacity-[10%] flex justify-center items-center h-[70px] w-[70px] rounded-full p-0">
-                                    <h1 className="text-[30px] pt-[4px] text-center leading-none">
-                                        JD
+                                    <h1 className="text-[30px] pt-[5px] text-center leading-none">
+                                        {UppercaseText}
                                     </h1>
                                 </div>
                                 <h1 className="text-[20px] font-[500] mt-[8px]">
-                                    John Doe
+                                    {userInformation.name}
                                 </h1>
                             </div>
 
@@ -72,7 +93,7 @@ export default function History() {
                                         Email
                                     </h1>
                                     <div className="bg-[#F4F0FF] rounded-sm flex items-center justify-between py-[7px] px-[17px]">
-                                        <p>johndoe@gmail.com</p>
+                                        <p>{userInformation.email}</p>
 
                                         <Mail size={19} />
                                     </div>
@@ -82,7 +103,7 @@ export default function History() {
                                         Phone Number
                                     </h1>
                                     <div className="bg-[#F4F0FF] rounded-sm flex items-center justify-between py-[7px] px-[17px]">
-                                        <p>012345678899</p>
+                                        <p>{userInformation.phone_number}</p>
 
                                         <Phone size={19} />
                                     </div>
@@ -102,7 +123,7 @@ export default function History() {
                                         School Year
                                     </h1>
                                     <div className="bg-[#F4F0FF] rounded-sm flex items-center justify-between py-[7px] px-[17px]">
-                                        <p>2024</p>
+                                        <p>{userInformation.school_year}</p>
 
                                         <GraduationCap size={19} />
                                     </div>
@@ -112,10 +133,7 @@ export default function History() {
                                         Address
                                     </h1>
                                     <div className="bg-[#F4F0FF] rounded-sm flex items-start justify-between py-[7px] px-[17px]">
-                                        <p>
-                                            Jetis RT 03/RW 100, Sukoharjo, Jawa
-                                            Tengah, Indonesia
-                                        </p>
+                                        <p>{userInformation.address}</p>
 
                                         <MapPin size={21} />
                                     </div>
