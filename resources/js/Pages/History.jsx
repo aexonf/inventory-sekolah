@@ -3,6 +3,7 @@ import { Navigation } from "../components/ui/navigation";
 import axios from "axios";
 import { Inertia } from "@inertiajs/inertia";
 import Cookies from "js-cookie";
+import { Header } from "../components/section/index";
 
 const dummyData = [
     {
@@ -96,7 +97,7 @@ export default function History() {
                 <>
                     {" "}
                     <main className="h-screen w-full max-w-[420px] mx-auto pb-[110px]">
-                        <div className="px-[25px] flex items-center bg-primary-low gap-1 py-[20px] justify-between">
+                        {/* <div className="px-[25px] flex items-center bg-primary-low gap-1 py-[20px] justify-between">
                             <h1 className="flex flex-col justify-center font-semibold leading-[17px] text-[20px]">
                                 History
                             </h1>
@@ -108,7 +109,8 @@ export default function History() {
                             >
                                 Logout
                             </button>
-                        </div>
+                        </div> */}
+                        <Header title={"History"} />
                         <div className="mt-[30px] flex flex-col gap-4 px-[20px] pb-[100px]">
                             {dummyData.map((item, index) => (
                                 <div

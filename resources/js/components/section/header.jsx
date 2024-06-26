@@ -1,7 +1,18 @@
 import React from "react";
 import { Inertia } from "@inertiajs/inertia";
 import Cookies from "js-cookie";
-import { Button, Popover, PopoverContent, PopoverTrigger } from "../ui/index";
+import {
+    Button,
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "../ui/index";
 
 export function Header({ title }) {
     return (
@@ -17,28 +28,29 @@ export function Header({ title }) {
                 </h1>
             </div>
 
-            <div className="relative">
-                <Popover>
+            <div className="bg-[#4600FF] bg-opacity-[10%] flex justify-center items-center h-[45px] w-[45px] rounded-full p-0">
+                <span className="text-[20px] pt-[4px] text-center leading-none">
+                    JD
+                </span>
+
+                {/* <Popover>
                     <PopoverTrigger
-                        className="bg-[#4600FF] bg-opacity-[10%] flex justify-center items-center h-[50px] w-[50px] rounded-full p-0"
+                       
                         // onClick={() => {
                         //     Cookies.remove("inventory_token");
                         //     Inertia.visit("/");
                         // }}
                     >
                         {" "}
-                        <span className="text-[20px] pt-[4px] text-center leading-none">
-                            JD
-                        </span>
+                        
                     </PopoverTrigger>
                     <PopoverContent className="w-auto">
                         <div>John Doe</div>
                         <div>johndoe@gmail.com</div>
-                        <Button className="text-[14px] mt-[10px] bg-red-800">
-                            Logout
-                        </Button>
+
+                        <LogoutDialog />
                     </PopoverContent>
-                </Popover>
+                </Popover> */}
                 {/* <button
                     
                 >
@@ -46,5 +58,25 @@ export function Header({ title }) {
                 </button> */}
             </div>
         </div>
+    );
+}
+
+export function LogoutDialog() {
+    return (
+        <Dialog>
+            <DialogTrigger className="w-full bg-red-800 text-white py-[5px] rounded-sm mt-[10px] text-[14px]">
+                Logout
+            </DialogTrigger>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>Are you absolutely sure?</DialogTitle>
+                    <DialogDescription>
+                        This action cannot be undone. This will permanently
+                        delete your account and remove your data from our
+                        servers.
+                    </DialogDescription>
+                </DialogHeader>
+            </DialogContent>
+        </Dialog>
     );
 }
