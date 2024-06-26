@@ -1,7 +1,7 @@
 import React from "react";
 import { Inertia } from "@inertiajs/inertia";
 import Cookies from "js-cookie";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/index";
+import { Button, Popover, PopoverContent, PopoverTrigger } from "../ui/index";
 
 export function Header({ title }) {
     return (
@@ -31,8 +31,12 @@ export function Header({ title }) {
                             JD
                         </span>
                     </PopoverTrigger>
-                    <PopoverContent className="">
-                        Place content for the popover here.
+                    <PopoverContent className="w-auto">
+                        <div>John Doe</div>
+                        <div>johndoe@gmail.com</div>
+                        <Button className="text-[14px] mt-[10px] bg-red-800">
+                            Logout
+                        </Button>
                     </PopoverContent>
                 </Popover>
                 {/* <button
