@@ -43,16 +43,50 @@ export function HistoryCard({
                     </p>
                 </div>
             </DialogTrigger>
-            <DialogContent>
-                {/* <DialogHeader>
-                    <DialogTitle>Are you absolutely sure?</DialogTitle>
-                    <DialogDescription>
-                        This action cannot be undone. This will permanently
-                        delete your account and remove your data from our
-                        servers.
-                    </DialogDescription>
-                </DialogHeader> */}
-                <div>Halo Dunia</div>
+            <DialogContent className="max-w-[349px]">
+                <div className="">
+                    <p className="max-w-max text-[12px] text-[#4E3984] rounded-[50px] px-[11px] py-[4px] bg-[#DACDFF]">
+                        {capitalizeFirstLetter(status)}
+                    </p>
+
+                    <h1 className="text-[20px] mt-[25px] font-semibold mb-[5px]">
+                        {name}
+                    </h1>
+                    <p className="text-start text-[14px]">{description_item}</p>
+
+                    <div className="mt-[21px]">
+                        <p className="text-[#3C3B3B] text-[12px]">Categories</p>
+                        <div className="bg-[#F0EBFF] max-w-max px-[7px] rounded-md py-[4px]">
+                            <p className="text-[#4E3984] text-[14px] rounded-[50px]">
+                                {category}
+                            </p>
+                        </div>
+                    </div>
+                    <div className="mt-[21px] flex gap-[20px]">
+                        <div>
+                            <p className="text-[#3C3B3B] text-[12px]">
+                                Borrowed Date{" "}
+                            </p>
+                            <div className="bg-[#F0EBFF] max-w-max px-[7px] rounded-md py-[4px]">
+                                <p className="text-[#4E3984] text-[14px] rounded-[50px]">
+                                    {formatDate(loan_date)}
+                                </p>
+                            </div>
+                        </div>
+                        {return_date && (
+                            <div>
+                                <p className="text-[#3C3B3B] text-[12px]">
+                                    Returned Date{" "}
+                                </p>
+                                <div className="bg-[#F0EBFF] max-w-max px-[7px] rounded-md py-[4px]">
+                                    <p className="text-[#4E3984] text-[14px] rounded-[50px]">
+                                        {formatDate(return_date)}
+                                    </p>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
             </DialogContent>
         </Dialog>
     );

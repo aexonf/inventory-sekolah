@@ -72,7 +72,7 @@ export default function History() {
                                 <EmptyHistory />
                             ) : (
                                 <>
-                                    {dummyData.map((item, index) => (
+                                    {history.map((item, index) => (
                                         <HistoryCard
                                             key={index}
                                             id={item.id}
