@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import Cookies from "js-cookie";
+import { Inertia } from "@inertiajs/inertia";
 
 import {
     Dialog,
@@ -24,9 +26,20 @@ export function LogoutButton() {
                     </DialogTitle>
                     <div className="flex gap-4 justify-center">
                         <button className="px-[11px] py-[5px] border-[1px] border-[#A589F0] text-[#A589F0] rounded-sm">
-                            <span className="mt-[15px] leading-3">Cancel</span>
+                            <span
+                                onClick={() => setOpenModal(false)}
+                                className="mt-[15px] leading-3"
+                            >
+                                Cancel
+                            </span>
                         </button>
-                        <button className="px-[11px] py-[5px] bg-[#A589F0] text-[#A589F0] rounded-sm">
+                        <button
+                            className="px-[11px] py-[5px] bg-[#A589F0] text-[#A589F0] rounded-sm"
+                            onClick={() => {
+                                Cookies.remove("inventory_token");
+                                Inertia.visit("/");
+                            }}
+                        >
                             <span className="mt-[15px] leading-3 text-white">
                                 Logout
                             </span>
