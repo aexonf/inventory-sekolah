@@ -16,7 +16,10 @@ class ProfileController extends Controller
         $lastActiveStudent = $user->student->activeStudents()->latest()->first();
         // Check if the user has a student relationship and if the student is active
         if (!$user->student || !$user->student->activeStudents()->exists()) {
-            abort(403, "User is not a student or is not active");
+            return response()->json([
+                "status" => "error",
+                "message" => "User is not a student or is not active. Please register as an active student."
+            ], 403);
         }
 
         $data = [

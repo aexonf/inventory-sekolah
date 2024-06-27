@@ -16,7 +16,10 @@ class HistoryLoanController extends Controller
         $lastActiveStudent = $user->student->activeStudents()->latest()->first();
         // Check if the user has a student relationship and if the student is active
         if (!$user->student || !$user->student->activeStudents()->exists()) {
-            abort(403, "User is not a student or is not active");
+            return response()->json([
+                "status" => "error",
+                "message" => "User is not a student or is not active. Please register as an active student with the admin.",
+            ], 403);
         }
 
         $items = Loans::with(["item", "activeStudents", "item.category"])->where("active_student_id",$lastActiveStudent->id)->get();
@@ -37,8 +40,6 @@ class HistoryLoanController extends Controller
 
          // Convert the array to an object to prevent the "Attempt to read property \"id\" on array" error
          $data = (object)$data;
-
-
 
         return response()->json([
             "status" => "success",
