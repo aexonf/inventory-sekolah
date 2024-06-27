@@ -64,7 +64,6 @@ export default function History() {
         <>
             {!isVerifyUser && (
                 <>
-                    {" "}
                     <main className="h-screen w-full max-w-[420px] mx-auto pb-[110px]">
                         <Header title={"History"} />
                         <div className="mt-[30px] flex flex-col gap-4 px-[20px] pb-[100px]">
