@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActiveStudents;
 use App\Models\Students;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -63,8 +64,20 @@ class AuthController extends Controller
                 "user_id" => $user->id,
             ]);
 
+            // Calculate the school year based on the current year
+            $currentYear = date('Y');
+            $nextYear = $currentYear + 1;
+            $schoolYear = $currentYear . "/" . $nextYear;
+
+            $activeStudent = ActiveStudents::create([
+                "student_id" => $student->id,
+                "class" => $request->class,
+                "generation" => $request->generation,
+                "school_year" => $schoolYear
+            ]);
+
             // If student creation is successful, return success response
-            if ($student) {
+            if ($activeStudent) {
                 return response()->json([
                     "status" => "success",
                     "message" => "Registration successful"
@@ -79,7 +92,6 @@ class AuthController extends Controller
             "message" => "Registration failed"
         ], 422);
     }
-
 
     /**
      * Handle the login request.
