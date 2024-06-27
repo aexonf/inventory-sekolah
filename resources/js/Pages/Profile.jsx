@@ -3,7 +3,7 @@ import { Navigation } from "../components/ui/navigation";
 import axios from "axios";
 import { Inertia } from "@inertiajs/inertia";
 import Cookies from "js-cookie";
-import { Header } from "../components/section/index";
+import { Header, LogoutButton } from "../components/section/index";
 import { Mail, Phone, BookOpen, GraduationCap, MapPin } from "lucide-react";
 
 export default function History() {
@@ -138,6 +138,10 @@ export default function History() {
                                         <MapPin size={19} />
                                     </div>
                                 </div>
+                            </div>
+
+                            <div className="mt-[54px] w-full flex justify-center items-center">
+                                <LogoutButton />
                             </div>
                         </div>
                     </main>

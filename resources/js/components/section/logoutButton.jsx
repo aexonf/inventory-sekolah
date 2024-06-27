@@ -10,17 +10,28 @@ import {
 } from "../ui/index";
 
 export function LogoutButton() {
+    const [openModal, setOpenModal] = useState(false);
+
     return (
-        <Dialog>
-            <DialogTrigger>Open</DialogTrigger>
-            <DialogContent>
+        <Dialog open={openModal} onOpenChange={setOpenModal}>
+            <DialogTrigger className="py-[10px] px-[26px] bg-[#A589F0] max-w-max mx-auto text-white rounded-[50px]">
+                Logout
+            </DialogTrigger>
+            <DialogContent className="max-w-[270px] px-0 py-[23px]">
                 <DialogHeader>
-                    <DialogTitle>Are you absolutely sure?</DialogTitle>
-                    <DialogDescription>
-                        This action cannot be undone. This will permanently
-                        delete your account and remove your data from our
-                        servers.
-                    </DialogDescription>
+                    <DialogTitle className="font-medium text-[16px] text-center mb-[18px]">
+                        Are you sure you want to logout?
+                    </DialogTitle>
+                    <div className="flex gap-4 justify-center">
+                        <button className="px-[11px] py-[5px] border-[1px] border-[#A589F0] text-[#A589F0] rounded-sm">
+                            <span className="mt-[15px] leading-3">Cancel</span>
+                        </button>
+                        <button className="px-[11px] py-[5px] bg-[#A589F0] text-[#A589F0] rounded-sm">
+                            <span className="mt-[15px] leading-3 text-white">
+                                Logout
+                            </span>
+                        </button>
+                    </div>
                 </DialogHeader>
             </DialogContent>
         </Dialog>
