@@ -3,8 +3,31 @@ import { Navigation } from "../components/ui/navigation";
 import axios from "axios";
 import { Inertia } from "@inertiajs/inertia";
 import Cookies from "js-cookie";
-import { Header } from "../components/section/index";
+import { Header, HistoryCard } from "../components/section/index";
 import { History as HistoryIcon } from "lucide-react";
+
+const dummyData = [
+    {
+        id: 4,
+        name: "Bahasa Indonesia",
+        description_item:
+            "Buku ini adalah buku yang berisi tata cara  untuk belajar bahasa Indonesia dengan baik dan benar dan sopan dan bagus",
+        category: "Book",
+        loan_date: "2024-06-27 07:23:13",
+        return_date: null,
+        status: "borrowed",
+    },
+    {
+        id: 4,
+        name: "Bahasa Inggris",
+        description_item:
+            "Buku ini adalah buku yang berisi tata cara  untuk belajar bahasa Inggris dengan baik dan benar dan sopan dan bagus",
+        category: "Book",
+        loan_date: "2024-06-27 07:23:13",
+        return_date: null,
+        status: "returned",
+    },
+];
 
 export default function History() {
     const [isVerifyUser, setIsVerifyUser] = useState(true);
@@ -49,37 +72,49 @@ export default function History() {
                                 <EmptyHistory />
                             ) : (
                                 <>
-                                    {history.map((item, index) => (
-                                        <div
-                                            className="bg-[#E1D6FF] w-full bg-opacity-[25%] rounded-md px-[25px] py-[15px]"
+                                    {dummyData.map((item, index) => (
+                                        // <div
+                                        //     className="bg-[#E1D6FF] w-full bg-opacity-[25%] rounded-md px-[25px] py-[15px]"
+                                        //     key={index}
+                                        // >
+                                        //     <div className="flex flex-col">
+                                        //         <h1 className="font-medium text-[17px]">
+                                        //             {item.name}
+                                        //         </h1>
+                                        //         <p className="text-[13px]">
+                                        //             {item.description_item}
+                                        //         </p>
+                                        //         <p className="text-[13px]">
+                                        //             {item.loan_date}
+                                        //         </p>
+                                        //         <p className="text-[13px]">
+                                        //             {item.return_date === null
+                                        //                 ? "-"
+                                        //                 : item.return_date}
+                                        //         </p>
+                                        //         <p className="text-[13px]">
+                                        //             {item.category}
+                                        //         </p>
+                                        //         <p className="text-[13px]">
+                                        //             {item.status}
+                                        //         </p>
+                                        //     </div>
+                                        //     <p className="text-[13px] mt-[4px]">
+                                        //         Jumlah Pinjaman: {item.total}
+                                        //     </p>
+                                        // </div>
+                                        <HistoryCard
                                             key={index}
-                                        >
-                                            <div className="flex flex-col">
-                                                <h1 className="font-medium text-[17px]">
-                                                    {item.name}
-                                                </h1>
-                                                <p className="text-[13px]">
-                                                    {item.description_item}
-                                                </p>
-                                                <p className="text-[13px]">
-                                                    {item.loan_date}
-                                                </p>
-                                                <p className="text-[13px]">
-                                                    {item.return_date === null
-                                                        ? "-"
-                                                        : item.return_date}
-                                                </p>
-                                                <p className="text-[13px]">
-                                                    {item.category}
-                                                </p>
-                                                <p className="text-[13px]">
-                                                    {item.status}
-                                                </p>
-                                            </div>
-                                            <p className="text-[13px] mt-[4px]">
-                                                Jumlah Pinjaman: {item.total}
-                                            </p>
-                                        </div>
+                                            id={item.id}
+                                            name={item.name}
+                                            description_item={
+                                                item.description_item
+                                            }
+                                            category={item.category}
+                                            loan_date={item.loan_date}
+                                            return_date={item.return_date}
+                                            status={item.status}
+                                        />
                                     ))}
                                 </>
                             )}
