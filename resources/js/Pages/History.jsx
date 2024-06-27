@@ -73,36 +73,6 @@ export default function History() {
                             ) : (
                                 <>
                                     {dummyData.map((item, index) => (
-                                        // <div
-                                        //     className="bg-[#E1D6FF] w-full bg-opacity-[25%] rounded-md px-[25px] py-[15px]"
-                                        //     key={index}
-                                        // >
-                                        //     <div className="flex flex-col">
-                                        //         <h1 className="font-medium text-[17px]">
-                                        //             {item.name}
-                                        //         </h1>
-                                        //         <p className="text-[13px]">
-                                        //             {item.description_item}
-                                        //         </p>
-                                        //         <p className="text-[13px]">
-                                        //             {item.loan_date}
-                                        //         </p>
-                                        //         <p className="text-[13px]">
-                                        //             {item.return_date === null
-                                        //                 ? "-"
-                                        //                 : item.return_date}
-                                        //         </p>
-                                        //         <p className="text-[13px]">
-                                        //             {item.category}
-                                        //         </p>
-                                        //         <p className="text-[13px]">
-                                        //             {item.status}
-                                        //         </p>
-                                        //     </div>
-                                        //     <p className="text-[13px] mt-[4px]">
-                                        //         Jumlah Pinjaman: {item.total}
-                                        //     </p>
-                                        // </div>
                                         <HistoryCard
                                             key={index}
                                             id={item.id}
