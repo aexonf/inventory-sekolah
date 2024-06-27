@@ -44,14 +44,15 @@ export function HistoryCard({
                 </div>
             </DialogTrigger>
             <DialogContent>
-                <DialogHeader>
+                {/* <DialogHeader>
                     <DialogTitle>Are you absolutely sure?</DialogTitle>
                     <DialogDescription>
                         This action cannot be undone. This will permanently
                         delete your account and remove your data from our
                         servers.
                     </DialogDescription>
-                </DialogHeader>
+                </DialogHeader> */}
+                <div>Halo Dunia</div>
             </DialogContent>
         </Dialog>
     );
