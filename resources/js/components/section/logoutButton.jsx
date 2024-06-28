@@ -16,7 +16,7 @@ export function LogoutButton() {
 
     return (
         <Dialog open={openModal} onOpenChange={setOpenModal}>
-            <DialogTrigger className="py-[10px] px-[26px] bg-[#A589F0] max-w-max mx-auto text-white rounded-[50px]">
+            <DialogTrigger className="py-[5px] px-[20px] bg-[#A589F0] max-w-max mx-auto text-white rounded-[50px]">
                 Logout
             </DialogTrigger>
             <DialogContent className="max-w-[270px] px-0 py-[23px]">
