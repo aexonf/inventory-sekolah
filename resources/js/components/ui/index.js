@@ -6,3 +6,5 @@ export * from "./sonner";
 export * from "./popover";
 export * from "./dialog";
 export * from "./select";
+export * from "./form";
+export * from "./label";

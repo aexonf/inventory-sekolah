@@ -1,11 +1,56 @@
 import React, { useState, useEffect } from "react";
-import { Input, Button } from "../components/ui/index";
+import {
+    Input,
+    Button,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "../components/ui/index";
 import { Link } from "@inertiajs/inertia-react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { Inertia } from "@inertiajs/inertia";
 import Cookies from "js-cookie";
 import { Info } from "lucide-react";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { z } from "zod";
+
+const formSchema = z.object({
+    username: z.string().min(1, {
+        message: "Username is Empty",
+    }),
+    email: z.string().min(1, {
+        message: "Email is Empty",
+    }),
+    password: z.string().min(1, {
+        message: "Password is Empty",
+    }),
+    id_number: z.string().min(1, {
+        message: "Student identification number is Empty",
+    }),
+    address: z.string().min(1, {
+        message: "Address is Empty",
+    }),
+    phone_number: z.string().min(1, {
+        message: "Phone Number is Empty",
+    }),
+    student_class: z.string().min(1, {
+        message: "Class is Empty",
+    }),
+    student_generation: z.string().min(1, {
+        message: "Class Level is Empty",
+    }),
+});
 
 export default function Register() {
     const {
@@ -14,13 +59,35 @@ export default function Register() {
         watch,
         formState: { errors },
     } = useForm();
+    const form = useForm({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            username: "",
+            email: "",
+            password: "",
+            id_number: "",
+            address: "",
+            phone_number: "",
+            student_class: "",
+            student_generation: "",
+        },
+    });
+
     const [isLoading, setIsLoading] = useState(false);
     const [verifyLoading, setIsVerifyLoading] = useState(true);
     const inventoryToken = Cookies.get("inventory_token");
 
     const onSubmit = async (data) => {
-        const { username, email, password, id_number, address, phone_number } =
-            data;
+        const {
+            username,
+            email,
+            password,
+            id_number,
+            address,
+            phone_number,
+            student_class,
+            student_generation,
+        } = data;
         const body = {
             username: username.trim(),
             email: email,
@@ -28,18 +95,21 @@ export default function Register() {
             id_number: id_number,
             address: address,
             phone_number: phone_number,
+            class: student_class,
+            generation: student_generation,
         };
 
-        if (
-            body.username === "" ||
-            body.email === "" ||
-            body.password === "" ||
-            body.id_number === "" ||
-            body.address === "" ||
-            body.phone_number === ""
-        ) {
-            return;
-        }
+        // if (
+        //     body.username === "" ||
+        //     body.email === "" ||
+        //     body.password === "" ||
+        //     body.id_number === "" ||
+        //     body.address === "" ||
+        //     body.phone_number === ""
+        // ) {
+        //     console.log(data);
+        //     return;
+        // }
         setIsLoading(true);
         try {
             const postData = await axios.post("/api/v1/auth/register", body);
@@ -96,7 +166,7 @@ export default function Register() {
                         </h1>
                         <p className="text-center">Create a New Account</p>
                     </div>
-                    <form
+                    {/* <form
                         className="flex flex-col gap-8 rounded-md px-[30px] w-full"
                         onSubmit={handleSubmit(onSubmit)}
                     >
@@ -262,9 +332,10 @@ export default function Register() {
                             )}
                         </label>
 
-                        <div>
+                     
+                        <div className="w-full">
                             <Button
-                                className="bg-[#A27FFE] mt-[50px]"
+                                className="w-full bg-[#A27FFE] mt-[50px]"
                                 disable={isLoading}
                             >
                                 <span className="text-lg">Register</span>
@@ -279,7 +350,241 @@ export default function Register() {
                                 </Link>
                             </p>
                         </div>
-                    </form>
+                    </form> */}
+                    <Form {...form}>
+                        <form
+                            onSubmit={form.handleSubmit(onSubmit)}
+                            className="flex flex-col gap-8 rounded-md px-[30px] w-full"
+                        >
+                            <FormField
+                                control={form.control}
+                                name="username"
+                                render={({ field }) => {
+                                    console.log();
+                                    return (
+                                        <FormItem className="space-y-0">
+                                            <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
+                                                Username
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="shadcn"
+                                                    {...field}
+                                                    className={`${
+                                                        form.formState.errors
+                                                            .username &&
+                                                        "outline-red-500 focus:outline-red-400"
+                                                    }`}
+                                                />
+                                            </FormControl>
+                                            {form.formState.errors.username && (
+                                                <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
+                                                    <Info size={14} />
+                                                    <FormMessage className="text-[13px] mt-[3px] leading-none" />
+                                                </div>
+                                            )}
+                                        </FormItem>
+                                    );
+                                }}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="email"
+                                render={({ field }) => {
+                                    console.log();
+                                    return (
+                                        <FormItem className="space-y-0">
+                                            <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
+                                                Email
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="shadcn"
+                                                    {...field}
+                                                    className={`${
+                                                        form.formState.errors
+                                                            .email &&
+                                                        "outline-red-500 focus:outline-red-400"
+                                                    }`}
+                                                />
+                                            </FormControl>
+                                            {form.formState.errors.email && (
+                                                <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
+                                                    <Info size={14} />
+                                                    <FormMessage className="text-[13px] mt-[3px] leading-none" />
+                                                </div>
+                                            )}
+                                        </FormItem>
+                                    );
+                                }}
+                            />{" "}
+                            <FormField
+                                control={form.control}
+                                name="password"
+                                render={({ field }) => {
+                                    console.log();
+                                    return (
+                                        <FormItem className="space-y-0">
+                                            <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
+                                                Password
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="shadcn"
+                                                    {...field}
+                                                    className={`${
+                                                        form.formState.errors
+                                                            .password &&
+                                                        "outline-red-500 focus:outline-red-400"
+                                                    }`}
+                                                />
+                                            </FormControl>
+                                            {form.formState.errors.password && (
+                                                <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
+                                                    <Info size={14} />
+                                                    <FormMessage className="text-[13px] mt-[3px] leading-none" />
+                                                </div>
+                                            )}
+                                        </FormItem>
+                                    );
+                                }}
+                            />{" "}
+                            <FormField
+                                control={form.control}
+                                name="id_number"
+                                render={({ field }) => {
+                                    console.log();
+                                    return (
+                                        <FormItem className="space-y-0">
+                                            <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
+                                                Student identification number
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="shadcn"
+                                                    {...field}
+                                                    className={`${
+                                                        form.formState.errors
+                                                            .id_number &&
+                                                        "outline-red-500 focus:outline-red-400"
+                                                    }`}
+                                                />
+                                            </FormControl>
+                                            {form.formState.errors
+                                                .id_number && (
+                                                <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
+                                                    <Info size={14} />
+                                                    <FormMessage className="text-[13px] mt-[3px] leading-none" />
+                                                </div>
+                                            )}
+                                        </FormItem>
+                                    );
+                                }}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="phone_number"
+                                render={({ field }) => {
+                                    console.log();
+                                    return (
+                                        <FormItem className="space-y-0">
+                                            <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
+                                                Phone Number
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="shadcn"
+                                                    {...field}
+                                                    className={`${
+                                                        form.formState.errors
+                                                            .phone_number &&
+                                                        "outline-red-500 focus:outline-red-400"
+                                                    }`}
+                                                />
+                                            </FormControl>
+                                            {form.formState.errors
+                                                .phone_number && (
+                                                <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
+                                                    <Info size={14} />
+                                                    <FormMessage className="text-[13px] mt-[3px] leading-none" />
+                                                </div>
+                                            )}
+                                        </FormItem>
+                                    );
+                                }}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="student_class"
+                                render={({ field }) => {
+                                    console.log();
+                                    return (
+                                        <FormItem className="space-y-0">
+                                            <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
+                                                Class
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="shadcn"
+                                                    {...field}
+                                                    className={`${
+                                                        form.formState.errors
+                                                            .student_class &&
+                                                        "outline-red-500 focus:outline-red-400"
+                                                    }`}
+                                                />
+                                            </FormControl>
+                                            {form.formState.errors
+                                                .student_class && (
+                                                <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
+                                                    <Info size={14} />
+                                                    <FormMessage className="text-[13px] mt-[3px] leading-none" />
+                                                </div>
+                                            )}
+                                        </FormItem>
+                                    );
+                                }}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="student_generation"
+                                render={({ field }) => {
+                                    console.log();
+                                    return (
+                                        <FormItem className="space-y-0">
+                                            <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
+                                                Class Level
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="shadcn"
+                                                    {...field}
+                                                    className={`${
+                                                        form.formState.errors
+                                                            .student_generation &&
+                                                        "outline-red-500 focus:outline-red-400"
+                                                    }`}
+                                                />
+                                            </FormControl>
+                                            {form.formState.errors
+                                                .student_generation && (
+                                                <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
+                                                    <Info size={14} />
+                                                    <FormMessage className="text-[13px] mt-[3px] leading-none" />
+                                                </div>
+                                            )}
+                                        </FormItem>
+                                    );
+                                }}
+                            />
+                            <Button
+                                className="bg-[#A27FFE] mt-[50px] hover:bg-[#a888f8]"
+                                type="submit"
+                            >
+                                Register
+                            </Button>
+                        </form>
+                    </Form>
                 </div>
             )}
         </>
