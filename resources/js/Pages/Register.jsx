@@ -359,230 +359,233 @@ export default function Register() {
                             <FormField
                                 control={form.control}
                                 name="username"
-                                render={({ field }) => {
-                                    console.log();
-                                    return (
-                                        <FormItem className="space-y-0">
-                                            <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
-                                                Username
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    placeholder="shadcn"
-                                                    {...field}
-                                                    className={`${
-                                                        form.formState.errors
-                                                            .username &&
-                                                        "outline-red-500 focus:outline-red-400"
-                                                    }`}
-                                                />
-                                            </FormControl>
-                                            {form.formState.errors.username && (
-                                                <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
-                                                    <Info size={14} />
-                                                    <FormMessage className="text-[13px] mt-[3px] leading-none" />
-                                                </div>
-                                            )}
-                                        </FormItem>
-                                    );
-                                }}
+                                render={({ field }) => (
+                                    <FormItem className="space-y-0">
+                                        <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
+                                            Username
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                placeholder="Name. . ."
+                                                {...field}
+                                                className={`${
+                                                    form.formState.errors
+                                                        .username &&
+                                                    "outline-red-500 focus:outline-red-400"
+                                                }`}
+                                            />
+                                        </FormControl>
+                                        {form.formState.errors.username && (
+                                            <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
+                                                <Info size={14} />
+                                                <FormMessage className="text-[13px] mt-[3px] leading-none" />
+                                            </div>
+                                        )}
+                                    </FormItem>
+                                )}
                             />
                             <FormField
                                 control={form.control}
                                 name="email"
-                                render={({ field }) => {
-                                    console.log();
-                                    return (
-                                        <FormItem className="space-y-0">
-                                            <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
-                                                Email
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    placeholder="shadcn"
-                                                    {...field}
-                                                    className={`${
-                                                        form.formState.errors
-                                                            .email &&
-                                                        "outline-red-500 focus:outline-red-400"
-                                                    }`}
-                                                />
-                                            </FormControl>
-                                            {form.formState.errors.email && (
-                                                <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
-                                                    <Info size={14} />
-                                                    <FormMessage className="text-[13px] mt-[3px] leading-none" />
-                                                </div>
-                                            )}
-                                        </FormItem>
-                                    );
-                                }}
+                                render={({ field }) => (
+                                    <FormItem className="space-y-0">
+                                        <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
+                                            Email
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                placeholder="Email. . ."
+                                                {...field}
+                                                className={`${
+                                                    form.formState.errors
+                                                        .email &&
+                                                    "outline-red-500 focus:outline-red-400"
+                                                }`}
+                                                type="email"
+                                            />
+                                        </FormControl>
+                                        {form.formState.errors.email && (
+                                            <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
+                                                <Info size={14} />
+                                                <FormMessage className="text-[13px] mt-[3px] leading-none" />
+                                            </div>
+                                        )}
+                                    </FormItem>
+                                )}
                             />{" "}
                             <FormField
                                 control={form.control}
                                 name="password"
-                                render={({ field }) => {
-                                    console.log();
-                                    return (
-                                        <FormItem className="space-y-0">
-                                            <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
-                                                Password
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    placeholder="shadcn"
-                                                    {...field}
-                                                    className={`${
-                                                        form.formState.errors
-                                                            .password &&
-                                                        "outline-red-500 focus:outline-red-400"
-                                                    }`}
-                                                />
-                                            </FormControl>
-                                            {form.formState.errors.password && (
-                                                <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
-                                                    <Info size={14} />
-                                                    <FormMessage className="text-[13px] mt-[3px] leading-none" />
-                                                </div>
-                                            )}
-                                        </FormItem>
-                                    );
-                                }}
+                                render={({ field }) => (
+                                    <FormItem className="space-y-0">
+                                        <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
+                                            Password
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                placeholder="Password. . ."
+                                                {...field}
+                                                className={`${
+                                                    form.formState.errors
+                                                        .password &&
+                                                    "outline-red-500 focus:outline-red-400"
+                                                }`}
+                                                type="password"
+                                            />
+                                        </FormControl>
+                                        {form.formState.errors.password && (
+                                            <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
+                                                <Info size={14} />
+                                                <FormMessage className="text-[13px] mt-[3px] leading-none" />
+                                            </div>
+                                        )}
+                                    </FormItem>
+                                )}
                             />{" "}
                             <FormField
                                 control={form.control}
                                 name="id_number"
-                                render={({ field }) => {
-                                    console.log();
-                                    return (
-                                        <FormItem className="space-y-0">
-                                            <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
-                                                Student identification number
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    placeholder="shadcn"
-                                                    {...field}
-                                                    className={`${
-                                                        form.formState.errors
-                                                            .id_number &&
-                                                        "outline-red-500 focus:outline-red-400"
-                                                    }`}
-                                                />
-                                            </FormControl>
-                                            {form.formState.errors
-                                                .id_number && (
-                                                <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
-                                                    <Info size={14} />
-                                                    <FormMessage className="text-[13px] mt-[3px] leading-none" />
-                                                </div>
-                                            )}
-                                        </FormItem>
-                                    );
-                                }}
+                                render={({ field }) => (
+                                    <FormItem className="space-y-0">
+                                        <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
+                                            Student Identification Number
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                placeholder="Student Identification Number. . ."
+                                                {...field}
+                                                className={`${
+                                                    form.formState.errors
+                                                        .id_number &&
+                                                    "outline-red-500 focus:outline-red-400"
+                                                }`}
+                                            />
+                                        </FormControl>
+                                        {form.formState.errors.id_number && (
+                                            <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
+                                                <Info size={14} />
+                                                <FormMessage className="text-[13px] mt-[3px] leading-none" />
+                                            </div>
+                                        )}
+                                    </FormItem>
+                                )}
                             />
                             <FormField
                                 control={form.control}
                                 name="phone_number"
-                                render={({ field }) => {
-                                    console.log();
-                                    return (
-                                        <FormItem className="space-y-0">
-                                            <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
-                                                Phone Number
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    placeholder="shadcn"
-                                                    {...field}
-                                                    className={`${
-                                                        form.formState.errors
-                                                            .phone_number &&
-                                                        "outline-red-500 focus:outline-red-400"
-                                                    }`}
-                                                />
-                                            </FormControl>
-                                            {form.formState.errors
-                                                .phone_number && (
-                                                <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
-                                                    <Info size={14} />
-                                                    <FormMessage className="text-[13px] mt-[3px] leading-none" />
-                                                </div>
-                                            )}
-                                        </FormItem>
-                                    );
-                                }}
+                                render={({ field }) => (
+                                    <FormItem className="space-y-0">
+                                        <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
+                                            Phone Number
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                placeholder="Phone Number. . ."
+                                                {...field}
+                                                className={`${
+                                                    form.formState.errors
+                                                        .phone_number &&
+                                                    "outline-red-500 focus:outline-red-400"
+                                                }`}
+                                            />
+                                        </FormControl>
+                                        {form.formState.errors.phone_number && (
+                                            <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
+                                                <Info size={14} />
+                                                <FormMessage className="text-[13px] mt-[3px] leading-none" />
+                                            </div>
+                                        )}
+                                    </FormItem>
+                                )}
                             />
                             <FormField
                                 control={form.control}
                                 name="student_class"
-                                render={({ field }) => {
-                                    console.log();
-                                    return (
-                                        <FormItem className="space-y-0">
-                                            <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
-                                                Class
-                                            </FormLabel>
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Class</FormLabel>
+                                        <Select
+                                            onValueChange={field.onChange}
+                                            defaultValue={field.value}
+                                        >
                                             <FormControl>
-                                                <Input
-                                                    placeholder="shadcn"
-                                                    {...field}
-                                                    className={`${
-                                                        form.formState.errors
-                                                            .student_class &&
-                                                        "outline-red-500 focus:outline-red-400"
-                                                    }`}
-                                                />
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Select Class" />
+                                                </SelectTrigger>
                                             </FormControl>
-                                            {form.formState.errors
-                                                .student_class && (
-                                                <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
-                                                    <Info size={14} />
-                                                    <FormMessage className="text-[13px] mt-[3px] leading-none" />
-                                                </div>
-                                            )}
-                                        </FormItem>
-                                    );
-                                }}
+                                            <SelectContent>
+                                                <SelectItem value="PPLG 1">
+                                                    PPLG 1
+                                                </SelectItem>
+                                                <SelectItem value="PPLG 2">
+                                                    PPLG 2
+                                                </SelectItem>
+                                                <SelectItem value="PPLG 3">
+                                                    PPLG 3
+                                                </SelectItem>
+                                            </SelectContent>
+                                        </Select>
+
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
                             />
                             <FormField
                                 control={form.control}
                                 name="student_generation"
-                                render={({ field }) => {
-                                    console.log();
-                                    return (
-                                        <FormItem className="space-y-0">
-                                            <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
-                                                Class Level
-                                            </FormLabel>
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Class Level</FormLabel>
+                                        <Select
+                                            onValueChange={field.onChange}
+                                            defaultValue={field.value}
+                                        >
                                             <FormControl>
-                                                <Input
-                                                    placeholder="shadcn"
-                                                    {...field}
-                                                    className={`${
-                                                        form.formState.errors
-                                                            .student_generation &&
-                                                        "outline-red-500 focus:outline-red-400"
-                                                    }`}
-                                                />
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Select Class Level" />
+                                                </SelectTrigger>
                                             </FormControl>
-                                            {form.formState.errors
-                                                .student_generation && (
-                                                <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
-                                                    <Info size={14} />
-                                                    <FormMessage className="text-[13px] mt-[3px] leading-none" />
-                                                </div>
-                                            )}
-                                        </FormItem>
-                                    );
-                                }}
+                                            <SelectContent>
+                                                <SelectItem value="X">
+                                                    X
+                                                </SelectItem>
+                                                <SelectItem value="XI">
+                                                    XI
+                                                </SelectItem>
+                                                <SelectItem value="XII">
+                                                    XII
+                                                </SelectItem>
+                                            </SelectContent>
+                                        </Select>
+
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
                             />
-                            <Button
+                            <div className="w-full">
+                                <Button
+                                    className="w-full bg-[#A27FFE] mt-[50px] hover:bg-[#b295fb]"
+                                    disable={isLoading}
+                                    type="submit"
+                                >
+                                    <span className="text-lg">Register</span>
+                                </Button>
+                                <p className="text-center text-[13px] mt-[6px]">
+                                    Already have an account ?{" "}
+                                    <Link
+                                        href="/login"
+                                        className="text-[#A27FFE] font-semibold hover:underline"
+                                    >
+                                        Login
+                                    </Link>
+                                </p>
+                            </div>
+                            {/* <Button
                                 className="bg-[#A27FFE] mt-[50px] hover:bg-[#a888f8]"
                                 type="submit"
                             >
                                 Register
-                            </Button>
+                            </Button> */}
                         </form>
                     </Form>
                 </div>
