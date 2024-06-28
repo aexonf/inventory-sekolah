@@ -183,7 +183,7 @@ export default function Register() {
 
                         <label htmlFor="nis" className="flex flex-col">
                             <span className="text-neutral-800 leading-3 mb-[6px]">
-                                Nis
+                                Student identification number
                             </span>
                             <Input
                                 {...register("id_number", {
@@ -192,7 +192,7 @@ export default function Register() {
                                 value={watch("id_number")}
                                 id="nis"
                                 type="text"
-                                placeholder="Nis. . ."
+                                placeholder="Student identification number. . ."
                                 className={`${
                                     errors.id_number &&
                                     "outline-red-500 focus:outline-red-400"
@@ -210,7 +210,7 @@ export default function Register() {
 
                         <label htmlFor="no" className="flex flex-col">
                             <span className="text-neutral-800 leading-3 mb-[6px]">
-                                No HP
+                                Phone Number
                             </span>
                             <Input
                                 {...register("phone_number", {
@@ -219,7 +219,7 @@ export default function Register() {
                                 value={watch("phone_number")}
                                 id="no"
                                 type="text"
-                                placeholder="No. . ."
+                                placeholder="Phone Number. . ."
                                 className={`${
                                     errors.phone_number &&
                                     "outline-red-500 focus:outline-red-400"
