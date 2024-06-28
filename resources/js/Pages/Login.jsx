@@ -1,12 +1,34 @@
 import React, { useState, useEffect } from "react";
-import { Input, Button } from "../components/ui/index";
+import {
+    Input,
+    Button,
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "../components/ui/index";
 import { Link } from "@inertiajs/inertia-react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Inertia } from "@inertiajs/inertia";
 import Cookies from "js-cookie";
 import { Toaster, toast } from "sonner";
 import { Info } from "lucide-react";
+import { z } from "zod";
+
+const formSchema = z.object({
+    username: z.string().min(1, {
+        message: "Username is Empty",
+    }),
+
+    password: z.string().min(1, {
+        message: "Password is Empty",
+    }),
+});
 
 export default function Login() {
     const {
@@ -15,6 +37,13 @@ export default function Login() {
         watch,
         formState: { errors },
     } = useForm();
+    const form = useForm({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            username: "",
+            password: "",
+        },
+    });
     const [isLoading, setIsLoading] = useState(false);
     const [verifyLoading, setIsVerifyLoading] = useState(true);
     const inventoryToken = Cookies.get("inventory_token");
@@ -26,9 +55,9 @@ export default function Login() {
             password: password,
         };
 
-        if (body.username === "" || body.password === "") {
-            return;
-        }
+        // if (body.username === "" || body.password === "") {
+        //     return;
+        // }
         setIsLoading(true);
         try {
             const { data: postData } = await axios.post(
@@ -101,7 +130,91 @@ export default function Login() {
                                 Enter your Credentiol for Login{" "}
                             </p>
                         </div>
-                        <form
+                        <Form {...form}>
+                            <form
+                                onSubmit={form.handleSubmit(onSubmit)}
+                                className="flex flex-col gap-8 rounded-md px-[30px] w-full"
+                            >
+                                <FormField
+                                    control={form.control}
+                                    name="username"
+                                    render={({ field }) => (
+                                        <FormItem className="space-y-0">
+                                            <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
+                                                Username
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="Name. . ."
+                                                    {...field}
+                                                    className={`${
+                                                        form.formState.errors
+                                                            .username &&
+                                                        "outline-red-500 focus:outline-red-400"
+                                                    }`}
+                                                />
+                                            </FormControl>
+                                            {form.formState.errors.username && (
+                                                <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
+                                                    <Info size={14} />
+                                                    <FormMessage className="text-[13px] mt-[3px] leading-none" />
+                                                </div>
+                                            )}
+                                        </FormItem>
+                                    )}
+                                />
+
+                                <FormField
+                                    control={form.control}
+                                    name="password"
+                                    render={({ field }) => (
+                                        <FormItem className="space-y-0">
+                                            <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
+                                                Password
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="Password. . ."
+                                                    {...field}
+                                                    className={`${
+                                                        form.formState.errors
+                                                            .password &&
+                                                        "outline-red-500 focus:outline-red-400"
+                                                    }`}
+                                                    type="password"
+                                                />
+                                            </FormControl>
+                                            {form.formState.errors.password && (
+                                                <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
+                                                    <Info size={14} />
+                                                    <FormMessage className="text-[13px] mt-[3px] leading-none" />
+                                                </div>
+                                            )}
+                                        </FormItem>
+                                    )}
+                                />
+
+                                <div className="w-full">
+                                    <Button
+                                        className="w-full bg-[#A27FFE] mt-[50px] hover:bg-[#b295fb]"
+                                        disable={isLoading}
+                                        type="submit"
+                                    >
+                                        <span className="text-lg">Login</span>
+                                    </Button>
+                                    <p className="text-center text-[13px] mt-[6px]">
+                                        Don’t have an account ?{" "}
+                                        <Link
+                                            href="/register"
+                                            className="text-[#A27FFE] font-semibold hover:underline"
+                                        >
+                                            Register
+                                        </Link>
+                                    </p>
+                                </div>
+                            </form>
+                        </Form>
+                        {/* <form
                             className="flex flex-col gap-8 rounded-md px-[30px] w-full"
                             onSubmit={handleSubmit(onSubmit)}
                         >
@@ -171,7 +284,7 @@ export default function Login() {
                                     </Link>
                                 </p>
                             </div>
-                        </form>
+                        </form> */}
                     </div>
                 </>
             )}
