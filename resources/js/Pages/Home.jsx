@@ -17,11 +17,28 @@ const Home = () => {
     const [isLoading, setIsLoading] = useState(true);
     const inventoryToken = Cookies.get("inventory_token");
 
-    const handleScan = useCallback((data) => {
+    const handleScan = useCallback(async (data) => {
         if (data) {
             setAlertOpen(true);
             setResult(data);
-            console.log(data);
+            try {
+                const body = {
+                    item_id: Number(data.text),
+                };
+                const { data: postData } = await axios.post(
+                    "/api/v1/scan-qr/loan",
+                    body,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${inventoryToken}`,
+                        },
+                    }
+                );
+                // console.log(postData);
+            } catch (error) {
+                console.log(error);
+            }
+            console.log(data.text);
         }
     }, []);
 
@@ -91,7 +108,7 @@ const Home = () => {
                                             onScan={handleScan}
                                         />
                                         <Button
-                                            className="mt-[23px]"
+                                            className="mt-[23px] w-full bg-[#bda5ff] hover:bg-[#a788fd]"
                                             onClick={toggleScanner}
                                         >
                                             Cancel Scan
@@ -146,7 +163,7 @@ const Home = () => {
                                     </p>
 
                                     <Button
-                                        className="mt-[17px] font-semibold"
+                                        className="w-full bg-[#bda5ff] hover:bg-[#a788fd] mt-[17px] font-semibold"
                                         disabled={alertOpen}
                                         onClick={toggleScanner}
                                     >
