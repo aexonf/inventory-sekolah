@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import { Button, Card, Navigation } from "../components/ui/index";
 import { CircleUserRound } from "lucide-react";
 import QrReader from "react-qr-scanner";
@@ -9,17 +9,23 @@ import axios from "axios";
 import { Inertia } from "@inertiajs/inertia";
 import Cookies from "js-cookie";
 import { Header } from "../components/section/index";
+import QrScanner from "qr-scanner";
 
 const Home = () => {
     const [result, setResult] = useState("");
     const [isScannerOpen, setIsScannerOpen] = useState(false);
     const [alertOpen, setAlertOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [facingMode, setFacingMode] = useState("environment");
+    const videoRef = useRef(null);
+    const qrScannerRef = useRef(null);
     const inventoryToken = Cookies.get("inventory_token");
 
     const handleScan = useCallback(async (data) => {
         if (data) {
             setAlertOpen(true);
+            qrScannerRef.current?.stop();
+            setIsScannerOpen(false);
             setResult(data);
             try {
                 const body = {
@@ -38,7 +44,7 @@ const Home = () => {
             } catch (error) {
                 console.log(error);
             }
-            console.log(data.text);
+            console.log(data);
         }
     }, []);
 
@@ -46,19 +52,64 @@ const Home = () => {
         console.error(err);
     }, []);
 
-    const previewStyle = {
-        height: "360px",
-        width: "100%",
-        objectFit: "cover",
-        borderRadius: "10px",
+    const initializeScanner = () => {
+        if (qrScannerRef.current) {
+            qrScannerRef.current.stop();
+        }
+
+        if (videoRef.current) {
+            qrScannerRef.current = new QrScanner(
+                videoRef.current,
+                (result) => handleScan(result),
+                {
+                    preferredCamera: "environment",
+                    highlightScanRegion: false,
+                    highlightCodeOutline: true,
+                }
+            );
+            qrScannerRef.current.start().catch(handleError);
+        }
     };
 
     const toggleScanner = () => {
-        setIsScannerOpen((prevState) => !prevState);
+        if (isScannerOpen) {
+            qrScannerRef.current?.stop();
+        } else {
+            initializeScanner();
+        }
+        setIsScannerOpen(!isScannerOpen);
         setResult("");
     };
 
-    //console.log(result);
+    useEffect(() => {
+        getPreferredCamera();
+    }, []);
+
+    useEffect(() => {
+        if (isScannerOpen) {
+            initializeScanner();
+        }
+    }, [isScannerOpen]);
+
+    const getPreferredCamera = async () => {
+        try {
+            const devices = await navigator.mediaDevices.enumerateDevices();
+            const videoDevices = devices.filter(
+                (device) => device.kind === "videoinput"
+            );
+            const hasBackCamera = videoDevices.some((device) =>
+                device.label.toLowerCase().includes("back")
+            );
+
+            if (window.innerWidth > 768) {
+                setFacingMode("environment");
+            } else {
+                setFacingMode("environment");
+            }
+        } catch (error) {
+            console.error("Error getting preferred camera:", error);
+        }
+    };
 
     const getData = async () => {
         setIsLoading(true);
@@ -98,14 +149,17 @@ const Home = () => {
                                     : "w-[320px] h-[330px] px-[30px]"
                             } mt-[50px] mx-auto transition-all duration-150 flex flex-col items-center  rounded-[10px] py-[20px] bg-[#F7F4FF]`}
                         >
-                            {isScannerOpen && result === "" ? (
+                            {isScannerOpen ? (
                                 <>
                                     <div className="w-full">
-                                        <QrReader
-                                            delay={100}
-                                            style={previewStyle}
-                                            onError={handleError}
-                                            onScan={handleScan}
+                                        <video
+                                            ref={videoRef}
+                                            style={{
+                                                height: "360px",
+                                                width: "100%",
+                                                objectFit: "cover",
+                                                borderRadius: "10px",
+                                            }}
                                         />
                                         <Button
                                             className="mt-[23px] w-full bg-[#bda5ff] hover:bg-[#a788fd]"
@@ -118,7 +172,7 @@ const Home = () => {
                             ) : (
                                 <>
                                     {alertOpen && result !== "" ? (
-                                        <div className="w-full bg-[#F2EFFB] border-[1.5px] border-solid border-[#D1C6ED] absolute top-[20px] z-20 pt-[11px] px-[15px] pb-[11px] rounded-md">
+                                        <div className="w-[90%] bg-[#F2EFFB] border-[1.5px] border-solid border-[#D1C6ED] absolute top-[20px] z-20 pt-[11px] px-[15px] pb-[11px] rounded-md">
                                             <div className="flex justify-between items-center">
                                                 <div className="flex items-center gap-2">
                                                     <img
@@ -126,7 +180,7 @@ const Home = () => {
                                                         alt=""
                                                     />
                                                     <h1 className=" leading-3 p-0 m-0 h-auto flex pt-[3px] font-medium">
-                                                        Berhasil!
+                                                        Success!
                                                     </h1>
                                                 </div>
                                                 <Button
@@ -142,7 +196,7 @@ const Home = () => {
                                                 </Button>
                                             </div>
                                             <p className="ml-[25px] mt-[5px] text-[14px]">
-                                                QR Code anda berhasil dipindai
+                                                Your QR Code has been scanned
                                             </p>
                                         </div>
                                     ) : (
