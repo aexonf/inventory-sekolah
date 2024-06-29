@@ -5,6 +5,7 @@ import { Inertia } from "@inertiajs/inertia";
 import Cookies from "js-cookie";
 import { Header, LogoutButton } from "../components/section/index";
 import { Mail, Phone, BookOpen, GraduationCap, MapPin } from "lucide-react";
+import QRCode from "react-qr-code";
 
 export default function History() {
     const [isVerifyUser, setIsVerifyUser] = useState(true);
@@ -86,6 +87,20 @@ export default function History() {
                                     {userInformation.name}
                                 </h1>
                             </div>
+
+                            {userInformation.name && (
+                                <div className="flex justify-center">
+                                    <div className="rounded-sm p-[8px] bg-[#e0d9f4]">
+                                        <QRCode
+                                            title="GeeksForGeeks"
+                                            value={userInformation.name}
+                                            bgColor={"white"}
+                                            fgColor={"#000000"}
+                                            size={150}
+                                        />
+                                    </div>
+                                </div>
+                            )}
 
                             <div className="mt-[40px] flex flex-col gap-[21px] px-[30px]">
                                 <div>
