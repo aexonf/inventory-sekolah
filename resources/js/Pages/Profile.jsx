@@ -90,7 +90,7 @@ export default function History() {
 
                             {userInformation.name && (
                                 <div className="flex justify-center">
-                                    <div className="rounded-sm p-[8px] bg-[#e0d9f4]">
+                                    <div className=" p-[4px] bg-[#bba3fc]">
                                         <QRCode
                                             title="GeeksForGeeks"
                                             value={userInformation.name}

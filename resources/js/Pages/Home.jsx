@@ -29,7 +29,7 @@ const Home = () => {
             setResult(data);
             try {
                 const body = {
-                    item_id: Number(data.text),
+                    item_id: Number(data.data),
                 };
                 const { data: postData } = await axios.post(
                     "/api/v1/scan-qr/loan",
