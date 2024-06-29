@@ -128,7 +128,10 @@ export default function History() {
                                         Class
                                     </h1>
                                     <div className="bg-[#F4F0FF] rounded-sm flex items-center justify-between py-[7px] px-[17px]">
-                                        <p>PPLG XI</p>
+                                        <p>
+                                            {userInformation.generation}{" "}
+                                            {userInformation.class}
+                                        </p>
 
                                         <BookOpen size={19} />
                                     </div>
