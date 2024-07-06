@@ -9,3 +9,4 @@ export * from "./select";
 export * from "./form";
 export * from "./label";
 export * from "./tabs";
+export * from "./menubar";

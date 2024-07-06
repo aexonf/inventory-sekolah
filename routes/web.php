@@ -89,6 +89,10 @@ Route::prefix("/admin")->group(function () {
 
 });
 
+Route::get('/test-admin', function () {
+    return Inertia::render('Dashboard/Test');
+});
+
 Route::get('/', function () {
     return Inertia::render('Home');
 });
