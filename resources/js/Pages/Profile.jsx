@@ -61,22 +61,9 @@ export default function History() {
             {!isVerifyUser && (
                 <>
                     {" "}
-                    <main className="h-screen w-full max-w-[420px] mx-auto pb-[110px]">
-                        {/* <div className="px-[25px] flex items-center bg-primary-low gap-1 py-[20px] justify-between">
-                            <h1 className="flex flex-col justify-center font-semibold leading-[17px] text-[20px]">
-                                History
-                            </h1>
-                            <button
-                                onClick={() => {
-                                    Cookies.remove("inventory_token");
-                                    Inertia.visit("/");
-                                }}
-                            >
-                                Logout
-                            </button>
-                        </div> */}
+                    <main className="h-auto w-full max-w-[420px] mx-auto pb-[0px]">
                         <Header title={"Profile"} profilePage={true} />
-                        <div className="mt-[40px] pb-[100px]">
+                        <div className="mt-[40px] pb-[100px] max-h-[70vh] overflow-auto">
                             <div className="flex flex-col items-center">
                                 <div className="bg-[#4600FF] bg-opacity-[10%] flex justify-center items-center h-[70px] w-[70px] rounded-full p-0">
                                     <h1 className="text-[30px] pt-[5px] text-center leading-none">
