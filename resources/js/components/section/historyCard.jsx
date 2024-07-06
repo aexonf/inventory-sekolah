@@ -29,7 +29,7 @@ export function HistoryCard({
 
     return (
         <Dialog>
-            <DialogTrigger className="flex flex-col items-start bg-[#E1D6FF] bg-opacity-[25%] py-[16px] px-[23px] rounded-[5px]">
+            <DialogTrigger className="w-full flex flex-col items-start bg-[#E1D6FF] bg-opacity-[25%] py-[16px] px-[23px] rounded-[5px]">
                 <h1 className="text-[17px] font-semibold mb-[7px]">{name}</h1>
                 <p className="text-start text-[14px] line-clamp-2">
                     {description_item}
