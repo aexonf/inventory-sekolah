@@ -27,6 +27,36 @@ const dummyData = [
         return_date: null,
         status: "returned",
     },
+    {
+        id: 4,
+        name: "Bahasa Inggris",
+        description_item:
+            "Buku ini adalah buku yang berisi tata cara  untuk belajar bahasa Inggris dengan baik dan benar dan sopan dan bagus",
+        category: "Book",
+        loan_date: "2024-06-27 07:23:13",
+        return_date: null,
+        status: "returned",
+    },
+    {
+        id: 4,
+        name: "Bahasa Inggris",
+        description_item:
+            "Buku ini adalah buku yang berisi tata cara  untuk belajar bahasa Inggris dengan baik dan benar dan sopan dan bagus",
+        category: "Book",
+        loan_date: "2024-06-27 07:23:13",
+        return_date: null,
+        status: "returned",
+    },
+    {
+        id: 4,
+        name: "Bahasa Asing",
+        description_item:
+            "Buku ini adalah buku yang berisi tata cara  untuk belajar bahasa Inggris dengan baik dan benar dan sopan dan bagus",
+        category: "Book",
+        loan_date: "2024-06-27 07:23:13",
+        return_date: null,
+        status: "returned",
+    },
 ];
 
 export default function History() {
@@ -64,14 +94,14 @@ export default function History() {
         <>
             {!isVerifyUser && (
                 <>
-                    <main className="h-screen w-full max-w-[420px] mx-auto pb-[110px]">
+                    <main className="h-auto w-full max-w-[420px] mx-auto pb-[0px]">
                         <Header title={"History"} />
-                        <div className="mt-[30px] flex flex-col gap-4 px-[20px] pb-[100px]">
-                            {history.length === 0 ? (
+                        <div className="mt-[30px] flex flex-col gap-4 px-[20px] pb-[0] max-h-[70vh] overflow-auto">
+                            {dummyData.length === 0 ? (
                                 <EmptyHistory />
                             ) : (
                                 <>
-                                    {history.map((item, index) => (
+                                    {dummyData.map((item, index) => (
                                         <HistoryCard
                                             key={index}
                                             id={item.id}
