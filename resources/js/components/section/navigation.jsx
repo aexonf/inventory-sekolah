@@ -80,14 +80,14 @@ export function Navigation() {
                     <div
                         className={`${
                             iconMode
-                                ? "py-[10px] px-[10px] bg-violet-500 rounded-md"
+                                ? "py-[10px] px-[10px] bg-slate-200 rounded-md"
                                 : ""
                         }`}
                     >
                         {" "}
                         <IoSettingsSharp
                             className={` ${
-                                iconMode ? "text-white" : "text-slate-500"
+                                iconMode ? "text-slate-500" : "text-slate-500"
                             } h-[19px] w-[19px]`}
                         />
                     </div>
@@ -107,14 +107,14 @@ export function Navigation() {
                     <div
                         className={`${
                             iconMode
-                                ? "py-[10px] px-[10px] bg-violet-500 rounded-md"
+                                ? "py-[10px] px-[10px] bg-slate-200 rounded-md"
                                 : ""
                         }`}
                     >
                         {" "}
                         <IoMdNotifications
                             className={` ${
-                                iconMode ? "text-white" : "text-slate-500"
+                                iconMode ? "text-slate-500" : "text-slate-500"
                             } h-[19px] w-[19px]`}
                         />
                     </div>
@@ -134,14 +134,14 @@ export function Navigation() {
                     <div
                         className={`${
                             iconMode
-                                ? "py-[10px] px-[10px] bg-violet-500 rounded-md"
+                                ? "py-[10px] px-[10px] bg-slate-200 rounded-md"
                                 : ""
                         }`}
                     >
                         {" "}
                         <FaUsers
                             className={` ${
-                                iconMode ? "text-white" : "text-slate-500"
+                                iconMode ? "text-slate-500" : "text-slate-500"
                             } h-[19px] w-[19px]`}
                         />
                     </div>
@@ -161,14 +161,14 @@ export function Navigation() {
                     <div
                         className={`${
                             iconMode
-                                ? "py-[10px] px-[10px] bg-violet-500 rounded-md"
+                                ? "py-[10px] px-[10px] bg-slate-200 rounded-md"
                                 : ""
                         }`}
                     >
                         {" "}
                         <FaUserAlt
                             className={` ${
-                                iconMode ? "text-white" : "text-slate-500"
+                                iconMode ? "text-slate-500" : "text-slate-500"
                             } h-[19px] w-[19px]`}
                         />
                     </div>
@@ -188,14 +188,14 @@ export function Navigation() {
                     <div
                         className={`${
                             iconMode
-                                ? "py-[10px] px-[10px] bg-violet-500 rounded-md"
+                                ? "py-[10px] px-[10px] bg-slate-200 rounded-md"
                                 : ""
                         }`}
                     >
                         {" "}
                         <BiSolidCategory
                             className={` ${
-                                iconMode ? "text-white" : "text-slate-500"
+                                iconMode ? "text-slate-500" : "text-slate-500"
                             } h-[19px] w-[19px]`}
                         />
                     </div>
@@ -215,14 +215,14 @@ export function Navigation() {
                     <div
                         className={`${
                             iconMode
-                                ? "py-[10px] px-[10px] bg-violet-500 rounded-md"
+                                ? "py-[10px] px-[10px] bg-slate-200 rounded-md"
                                 : ""
                         }`}
                     >
                         {" "}
                         <FaQrcode
                             className={` ${
-                                iconMode ? "text-white" : "text-slate-500"
+                                iconMode ? "text-slate-500" : "text-slate-500"
                             } h-[19px] w-[19px]`}
                         />
                     </div>
