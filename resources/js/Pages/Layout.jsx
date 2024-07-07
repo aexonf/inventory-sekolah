@@ -1,12 +1,15 @@
 import { Link } from "@inertiajs/react";
 import React from "react";
-import { Navigation } from "../components/section/index";
+import { Navigation, DashboardHeader } from "../components/section/index";
 
 export default function Layout({ children }) {
     return (
         <main className="flex">
             <Navigation />
-            <div>{children}</div>
+            <div className="w-full">
+                <DashboardHeader />
+                {children}
+            </div>
         </main>
     );
 }

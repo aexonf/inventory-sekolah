@@ -28,7 +28,7 @@ export function Navigation() {
     return (
         <nav
             className={`${
-                iconMode ? "w-[100px]" : "w-[250px]"
+                iconMode ? "w-[100px]" : "w-[300px]"
             } sticky top-0 hidden min-[1000px]:block transition-all duration-300 border-r-[1px] border-solid overflow-hidden border-neutral-300 h-screen pt-[20px]`}
         >
             <div className="flex justify-center">
