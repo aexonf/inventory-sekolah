@@ -14,7 +14,6 @@ use App\Models\Teachers;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-
 Route::prefix("/admin")->group(function () {
 
     Route::get("/", function () {
@@ -90,7 +89,23 @@ Route::prefix("/admin")->group(function () {
 });
 
 Route::get('/test-admin', function () {
-    return Inertia::render('Dashboard/Test');
+    return Inertia::render('Dashboard/Dashboard');
+});
+
+Route::get('/test-admin/setting', function () {
+    return Inertia::render('Dashboard/Setting');
+});
+
+Route::get('/test-admin/notification', function () {
+    return Inertia::render('Dashboard/Notification');
+});
+
+Route::get('/test-admin/teacher', function () {
+    return Inertia::render('Dashboard/Teacher');
+});
+
+Route::get('/test-admin/qr-scan', function () {
+    return Inertia::render('Dashboard/QrScan');
 });
 
 Route::get('/', function () {

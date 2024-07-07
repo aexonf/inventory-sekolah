@@ -14,10 +14,13 @@ import {
     DialogTrigger,
 } from "../ui/index";
 import { FaUserCircle } from "react-icons/fa";
+import { CustomSheet } from "./customSheet";
 
 export function DashboardHeader() {
     return (
-        <div className="w-full px-[25px] flex items-center bg-[#885ff9] pt-[20px] min-[1000px]:justify-end pb-[70px]">
+        <div className="w-full px-[25px] flex items-center bg-[#885ff9] pt-[20px] justify-between min-[1000px]:justify-end pb-[70px]">
+            {/* <div className="max-[1000px]:block hidden"></div> */}
+            <CustomSheet />
             <div className="flex items-center gap-2">
                 <FaUserCircle className="h-[30px] w-[30px] text-slate-100" />
                 <h1 className="text-white">Hi, User!</h1>
