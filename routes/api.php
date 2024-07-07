@@ -5,6 +5,7 @@ use App\Http\Controllers\HistoryLoanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ScanQRLoanController;
 use App\Http\Controllers\ActiveStudentsController;
+use App\Http\Controllers\TeacherController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,8 @@ Route::get('/user', function (Request $request) {
 
 
 Route::prefix("/v1")->group(function () {
+    Route::get('/teachers', [TeacherController::class, 'index']);
+
     Route::get('/active-students', [ActiveStudentsController::class, 'index']);
 
     Route::controller(ScanQRLoanController::class)->middleware('auth:sanctum')->prefix("/scan-qr")->group(function () {
