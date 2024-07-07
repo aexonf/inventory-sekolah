@@ -29,7 +29,7 @@ export function Navigation() {
         <nav
             className={`${
                 iconMode ? "w-[100px]" : "w-[250px]"
-            } transition-all duration-300 border-r-[1px] border-solid overflow-hidden border-neutral-300 h-screen pt-[20px]`}
+            } sticky top-0 hidden min-[1000px]:block transition-all duration-300 border-r-[1px] border-solid overflow-hidden border-neutral-300 h-screen pt-[20px]`}
         >
             <div className="flex justify-center">
                 <h1 className="text-[18px]">Inventory</h1>
@@ -45,11 +45,11 @@ export function Navigation() {
                     <h1 className="text-slate-500 text-[15px]">Dashboard</h1>
                 )}
                 <button onClick={() => setIconMode(!iconMode)}>
-                    {iconMode ? (
-                        <LuChevronsRight className="h-[19px] w-[19px]" />
-                    ) : (
-                        <LuChevronsLeft className="h-[19px] w-[19px]" />
-                    )}
+                    <LuChevronsLeft
+                        className={`h-[19px] w-[19px] transition-all duration-300 ${
+                            iconMode ? "rotate-[180deg]" : ""
+                        }`}
+                    />
                 </button>
             </div>
             <div
@@ -143,8 +143,10 @@ export function Navigation() {
                     <div
                         onClick={() => HandleOpenSubMenu("student")}
                         className={`${
-                            iconMode ? "" : "px-[20px]"
-                        }  flex items-center justify-between gap-5 `}
+                            iconMode
+                                ? "justify-center"
+                                : "justify-between px-[20px]"
+                        }  flex items-center gap-5 `}
                     >
                         <div className="flex items-center gap-5">
                             <div
@@ -171,23 +173,38 @@ export function Navigation() {
                                 </h1>
                             )}
                         </div>
-                        <FiChevronRight />
+                        {iconMode ? (
+                            ""
+                        ) : (
+                            <FiChevronRight
+                                className={`${
+                                    openSubMenu.open &&
+                                    openSubMenu.menuName === "student"
+                                        ? "rotate-[90deg]"
+                                        : ""
+                                } transition-all duration-300`}
+                            />
+                        )}
                     </div>
-                    <div
-                        className={`${
-                            openSubMenu.menuName === "student" &&
-                            openSubMenu.open
-                                ? "h-[65px] mt-[5px]"
-                                : "h-0"
-                        } overflow-hidden transition-all duration-500 flex flex-col gap-3 ml-[60px]`}
-                    >
-                        <h1 className="text-slate-500 mt-[4px] text-[15px]">
-                            Aktif
-                        </h1>
-                        <h1 className="text-slate-500 mt-[4px] text-[15px]">
-                            Category
-                        </h1>
-                    </div>
+                    {iconMode ? (
+                        ""
+                    ) : (
+                        <div
+                            className={`${
+                                openSubMenu.menuName === "student" &&
+                                openSubMenu.open
+                                    ? "h-[65px] mt-[5px]"
+                                    : "h-0"
+                            } overflow-hidden transition-all duration-500 flex flex-col gap-3 ml-[60px]`}
+                        >
+                            <h1 className="text-slate-500 mt-[4px] text-[15px]">
+                                Aktif
+                            </h1>
+                            <h1 className="text-slate-500 mt-[4px] text-[15px]">
+                                Category
+                            </h1>
+                        </div>
+                    )}
                 </div>
                 <div
                     className={`${

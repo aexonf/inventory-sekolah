@@ -19,7 +19,7 @@ import { Navigation } from "../../components/section/index";
 
 function Test() {
     return (
-        <div className="h-screen flex justify-center">
+        <div className="mb-[1000px] flex justify-center">
             <div className="w-[400px] py-[20px]">hhhh</div>
         </div>
     );
