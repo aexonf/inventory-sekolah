@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Teachers;
+use App\Models\Students;
 
-class TeacherController extends Controller
+class StudentsController extends Controller
 {
     public function index()
     {
-        $teachers = Teachers::all();
+        $teachers = Students::all();
         return response()->json($teachers);
     }
 }
