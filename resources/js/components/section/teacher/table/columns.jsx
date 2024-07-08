@@ -11,8 +11,22 @@ import {
 } from "../../../ui/index";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { DialogDeleteTeacher, DialogEditTeacher } from "../dialog";
+import { FaUserAlt } from "react-icons/fa";
 
 export const columns = [
+    {
+        accessorKey: "image",
+        header: () => <div className="text-center">No</div>,
+        cell: ({ row }) => {
+            const amount = row.getValue("image");
+
+            return (
+                <div className="flex justify-center items-center">
+                    <h1>{row.index + 1}</h1>
+                </div>
+            );
+        },
+    },
     {
         accessorKey: "image",
         header: () => <div className="text-center">Image</div>,
@@ -21,12 +35,13 @@ export const columns = [
 
             return (
                 <div className="flex justify-center items-center">
-                    <div className="bg-violet-100 rounded-full h-[50px] w-[50px] flex justify-center items-center">
-                        <img
+                    <div className="bg-violet-100 rounded-full h-[50px] w-[50px] flex justify-center items-end overflow-hidden">
+                        {/* <img
                             className="h-[40px] w-[40px]"
                             src={amount}
                             alt="ll"
-                        />
+                        /> */}
+                        <FaUserAlt className="h-[40px] w-[40px] text-violet-500" />
                     </div>
                 </div>
             );
@@ -72,19 +87,6 @@ export const columns = [
             return <div className="text-left font-medium">{getName}</div>;
         },
     },
-    // {
-    //     accessorKey: "amount",
-    //     header: () => <div className="text-right">Amount</div>,
-    //     cell: ({ row }) => {
-    //         const amount = parseFloat(row.getValue("amount"));
-    //         const formatted = new Intl.NumberFormat("en-US", {
-    //             style: "currency",
-    //             currency: "USD",
-    //         }).format(amount);
-
-    //         return <div className="text-right font-medium">{formatted}</div>;
-    //     },
-    // },
     {
         id: "actions",
         header: () => <div className="text-left">Action</div>,
