@@ -31,7 +31,7 @@ export function Sidebar() {
         if (iconMode && pathname.url !== url) {
             return "text-slate-500";
         } else if (!iconMode && pathname.url !== url) {
-            return "text-slate-500 pl-[20px]";
+            return "border-l-4 border-solid border-white text-slate-500 pl-[20px]";
         } else if (!iconMode && pathname.url === url) {
             return "border-l-4 border-solid border-violet-400 pl-[20px] text-violet-500 pl-[20px]";
         } else if (iconMode && pathname.url === url) {
@@ -229,9 +229,9 @@ export function Sidebar() {
                         className={`${HandleIconColor("/test-admin/teacher")}
                         }`}
                     >
-                        {iconMode && (
+                      
                             <FaUserAlt className={` h-[19px] w-[19px]`} />
-                        )}
+                        
                     </div>
                     {!iconMode && (
                         <h1 className="text-slate-500 mt-[4px] text-[15px]">

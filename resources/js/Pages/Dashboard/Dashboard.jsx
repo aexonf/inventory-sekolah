@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from "./Layout";
-import { FaUserAlt, FaUsers } from "react-icons/fa";
+import { FaUsers } from "react-icons/fa";
 
 function Dashboard() {
     return (
