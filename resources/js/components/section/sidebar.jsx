@@ -36,7 +36,7 @@ export function Sidebar() {
                 ) {
                     return "text-violet-500 justify-between px-[20px] flex items-center gap-5 border-solid border-l-4 border-violet-400";
                 } else {
-                    return "text-slate-500 justify-start px-[20px] flex items-center gap-5 border-solid border-l-4 border-white";
+                    return "text-slate-500 justify-between px-[20px] flex items-center gap-5 border-solid border-l-4 border-white";
                 }
 
             case "icon":
@@ -170,34 +170,149 @@ export function Sidebar() {
                 <div>
                     <div
                         onClick={() => HandleOpenSubMenu("student")}
-                        className={`${
-                            iconMode
-                                ? "justify-center"
-                                : "justify-between px-[20px]"
-                        }  flex items-center gap-5 `}
+                        className={`cursor-pointer  ${HandleSubMenuWrapper(
+                            "link",
+                            "/test-admin/student",
+                            "/test-admin/active-student"
+                        )}`}
                     >
                         <div className="flex items-center gap-5">
                             <div
                                 className={`${
-                                    iconMode
-                                        ? "py-[10px] px-[10px] bg-slate-200 rounded-md"
-                                        : ""
+                                    iconMode ? " bg-slate-200 rounded-md" : ""
                                 }`}
                             >
                                 {iconMode ? (
                                     <Popover>
-                                        <PopoverTrigger className="h-[19px]">
+                                        <PopoverTrigger
+                                            className={`${HandleSubMenuWrapper(
+                                                "icon",
+                                                "/test-admin/student",
+                                                "/test-admin/active-student"
+                                            )}`}
+                                        >
                                             <FaUsers
-                                                className={` ${
-                                                    iconMode
-                                                        ? "text-slate-500"
-                                                        : "text-slate-500"
-                                                } h-[19px] w-[19px]`}
+                                                className={`h-[19px] w-[19px]`}
                                             />
                                         </PopoverTrigger>
-                                        <PopoverContent className="right-[-120px] top-[-30px] w-auto">
-                                            <h1>Data</h1>
-                                            <h1>Active</h1>
+                                        <PopoverContent className="right-[-160px] top-[-44px] flex flex-col py-[5px] w-max">
+                                            <Link
+                                                href="/test-admin/student"
+                                                className={`${HandleActiveSubMenu(
+                                                    "/test-admin/student"
+                                                )}`}
+                                            >
+                                                Student
+                                            </Link>
+                                            <Link
+                                                href="/test-admin/active-student"
+                                                className={`${HandleActiveSubMenu(
+                                                    "/test-admin/active-student"
+                                                )}`}
+                                            >
+                                                Active Student
+                                            </Link>
+                                        </PopoverContent>
+                                    </Popover>
+                                ) : (
+                                    <FaUsers className={`h-[19px] w-[19px]`} />
+                                )}
+                            </div>
+                            {iconMode ? (
+                                ""
+                            ) : (
+                                <h1 className="mt-[4px] text-[15px]">Siswa</h1>
+                            )}
+                        </div>
+                        {iconMode ? (
+                            ""
+                        ) : (
+                            <FiChevronRight
+                                className={`${
+                                    openSubMenu.open &&
+                                    openSubMenu.menuName === "student"
+                                        ? "rotate-[90deg]"
+                                        : ""
+                                } transition-all duration-300`}
+                            />
+                        )}
+                    </div>
+
+                    {iconMode ? (
+                        ""
+                    ) : (
+                        <div
+                            className={`${
+                                openSubMenu.menuName === "student" &&
+                                openSubMenu.open
+                                    ? "h-[65px] mt-[5px]"
+                                    : "h-0"
+                            } overflow-hidden transition-all duration-300 flex flex-col gap-3 ml-[60px]`}
+                        >
+                            <Link
+                                href="/test-admin/student"
+                                className={`${HandleActiveSubMenu(
+                                    "/test-admin/student"
+                                )}`}
+                            >
+                                Student
+                            </Link>
+                            <Link
+                                href="/test-admin/active-student"
+                                className={`${HandleActiveSubMenu(
+                                    "/test-admin/active-student"
+                                )}`}
+                            >
+                                Active Student
+                            </Link>
+                        </div>
+                    )}
+                </div>
+                {/* <div>
+                    <div
+                        onClick={() => HandleOpenSubMenu("student")}
+                        className={`cursor-pointer ${HandleSubMenuWrapper(
+                            "link",
+                            "/test-admin/student",
+                            "/test-admin/active-student"
+                        )}`}
+                    >
+                        <div className="flex items-center gap-5">
+                            <div
+                                className={`${
+                                    iconMode ? "bg-slate-200 rounded-md" : ""
+                                }`}
+                            >
+                                {iconMode ? (
+                                    <Popover>
+                                        <PopoverTrigger
+                                            className={`${HandleSubMenuWrapper(
+                                                "icon",
+                                                "/test-admin/student",
+                                                "/test-admin/active-student"
+                                            )}`}
+                                        >
+                                            <FaUsers
+                                                className={`h-[19px] w-[19px]`}
+                                            />
+                                        </PopoverTrigger>
+                                        <PopoverContent className="right-[-120px] top-[-44px] flex flex-col py-[5px] w-auto">
+                                            <Link
+                                                href="/test-admin/student"
+                                                className={`${HandleActiveSubMenu(
+                                                    "/test-admin/student"
+                                                )}`}
+                                            >
+                                                Data
+                                            </Link>
+                                            <Link
+                                                href="/test-admin/active-student"
+                                                className={`${HandleActiveSubMenu(
+                                                    "/test-admin/active-student"
+                                                )}`}
+                                            >
+                                                Aktif
+                                            </Link>
                                         </PopoverContent>
                                     </Popover>
                                 ) : (
@@ -213,9 +328,7 @@ export function Sidebar() {
                             {iconMode ? (
                                 ""
                             ) : (
-                                <h1 className="text-slate-500 mt-[4px] text-[15px]">
-                                    Siswa
-                                </h1>
+                                <h1 className="mt-[4px] text-[15px]">Siswa</h1>
                             )}
                         </div>
                         {iconMode ? (
@@ -242,15 +355,25 @@ export function Sidebar() {
                                     : "h-0"
                             } overflow-hidden transition-all duration-500 flex flex-col gap-3 ml-[60px]`}
                         >
-                            <h1 className="text-slate-500 mt-[4px] text-[15px]">
-                                Aktif
-                            </h1>
-                            <h1 className="text-slate-500 mt-[4px] text-[15px]">
-                                Category
-                            </h1>
+                            <Link
+                                href="/test-admin/item"
+                                className={`${HandleActiveSubMenu(
+                                    "/test-admin/item"
+                                )}`}
+                            >
+                                Student
+                            </Link>
+                            <Link
+                                href="/test-admin/category"
+                                className={`${HandleActiveSubMenu(
+                                    "/test-admin/category"
+                                )}`}
+                            >
+                                Active Student
+                            </Link>
                         </div>
                     )}
-                </div>
+                </div> */}
                 <Link
                     href="/test-admin/teacher"
                     className={`${HandleActivePath(
@@ -296,7 +419,7 @@ export function Sidebar() {
                                                 className={`h-[19px] w-[19px]`}
                                             />
                                         </PopoverTrigger>
-                                        <PopoverContent className="right-[-120px] top-[-44px] flex flex-col py-[5px] w-auto">
+                                        <PopoverContent className="right-[-120px] top-[-44px] flex flex-col py-[5px] w-max">
                                             <Link
                                                 href="/test-admin/item"
                                                 className={`${HandleActiveSubMenu(

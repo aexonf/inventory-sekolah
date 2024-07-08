@@ -11,7 +11,7 @@ function Setting() {
                     <h1 className="text-[20px]">Teacher</h1>
                 </div>
             </div>
-            <div className="pt-[70px] px-[20px]">
+            <div className="pt-[70px] pb-[20px] px-[20px]">
                 <div className="pt-[0px] px-[50px] shadow-[5px_5px_30px_-5px_#00000024]">
                     <TableTeacher />
                 </div>
