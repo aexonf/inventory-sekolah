@@ -15,11 +15,9 @@ import { FaUserAlt } from "react-icons/fa";
 
 export const columns = [
     {
-        accessorKey: "image",
+        accessorKey: "no",
         header: () => <div className="text-center">No</div>,
         cell: ({ row }) => {
-            const amount = row.getValue("image");
-
             return (
                 <div className="flex justify-center items-center">
                     <h1>{row.index + 1}</h1>
@@ -48,26 +46,6 @@ export const columns = [
         },
     },
     {
-        accessorKey: "id_number",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
-                >
-                    Number Id
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            );
-        },
-        cell: ({ row }) => {
-            const getName = row.getValue("id_number");
-            return <div className="text-left font-medium">{getName}</div>;
-        },
-    },
-    {
         accessorKey: "name",
         header: ({ column }) => {
             return (
@@ -85,6 +63,68 @@ export const columns = [
         cell: ({ row }) => {
             const getName = row.getValue("name");
             return <div className="text-left font-medium">{getName}</div>;
+        },
+    },
+    {
+        accessorKey: "description",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() =>
+                        column.toggleSorting(column.getIsSorted() === "asc")
+                    }
+                >
+                    Description
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            );
+        },
+        cell: ({ row }) => {
+            const getDescription = row.getValue("description");
+            return (
+                <div className="text-left font-medium">{getDescription}</div>
+            );
+        },
+    },
+    {
+        accessorKey: "stock",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() =>
+                        column.toggleSorting(column.getIsSorted() === "asc")
+                    }
+                >
+                    Stock
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            );
+        },
+        cell: ({ row }) => {
+            const getStock = row.getValue("stock");
+            return <div className="text-left font-medium">{getStock}</div>;
+        },
+    },
+    {
+        accessorKey: "status",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() =>
+                        column.toggleSorting(column.getIsSorted() === "asc")
+                    }
+                >
+                    Status
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            );
+        },
+        cell: ({ row }) => {
+            const getStatus = row.getValue("status");
+            return <div className="text-left font-medium">{getStatus}</div>;
         },
     },
     {
