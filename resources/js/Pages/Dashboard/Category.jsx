@@ -2,6 +2,7 @@ import React from "react";
 import Layout from "./Layout";
 import { FiPlus } from "react-icons/fi";
 import TableTeacher from "../../components/section/teacher/table/tableTeacher";
+import TableCategory from "@/components/dashboard/category/table/tableCategory";
 
 function Setting() {
     return (
@@ -13,7 +14,7 @@ function Setting() {
             </div>
             <div className="pt-[70px] px-[20px]">
                 <div className="pt-[0px] px-[50px] shadow-[5px_5px_30px_-5px_#00000024]">
-                    <TableTeacher />
+                    <TableCategory />
                 </div>
             </div>
         </div>
