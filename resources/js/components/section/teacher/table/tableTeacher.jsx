@@ -22,7 +22,6 @@ export default function TableTeacher() {
             updated_at: "2024-06-23T07:44:39.000000Z",
             image: "https://robohash.org/reza",
         },
-        // ...
     ];
 
     return (
