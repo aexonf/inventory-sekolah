@@ -19,6 +19,40 @@ export function Sidebar() {
         menuName: "",
     });
 
+    const HandleActiveSubMenu = (url) => {
+        if (url === pathname.url) {
+            return "text-violet-500 mt-[4px] text-[15px]";
+        } else {
+            return "text-slate-500 mt-[4px] text-[15px]";
+        }
+    };
+
+    const HandleSubMenuWrapper = (type, firstUrl, secondUrl) => {
+        switch (type) {
+            case "link":
+                if (
+                    (firstUrl === pathname.url || secondUrl === pathname.url) &&
+                    !iconMode
+                ) {
+                    return "text-violet-500 justify-between px-[20px] flex items-center gap-5 border-solid border-l-4 border-violet-400";
+                } else {
+                    return "text-slate-500 justify-start px-[20px] flex items-center gap-5 border-solid border-l-4 border-white";
+                }
+
+            case "icon":
+                if (
+                    (firstUrl === pathname.url || secondUrl === pathname.url) &&
+                    iconMode
+                ) {
+                    return "h-full p-[10px] bg-violet-500 text-white rounded-md";
+                } else {
+                    return "h-full p-[10px] bg-slate-200 text-slate-500 rounded-md";
+                }
+            default:
+                break;
+        }
+    };
+
     const HandleOpenSubMenu = (currentMenu) => {
         if (openSubMenu.open && openSubMenu.menuName === currentMenu) {
             setOpenSubMenu({ open: false, menuName: "" });
@@ -130,9 +164,7 @@ export function Sidebar() {
                         <IoMdNotifications className={` h-[19px] w-[19px]`} />
                     </div>
                     {!iconMode && (
-                        <h1 className="text-slate-500 mt-[4px] text-[15px]">
-                            Notification
-                        </h1>
+                        <h1 className="mt-[4px] text-[15px]">Notification</h1>
                     )}
                 </Link>
                 <div>
@@ -229,47 +261,70 @@ export function Sidebar() {
                         className={`${HandleIconColor("/test-admin/teacher")}
                         }`}
                     >
-                      
-                            <FaUserAlt className={` h-[19px] w-[19px]`} />
-                        
+                        <FaUserAlt className={` h-[19px] w-[19px]`} />
                     </div>
                     {!iconMode && (
-                        <h1 className="text-slate-500 mt-[4px] text-[15px]">
-                            Guru
-                        </h1>
+                        <h1 className="mt-[4px] text-[15px]">Guru</h1>
                     )}
                 </Link>
 
                 <div>
                     <div
                         onClick={() => HandleOpenSubMenu("category & item")}
-                        className={`${
-                            iconMode
-                                ? "justify-center"
-                                : "justify-between px-[20px]"
-                        }  flex items-center  gap-5 `}
+                        className={`cursor-pointer ${HandleSubMenuWrapper(
+                            "link",
+                            "/test-admin/item",
+                            "/test-admin/category"
+                        )}`}
                     >
                         <div className="flex items-center gap-5">
                             <div
                                 className={`${
-                                    iconMode
-                                        ? "py-[10px] px-[10px] bg-slate-200 rounded-md"
-                                        : ""
+                                    iconMode ? " bg-slate-200 rounded-md" : ""
                                 }`}
                             >
-                                {" "}
-                                <BiSolidCategory
-                                    className={` ${
-                                        iconMode
-                                            ? "text-slate-500"
-                                            : "text-slate-500"
-                                    } h-[19px] w-[19px]`}
-                                />
+                                {iconMode ? (
+                                    <Popover>
+                                        <PopoverTrigger
+                                            className={`${HandleSubMenuWrapper(
+                                                "icon",
+                                                "/test-admin/item",
+                                                "/test-admin/category"
+                                            )}`}
+                                        >
+                                            <BiSolidCategory
+                                                className={`h-[19px] w-[19px]`}
+                                            />
+                                        </PopoverTrigger>
+                                        <PopoverContent className="right-[-120px] top-[-44px] flex flex-col py-[5px] w-auto">
+                                            <Link
+                                                href="/test-admin/item"
+                                                className={`${HandleActiveSubMenu(
+                                                    "/test-admin/item"
+                                                )}`}
+                                            >
+                                                Item
+                                            </Link>
+                                            <Link
+                                                href="/test-admin/category"
+                                                className={`${HandleActiveSubMenu(
+                                                    "/test-admin/category"
+                                                )}`}
+                                            >
+                                                Category
+                                            </Link>
+                                        </PopoverContent>
+                                    </Popover>
+                                ) : (
+                                    <BiSolidCategory
+                                        className={`h-[19px] w-[19px]`}
+                                    />
+                                )}
                             </div>
                             {iconMode ? (
                                 ""
                             ) : (
-                                <h1 className="text-slate-500 mt-[4px] text-[15px]">
+                                <h1 className="mt-[4px] text-[15px]">
                                     Item & Category
                                 </h1>
                             )}
@@ -299,12 +354,22 @@ export function Sidebar() {
                                     : "h-0"
                             } overflow-hidden transition-all duration-300 flex flex-col gap-3 ml-[60px]`}
                         >
-                            <h1 className="text-slate-500 mt-[4px] text-[15px]">
-                                Aktif
-                            </h1>
-                            <h1 className="text-slate-500 mt-[4px] text-[15px]">
+                            <Link
+                                href="/test-admin/item"
+                                className={`${HandleActiveSubMenu(
+                                    "/test-admin/item"
+                                )}`}
+                            >
+                                Item
+                            </Link>
+                            <Link
+                                href="/test-admin/category"
+                                className={`${HandleActiveSubMenu(
+                                    "/test-admin/category"
+                                )}`}
+                            >
                                 Category
-                            </h1>
+                            </Link>
                         </div>
                     )}
                 </div>
@@ -321,9 +386,7 @@ export function Sidebar() {
                         <FaQrcode lassName={` h-[19px] w-[19px]`} />
                     </div>
                     {!iconMode && (
-                        <h1 className="text-slate-500 mt-[4px] text-[15px]">
-                            QR Scan
-                        </h1>
+                        <h1 className="mt-[4px] text-[15px]">QR Scan</h1>
                     )}
                 </Link>
             </div>

@@ -96,6 +96,14 @@ Route::get('/test-admin/setting', function () {
     return Inertia::render('Dashboard/Setting');
 });
 
+Route::get('/test-admin/item', function () {
+    return Inertia::render('Dashboard/Item');
+});
+
+Route::get('/test-admin/category', function () {
+    return Inertia::render('Dashboard/Category');
+});
+
 Route::get('/test-admin/notification', function () {
     return Inertia::render('Dashboard/Notification');
 });
