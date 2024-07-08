@@ -13,7 +13,7 @@ class StudentsController extends Controller
         try {
             $students = Students::all();
 
-            // Format data untuk response
+            // Format data for response
             $data = $students->map(function ($student) {
                 return [
                     "id" => $student->id,

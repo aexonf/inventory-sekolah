@@ -12,18 +12,25 @@ class ActiveStudentsController extends Controller
 {
     public function index(Request $request)
     {
+        try {
+            $activeStudents = ActiveStudents::all();
 
-        $activeStudents = ActiveStudents::all();
-
-        return response()->json([
-            'success' => true,
-            'data' => $activeStudents,
-        ]);
+            return response()->json([
+                "status" => "success",
+                "message" => "Active students fetched successfully",
+                "data" => $activeStudents
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                "message" => "An error occurred while fetching active students.",
+                "error" => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function store(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'school_year' => 'required',
             'generation' => 'required',
@@ -33,34 +40,40 @@ class ActiveStudentsController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'success' => false,
-                'message' => $validator->errors()->all(),
+                "status" => "error",
+                "message" => $validator->errors()->all(),
             ], 400);
         }
 
+        try {
+            $student = Students::where('id_number', $request->id_number)->first();
 
-        $student = Students::where('id_number', $request->id_number)->first();
+            if (!$student) {
+                return response()->json([
+                    "status" => "error",
+                    "message" => "Student with ID number {$request->id_number} not found!",
+                ], 404);
+            }
 
-        if (!$student) {
+            $activeStudent = ActiveStudents::create([
+                'school_year' => $request->school_year,
+                'generation' => $request->generation,
+                'class' => $request->class,
+                'student_id' => $student->id,
+            ]);
+
             return response()->json([
-                'success' => false,
-                'message' => "Siswa dengan NIS {$request->id_number} tidak ditemukan!",
-            ], 404);
+                "status" => "success",
+                "message" => "Active student created successfully",
+                "data" => $activeStudent
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                "message" => "An error occurred while creating active student.",
+                "error" => $e->getMessage()
+            ], 500);
         }
-
-
-        $activeStudent = ActiveStudents::create([
-            'school_year' => $request->school_year,
-            'generation' => $request->generation,
-            'class' => $request->class,
-            'student_id' => $student->id,
-        ]);
-
-        return response()->json([
-            'success' => true,
-            'data' => $activeStudent,
-            'message' => 'Data ActiveStudent berhasil disimpan.',
-        ], 201);
     }
 
     public function update(Request $request, $id)
@@ -74,61 +87,75 @@ class ActiveStudentsController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'success' => false,
-                'message' => $validator->errors()->all(),
+                "status" => "error",
+                "message" => $validator->errors()->all(),
             ], 400);
         }
 
-        $activeStudent = ActiveStudents::find($id);
+        try {
+            $activeStudent = ActiveStudents::find($id);
 
-        if (!$activeStudent) {
+            if (!$activeStudent) {
+                return response()->json([
+                    "status" => "error",
+                    "message" => "Active student not found.",
+                ], 404);
+            }
+
+            $student = Students::where('id_number', $request->id_number)->first();
+
+            if (!$student) {
+                return response()->json([
+                    "status" => "error",
+                    "message" => "Student with ID number {$request->id_number} not found!",
+                ], 404);
+            }
+
+            $activeStudent->update([
+                'school_year' => $request->school_year,
+                'generation' => $request->generation,
+                'class' => $request->class,
+                'student_id' => $student->id,
+            ]);
+
             return response()->json([
-                'success' => false,
-                'message' => 'Data ActiveStudent tidak ditemukan.',
-            ], 404);
-        }
-
-        // Cari siswa berdasarkan id_number
-        $student = Students::where('id_number', $request->id_number)->first();
-
-        if (!$student) {
+                "status" => "success",
+                "message" => "Active student updated successfully",
+                "data" => $activeStudent
+            ]);
+        } catch (\Exception $e) {
             return response()->json([
-                'success' => false,
-                'message' => "Siswa dengan NIS {$request->id_number} tidak ditemukan!",
-            ], 404);
+                "status" => "error",
+                "message" => "An error occurred while updating active student.",
+                "error" => $e->getMessage()
+            ], 500);
         }
-
-
-        $activeStudent->update([
-            'school_year' => $request->school_year,
-            'generation' => $request->generation,
-            'class' => $request->class,
-            'student_id' => $student->id,
-        ]);
-
-        return response()->json([
-            'success' => true,
-            'data' => $activeStudent,
-            'message' => 'Data ActiveStudent berhasil diupdate.',
-        ]);
     }
 
     public function destroy($id)
     {
-        $activeStudent = ActiveStudents::find($id);
+        try {
+            $activeStudent = ActiveStudents::find($id);
 
-        if (!$activeStudent) {
+            if (!$activeStudent) {
+                return response()->json([
+                    "status" => "error",
+                    "message" => "Active student not found.",
+                ], 404);
+            }
+
+            $activeStudent->delete();
+
             return response()->json([
-                'success' => false,
-                'message' => 'Data ActiveStudent tidak ditemukan.',
-            ], 404);
+                "status" => "success",
+                "message" => "Active student deleted successfully",
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                "message" => "An error occurred while deleting active student.",
+                "error" => $e->getMessage()
+            ], 500);
         }
-
-        $activeStudent->delete();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Data ActiveStudent berhasil dihapus.',
-        ]);
     }
 }
