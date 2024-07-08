@@ -100,6 +100,14 @@ Route::get('/test-admin/item', function () {
     return Inertia::render('Dashboard/Item');
 });
 
+Route::get('/test-admin/student', function () {
+    return Inertia::render('Dashboard/Student');
+});
+
+Route::get('/test-admin/active-student', function () {
+    return Inertia::render('Dashboard/ActiveStudent');
+});
+
 Route::get('/test-admin/category', function () {
     return Inertia::render('Dashboard/Category');
 });
