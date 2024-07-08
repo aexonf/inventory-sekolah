@@ -35,13 +35,13 @@ export const columns = [
 
             return (
                 <div className="flex justify-center items-center">
-                    <div className="bg-violet-100 rounded-full h-[50px] w-[50px] flex justify-center items-end overflow-hidden">
+                    <div className="bg-violet-100 rounded-full h-[40px] w-[40px] flex justify-center items-end overflow-hidden">
                         {/* <img
                             className="h-[40px] w-[40px]"
                             src={amount}
                             alt="ll"
                         /> */}
-                        <FaUserAlt className="h-[40px] w-[40px] text-violet-500" />
+                        <FaUserAlt className="h-[30px] w-[30px] text-violet-500" />
                     </div>
                 </div>
             );
