@@ -14,11 +14,17 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-
 Route::prefix("/v1")->group(function () {
     Route::get('/students', [StudentsController::class, 'index']);
 
-    Route::get('/teachers', [TeacherController::class, 'index']);
+    Route::controller(TeacherController::class)->middleware('auth:sanctum')->prefix("/teachers")->group(function () {
+    Route::get("/", "index");
+    Route::post("/", "create");
+    Route::put("/{id}", "update");
+    Route::delete("/{id}", "delete");
+});
+
+    // Route::get('/teachers', [TeacherController::class, 'index']);
 
     Route::get('/active-students', [ActiveStudentsController::class, 'index']);
 

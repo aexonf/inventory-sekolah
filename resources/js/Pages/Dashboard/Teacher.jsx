@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import Layout from "./Layout";
 import { FiPlus } from "react-icons/fi";
 import TableTeacher from "../..//components/section/teacher/table/tableTeacher";
 
-function Setting() {
+function Teacher() {
     return (
         <div className="relative w-full">
             <div className="absolute top-[-40px] w-full px-[20px]">
@@ -20,6 +20,6 @@ function Setting() {
     );
 }
 
-Setting.layout = (page) => <Layout children={page} title="Welcome" />;
+Teacher.layout = (page) => <Layout children={page} title="Welcome" />;
 
-export default Setting;
+export default Teacher;
