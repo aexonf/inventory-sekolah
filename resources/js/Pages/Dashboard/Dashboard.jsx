@@ -7,17 +7,20 @@ import Cookies from "js-cookie";
 
 function Dashboard() {
     const inventoryToken = Cookies.get("inventory_token");
-    const [listStudent, setListStudent] = useState(0);
-    const [listActiveStudent, setListActiveStudent] = useState(0);
-    const [listTeacher, setListTeacher] = useState(0);
+    const [totalStudent, setTotalStudent] = useState(0);
+    const [totalActiveStudent, setTotalActiveStudent] = useState(0);
+    const [totalTeacher, setTotalTeacher] = useState(0);
 
     const getAllTeacher = async () => {
         try {
-            const { data: getUser } = await axios("/api/v1/history", {
+            const { data: getTeacher } = await axios("/api/v1/teachers", {
                 headers: {
                     Authorization: `Bearer ${inventoryToken}`,
                 },
             });
+
+            const total = getTeacher.data?.length;
+            setTotalTeacher(total);
         } catch (error) {
             console.log(error);
             if (error.response.data.message === "Unauthenticated.") {
@@ -29,11 +32,14 @@ function Dashboard() {
 
     const getAllStudent = async () => {
         try {
-            const { data: getUser } = await axios("/api/v1/history", {
+            const { data: getStudent } = await axios("/api/v1/students", {
                 headers: {
                     Authorization: `Bearer ${inventoryToken}`,
                 },
             });
+
+            const total = getStudent.data?.length;
+            setTotalStudent(total);
         } catch (error) {
             console.log(error);
             if (error.response.data.message === "Unauthenticated.") {
@@ -45,11 +51,17 @@ function Dashboard() {
 
     const getAllActiveStudent = async () => {
         try {
-            const { data: getUser } = await axios("/api/v1/history", {
-                headers: {
-                    Authorization: `Bearer ${inventoryToken}`,
-                },
-            });
+            const { data: getActiveStudent } = await axios(
+                "/api/v1/active-students",
+                {
+                    headers: {
+                        Authorization: `Bearer ${inventoryToken}`,
+                    },
+                }
+            );
+
+            const total = getActiveStudent.data?.length;
+            setTotalActiveStudent(total);
         } catch (error) {
             console.log(error);
             if (error.response.data.message === "Unauthenticated.") {
@@ -58,6 +70,12 @@ function Dashboard() {
             }
         }
     };
+
+    useEffect(() => {
+        getAllStudent();
+        getAllTeacher();
+        getAllActiveStudent();
+    }, []);
 
     return (
         <div className="relative w-full">
@@ -74,7 +92,7 @@ function Dashboard() {
                     </div>
                     <div className="flex flex-col justify-center">
                         <p>Total Guru</p>
-                        <h1>22</h1>
+                        <h1>{totalTeacher}</h1>
                     </div>
                 </div>
                 <div className="flex items-center shadow-[5px_5px_30px_-5px_#00000024] flex-grow py-[10px] px-[10px] rounded-md gap-4">
@@ -83,7 +101,7 @@ function Dashboard() {
                     </div>
                     <div className="flex flex-col justify-center">
                         <p>Total Siswa Aktif</p>
-                        <h1>22</h1>
+                        <h1>{totalActiveStudent}</h1>
                     </div>
                 </div>
                 <div className="flex items-center shadow-[5px_5px_30px_-5px_#00000024] flex-grow py-[10px] px-[10px] rounded-md gap-4">
@@ -92,7 +110,7 @@ function Dashboard() {
                     </div>
                     <div className="flex flex-col justify-center">
                         <p>Total Siswa</p>
-                        <h1>22</h1>
+                        <h1>{totalStudent}</h1>
                     </div>
                 </div>
             </div>
