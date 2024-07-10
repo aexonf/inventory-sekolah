@@ -15,7 +15,7 @@ import { FaUserAlt } from "react-icons/fa";
 
 export const columns = [
     {
-        accessorKey: "image",
+        accessorKey: "no",
         header: () => <div className="text-center">No</div>,
         cell: ({ row }) => {
             const amount = row.getValue("image");

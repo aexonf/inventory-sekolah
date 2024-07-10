@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     Dialog,
     DialogContent,
@@ -14,6 +14,7 @@ import { Inertia } from "@inertiajs/inertia";
 import Cookies from "js-cookie";
 
 export function DialogDeleteTeacher({ id }) {
+    const [openModal, setOpenModal] = useState(false);
     const inventoryToken = Cookies.get("inventory_token");
 
     const DeleteTeacher = async () => {
@@ -36,7 +37,7 @@ export function DialogDeleteTeacher({ id }) {
     };
 
     return (
-        <Dialog>
+        <Dialog open={openModal} onOpenChange={setOpenModal}>
             <DialogTrigger className="bg-red-500 py-[10px] px-[10px] rounded-sm">
                 <FaTrash className="text-white h-[14px] w-[14px]" />
             </DialogTrigger>

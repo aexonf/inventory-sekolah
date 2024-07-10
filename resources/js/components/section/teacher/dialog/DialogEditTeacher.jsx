@@ -38,22 +38,12 @@ const formSchema = z.object({
     name: z.string().min(1, {
         message: "Name is Empty",
     }),
-    email: z.string().min(1, {
-        message: "Email is Empty",
-    }),
-    status: z.string().min(1, {
-        message: "Status is Empty",
-    }),
-    username: z.string().min(1, {
-        message: "Username is Empty",
-    }),
-    password: z.string().min(1, {
-        message: "Password is Empty",
-    }),
+    image: z.any().optional(),
 });
 
-export function DialogEditTeacher() {
+export function DialogEditTeacher({ id, user_id, number_id, name, image }) {
     const [openModal, setOpenModal] = useState(false);
+    const [imageFile, setImageFile] = useState(null);
     const {
         register,
         handleSubmit,
@@ -63,25 +53,56 @@ export function DialogEditTeacher() {
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            number_id: "",
-            name: "",
-            email: "",
-            status: "",
-            username: "",
-            password: "",
-        },
-    });
-
-    const onSubmit = async (data) => {
-        const { number_id, name, email, status, username, password } = data;
-        const body = {
             number_id: number_id,
             name: name,
-            email: email,
-            status: status,
-            username: username,
-            password: password,
+            image: image,
+        },
+    });
+    const inventoryToken = Cookies.get("inventory_token");
+
+    const onSubmit = async (data) => {
+        const { number_id, name } = data;
+        const formData = new FormData();
+        formData.append("id_number", number_id);
+        formData.append("name", name);
+        if (imageFile) {
+            formData.append("image", imageFile);
+        }
+
+        const body = {
+            id_number: number_id,
+            name: name,
         };
+
+        try {
+            const { data: getUser } = await axios.post(
+                `/api/v1/teachers/${id}`,
+                formData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${inventoryToken}`,
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
+
+            console.log(getUser);
+            // if (getUser.username !== "") {
+            //     Inertia.visit("/");
+            //     setIsVerifyLoading(false);
+            // }
+        } catch (error) {
+            console.log(error);
+            if (error.response?.data?.message === "Unauthenticated.") {
+                Inertia.visit("/login");
+                setIsVerifyLoading(false);
+                return;
+            }
+        }
+    };
+
+    const handleImageChange = (e) => {
+        setImageFile(e.target.files[0]);
     };
 
     return (
@@ -92,7 +113,7 @@ export function DialogEditTeacher() {
             <DialogContent>
                 <DialogHeader>
                     <h1 className="text-center mb-[20px] text-[20px] font-semibold text-neutral-700">
-                        Add Teacher
+                        Edit Teacher
                     </h1>
                     <Form {...form}>
                         <form
@@ -127,86 +148,14 @@ export function DialogEditTeacher() {
                                     </FormItem>
                                 )}
                             />
-                            <FormField
-                                control={form.control}
-                                name="email"
-                                render={({ field }) => (
-                                    <FormItem className="space-y-0">
-                                        <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
-                                            Email
-                                        </FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder="Email. . ."
-                                                {...field}
-                                                className={`${
-                                                    form.formState.errors
-                                                        .email &&
-                                                    "outline-red-500 focus:outline-red-400"
-                                                }`}
-                                            />
-                                        </FormControl>
-                                        {form.formState.errors.email && (
-                                            <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
-                                                <Info size={14} />
-                                                <FormMessage className="text-[13px] mt-[3px] leading-none" />
-                                            </div>
-                                        )}
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="status"
-                                render={({ field }) => (
-                                    <FormItem className="space-y-0">
-                                        <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
-                                            Status
-                                        </FormLabel>
-                                        <Select
-                                            onValueChange={field.onChange}
-                                            defaultValue={field.value}
-                                        >
-                                            <FormControl>
-                                                <SelectTrigger
-                                                    className={`${
-                                                        form.formState.errors
-                                                            .status &&
-                                                        "outline-red-500 focus:outline-red-400"
-                                                    }`}
-                                                >
-                                                    <SelectValue
-                                                        placeholder="Select Status"
-                                                        className=""
-                                                    />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent>
-                                                <SelectItem value="Active">
-                                                    Active
-                                                </SelectItem>
-                                                <SelectItem value="Inactive">
-                                                    Inactive
-                                                </SelectItem>
-                                            </SelectContent>
-                                        </Select>
 
-                                        {form.formState.errors.status && (
-                                            <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
-                                                <Info size={14} />
-                                                <FormMessage className="text-[13px] mt-[3px] leading-none" />
-                                            </div>
-                                        )}
-                                    </FormItem>
-                                )}
-                            />
                             <FormField
                                 control={form.control}
-                                name="username"
+                                name="name"
                                 render={({ field }) => (
                                     <FormItem className="space-y-0">
                                         <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
-                                            Username
+                                            Name
                                         </FormLabel>
                                         <FormControl>
                                             <Input
@@ -214,12 +163,12 @@ export function DialogEditTeacher() {
                                                 {...field}
                                                 className={`${
                                                     form.formState.errors
-                                                        .username &&
+                                                        .name &&
                                                     "outline-red-500 focus:outline-red-400"
                                                 }`}
                                             />
                                         </FormControl>
-                                        {form.formState.errors.username && (
+                                        {form.formState.errors.name && (
                                             <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
                                                 <Info size={14} />
                                                 <FormMessage className="text-[13px] mt-[3px] leading-none" />
@@ -231,25 +180,20 @@ export function DialogEditTeacher() {
 
                             <FormField
                                 control={form.control}
-                                name="password"
+                                name="image"
                                 render={({ field }) => (
                                     <FormItem className="space-y-0">
                                         <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
-                                            Password
+                                            Image
                                         </FormLabel>
                                         <FormControl>
                                             <Input
-                                                placeholder="Password. . ."
-                                                {...field}
-                                                className={`${
-                                                    form.formState.errors
-                                                        .password &&
-                                                    "outline-red-500 focus:outline-red-400"
-                                                }`}
-                                                type="password"
+                                                type="file"
+                                                accept="image/*"
+                                                onChange={handleImageChange}
                                             />
                                         </FormControl>
-                                        {form.formState.errors.password && (
+                                        {form.formState.errors.image && (
                                             <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
                                                 <Info size={14} />
                                                 <FormMessage className="text-[13px] mt-[3px] leading-none" />
@@ -273,7 +217,7 @@ export function DialogEditTeacher() {
                                     // disable={isLoading}
                                     type="submit"
                                 >
-                                    <span className="text-lg">Add</span>
+                                    <span className="text-lg">Update</span>
                                 </Button>
                             </div>
                         </form>

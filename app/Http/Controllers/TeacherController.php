@@ -85,15 +85,11 @@ class TeacherController extends Controller
         $request->validate([
             "id_number" => "required|numeric",
             "name" => "required",
-            "status" => "required",
-            "username" => "required",
-            "password" => "nullable",
             "image" => "nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048"
         ]);
 
         try {
             $teacher = Teachers::findOrFail($id);
-            $user = User::findOrFail($teacher->user_id);
 
             if ($request->hasFile('image')) {
                 if ($teacher->image && Storage::exists('public/upload/teacher/' . $teacher->image)) {
@@ -112,17 +108,6 @@ class TeacherController extends Controller
                 "image" => $teacher->image,
             ]);
 
-            $userData = [
-                "username" => $request->username,
-                "status" => $request->status,
-            ];
-
-            if ($request->password) {
-                $userData["password"] = Hash::make($request->password);
-            }
-
-            $user->update($userData);
-
             return response()->json([
                 "status" => "success",
                 "message" => "Teacher updated successfully",
@@ -136,6 +121,7 @@ class TeacherController extends Controller
             ], 500);
         }
     }
+
 
     public function delete($id)
     {

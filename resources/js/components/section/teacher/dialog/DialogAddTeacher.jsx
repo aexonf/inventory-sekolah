@@ -51,10 +51,12 @@ const formSchema = z.object({
     password: z.string().min(1, {
         message: "Password is Empty",
     }),
+    image: z.any().optional(),
 });
 
 export function DialogAddTeacher() {
     const [openModal, setOpenModal] = useState(false);
+    const [imageFile, setImageFile] = useState(null);
     const {
         register,
         handleSubmit,
@@ -70,37 +72,37 @@ export function DialogAddTeacher() {
             status: "",
             username: "",
             password: "",
+            image: "",
         },
     });
     const inventoryToken = Cookies.get("inventory_token");
 
     const onSubmit = async (data) => {
         const { number_id, name, email, status, username, password } = data;
-        const body = {
-            id_number: number_id,
-            name: name,
-            email: email,
-            status: status,
-            username: username,
-            password: password,
-        };
+        const formData = new FormData();
+        formData.append("id_number", number_id);
+        formData.append("name", name);
+        formData.append("email", email);
+        formData.append("status", status);
+        formData.append("username", username);
+        formData.append("password", password);
+        if (imageFile) {
+            formData.append("image", imageFile);
+        }
 
         try {
             const { data: getUser } = await axios.post(
                 "/api/v1/teachers",
-                body,
+                formData,
                 {
                     headers: {
                         Authorization: `Bearer ${inventoryToken}`,
+                        "Content-Type": "multipart/form-data",
                     },
                 }
             );
 
             console.log(getUser);
-            // if (getUser.username !== "") {
-            //     Inertia.visit("/");
-            //     setIsVerifyLoading(false);
-            // }
         } catch (error) {
             console.log(error);
             if (error.response?.data?.message === "Unauthenticated.") {
@@ -109,6 +111,10 @@ export function DialogAddTeacher() {
                 return;
             }
         }
+    };
+
+    const handleImageChange = (e) => {
+        setImageFile(e.target.files[0]);
     };
 
     return (
@@ -307,6 +313,30 @@ export function DialogAddTeacher() {
                                             />
                                         </FormControl>
                                         {form.formState.errors.password && (
+                                            <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
+                                                <Info size={14} />
+                                                <FormMessage className="text-[13px] mt-[3px] leading-none" />
+                                            </div>
+                                        )}
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="image"
+                                render={({ field }) => (
+                                    <FormItem className="space-y-0">
+                                        <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
+                                            Image
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                type="file"
+                                                accept="image/*"
+                                                onChange={handleImageChange}
+                                            />
+                                        </FormControl>
+                                        {form.formState.errors.image && (
                                             <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
                                                 <Info size={14} />
                                                 <FormMessage className="text-[13px] mt-[3px] leading-none" />

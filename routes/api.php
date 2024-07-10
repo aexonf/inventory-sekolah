@@ -20,7 +20,7 @@ Route::prefix("/v1")->group(function () {
     Route::controller(TeacherController::class)->middleware('auth:sanctum')->prefix("/teachers")->group(function () {
     Route::get("/", "index");
     Route::post("/", "create");
-    Route::put("/{id}", "update");
+    Route::post("/{id}", "update");
     Route::delete("/{id}", "delete");
 });
 
