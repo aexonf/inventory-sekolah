@@ -1,7 +1,6 @@
 import React from "react";
 import Layout from "./Layout";
 import { FiPlus } from "react-icons/fi";
-import TableTeacher from "../..//components/section/teacher/table/tableTeacher";
 import TableStudent from "../../components/dashboard/student/table/tableStudent";
 
 function Student() {

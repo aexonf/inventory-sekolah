@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Layout from "./Layout";
 import { FiPlus } from "react-icons/fi";
-import TableTeacher from "../..//components/section/teacher/table/tableTeacher";
+import TableTeacher from "@/components/dashboard/teacher/table/tableTeacher";
 
 function Teacher() {
     return (

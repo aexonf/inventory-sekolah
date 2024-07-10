@@ -15,7 +15,7 @@ import { FaUserAlt } from "react-icons/fa";
 
 export const columns = [
     {
-        accessorKey: "no",
+        accessorKey: "image",
         header: () => <div className="text-center">No</div>,
         cell: ({ row }) => {
             const amount = row.getValue("image");
@@ -36,12 +36,15 @@ export const columns = [
             return (
                 <div className="flex justify-center items-center">
                     <div className="bg-violet-100 rounded-full h-[40px] w-[40px] flex justify-center items-end overflow-hidden">
-                        {/* <img
-                            className="h-[40px] w-[40px]"
-                            src={amount}
-                            alt="ll"
-                        /> */}
-                        <FaUserAlt className="h-[30px] w-[30px] text-violet-500" />
+                        {row.original.image !== "" ? (
+                            <img
+                                className="h-[40px] w-[40px]"
+                                src={`/public/img/logo_skanka.png`}
+                                alt="ll"
+                            />
+                        ) : (
+                            <FaUserAlt className="h-[30px] w-[30px] text-violet-500" />
+                        )}
                     </div>
                 </div>
             );
@@ -92,11 +95,17 @@ export const columns = [
         header: () => <div className="text-left">Action</div>,
         cell: ({ row }) => {
             const payment = row.original;
-
+            console.log(row);
             return (
                 <div className="flex items-center gap-2">
-                    <DialogEditTeacher />
-                    <DialogDeleteTeacher />
+                    <DialogEditTeacher
+                        id={row.original.id}
+                        user_id={row.original.user_id}
+                        name={row.original.name}
+                        number_id={row.original.id_number}
+                        image={row.original.image}
+                    />
+                    <DialogDeleteTeacher id={row.original.id} />
                 </div>
             );
         },
