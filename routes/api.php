@@ -7,6 +7,7 @@ use App\Http\Controllers\ScanQRLoanController;
 use App\Http\Controllers\ActiveStudentsController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\StudentsController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,13 @@ Route::prefix("/v1")->group(function () {
     Route::get('/students', [StudentsController::class, 'index']);
 
     Route::controller(TeacherController::class)->middleware('auth:sanctum')->prefix("/teachers")->group(function () {
+    Route::get("/", "index");
+    Route::post("/", "create");
+    Route::post("/{id}", "update");
+    Route::delete("/{id}", "delete");
+});
+
+ Route::controller(CategoryController::class)->middleware('auth:sanctum')->prefix("/categories")->group(function () {
     Route::get("/", "index");
     Route::post("/", "create");
     Route::post("/{id}", "update");
