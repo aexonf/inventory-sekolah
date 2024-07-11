@@ -136,7 +136,7 @@ export const columns = [
             return (
                 <div className="flex items-center gap-2">
                     <DialogEditItem />
-                    <DialogDeleteItem />
+                    <DialogDeleteItem id={row.original.id} />
                 </div>
             );
         },
