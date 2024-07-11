@@ -34,10 +34,10 @@ class ItemsController extends Controller
     public function create(Request $request)
     {
         $request->validate([
-            "item_number" => "required",
+            "id_number" => "required",
             "name" => "required",
             "stock" => "required",
-            "image" => "image|mimes:jpeg,png,jpg,gif,svg",
+            "image" => "nullable|image|mimes:jpeg,png,jpg,gif,svg",
             "description" => "required",
             "category" => "required"
         ]);

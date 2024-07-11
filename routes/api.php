@@ -29,6 +29,7 @@ Route::prefix("/v1")->group(function () {
  Route::controller(CategoryController::class)->middleware('auth:sanctum')->prefix("/categories")->group(function () {
     Route::get("/", "index");
     Route::post("/", "create");
+    Route::get("/{id}", "show");
     Route::post("/{id}", "update");
     Route::delete("/{id}", "delete");
 });
