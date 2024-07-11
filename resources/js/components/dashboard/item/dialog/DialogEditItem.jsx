@@ -61,6 +61,8 @@ export function DialogEditItem({
     stock,
 }) {
     const [openModal, setOpenModal] = useState(false);
+    const [listCategory, setListcategory] = useState([]);
+    const [imageFile, setImageFile] = useState(null);
     const {
         register,
         handleSubmit,
@@ -73,25 +75,28 @@ export function DialogEditItem({
             number_id: id_number,
             name: name,
             description: description,
-            stock: stock,
-            category: "",
+            stock: `${stock}`,
+            category: `${categories_id}`,
             image: image,
         },
     });
     const inventoryToken = Cookies.get("inventory_token");
 
     const onSubmit = async (data) => {
-        const body = {
-            name: data.name,
-        };
-
-        console.log(data);
-        return;
+        const formData = new FormData();
+        formData.append("id_number", data.number_id);
+        formData.append("name", data.name);
+        formData.append("description", data.description);
+        formData.append("stock", Number(data.stock));
+        formData.append("categories_id", Number(data.category));
+        if (imageFile) {
+            formData.append("image", imageFile);
+        }
 
         try {
-            const { data: updateCategory } = await axios.post(
-                `/api/v1/categories/${id}`,
-                body,
+            const { data: updateItem } = await axios.post(
+                `/api/v1/items/${id}`,
+                formData,
                 {
                     headers: {
                         Authorization: `Bearer ${inventoryToken}`,
@@ -114,6 +119,23 @@ export function DialogEditItem({
             }
         }
     };
+
+    const getAllCategory = async () => {
+        try {
+            const { data: getCategory } = await axios(`/api/v1/categories`, {
+                headers: {
+                    Authorization: `Bearer ${inventoryToken}`,
+                },
+            });
+            setListcategory(getCategory?.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        getAllCategory();
+    }, []);
 
     useEffect(() => {
         if (!openModal) {
@@ -244,7 +266,7 @@ export function DialogEditItem({
                                                         .stock &&
                                                     "outline-red-500 focus:outline-red-400"
                                                 }`}
-                                                type="text"
+                                                type="number"
                                             />
                                         </FormControl>
                                         {form.formState.errors.stock && (
@@ -255,6 +277,67 @@ export function DialogEditItem({
                                         )}
                                     </FormItem>
                                 )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="category"
+                                render={({ field }) => {
+                                    console.log(field);
+                                    return (
+                                        <FormItem className="space-y-0">
+                                            <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
+                                                Category
+                                            </FormLabel>
+                                            <Select
+                                                onValueChange={field.onChange}
+                                                defaultValue={field.value}
+                                            >
+                                                <FormControl>
+                                                    <SelectTrigger
+                                                        className={`${
+                                                            form.formState
+                                                                .errors
+                                                                .category &&
+                                                            "outline-red-500 focus:outline-red-400"
+                                                        }`}
+                                                    >
+                                                        <SelectValue
+                                                            placeholder="Select Category"
+                                                            className=""
+                                                        />
+                                                    </SelectTrigger>
+                                                </FormControl>
+
+                                                <SelectContent>
+                                                    {listCategory.map(
+                                                        (item, index) => (
+                                                            <SelectItem
+                                                                key={index}
+                                                                value={`${item?.id}`}
+                                                            >
+                                                                {item.name}
+                                                            </SelectItem>
+                                                        )
+                                                    )}
+                                                    {/* <SelectItem value="active">
+                                                        Active
+                                                    </SelectItem>
+                                                    <SelectItem value="inactive">
+                                                        In ctive
+                                                    </SelectItem> */}
+                                                </SelectContent>
+                                            </Select>
+
+                                            {form.formState.errors.category && (
+                                                <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
+                                                    <Info size={14} />
+                                                    <FormMessage className="text-[13px] mt-[3px] leading-none" />
+                                                </div>
+                                            )}
+                                        </FormItem>
+                                    );
+                                }}
                             />
 
                             <div className="flex gap-7  w-full">

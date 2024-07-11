@@ -68,52 +68,57 @@ class ItemsController extends Controller
         return response()->json(["message" => "Something went wrong"], 500);
     }
 
-    public function update($id, Request $request)
-    {
-        $request->validate([
-            "id_number" => "required",
-            "name" => "required",
-            "stock" => "required",
-            "description" => "required",
-            "category" => "required",
-            "image" => "image|mimes:jpeg,png,jpg,gif,svg"
-        ]);
+   public function update($id, Request $request)
+{
+    $request->validate([
+        "id_number" => "required",
+        "name" => "required",
+        "stock" => "required",
+        "description" => "required",
+        "categories_id" => "required",
+        "image" => "image|mimes:jpeg,png,jpg,gif,svg"
+    ]);
 
-        $categoryFind = Categories::where("name", $request->category)->first();
-        $findItem = Items::find($id);
+    $categoryFind = Categories::find($request->categories_id);
+    $findItem = Items::find($id);
 
-        if (!$findItem) {
-            return response()->json(["message" => "Item not found"], 404);
-        }
-
-        $image = $findItem->image;
-
-        if ($request->hasFile('image')) {
-            $rand = Str::random(8);
-            $file_name = $rand . "-" . $request->file('image')->getClientOriginalName();
-            $existingFilePath = 'storage/upload/items/' . $findItem->image;
-            if (File::exists($existingFilePath)) {
-                File::delete($existingFilePath);
-            }
-            $request->file('image')->move('storage/upload/items/', $file_name);
-            $image = $file_name;
-        }
-
-        $updateItem = $findItem->update([
-            "id_number" => $request->id_number,
-            "name" => $request->name,
-            "stock" => $request->stock,
-            "description" => $request->description,
-            "categories_id" => $categoryFind->id,
-            "image" => $image
-        ]);
-
-        if ($updateItem) {
-            return response()->json(["message" => "Item updated successfully"], 200);
-        }
-
-        return response()->json(["message" => "Something went wrong"], 500);
+    if (!$findItem) {
+        return response()->json(["message" => "Item not found"], 404);
     }
+
+    if (!$categoryFind) {
+        return response()->json(["message" => "Category not found"], 404);
+    }
+
+    $image = $findItem->image;
+
+    if ($request->hasFile('image')) {
+        $rand = Str::random(8);
+        $file_name = $rand . "-" . $request->file('image')->getClientOriginalName();
+        $existingFilePath = 'storage/upload/items/' . $findItem->image;
+        if (File::exists($existingFilePath)) {
+            File::delete($existingFilePath);
+        }
+        $request->file('image')->move('storage/upload/items/', $file_name);
+        $image = $file_name;
+    }
+
+    $updateItem = $findItem->update([
+        "id_number" => $request->id_number,
+        "name" => $request->name,
+        "stock" => $request->stock,
+        "description" => $request->description,
+        "categories_id" => $categoryFind->id,
+        "image" => $image
+    ]);
+
+    if ($updateItem) {
+        return response()->json(["message" => "Item updated successfully"], 200);
+    }
+
+    return response()->json(["message" => "Something went wrong"], 500);
+}
+
 
     public function delete($id)
     {
