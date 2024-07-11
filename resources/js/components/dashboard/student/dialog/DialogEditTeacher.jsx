@@ -8,12 +8,13 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "../../../ui";
+import { IoEyeSharp } from "react-icons/io5";
 
 export function DialogEditTeacher() {
     return (
         <Dialog>
             <DialogTrigger className="bg-violet-500 py-[10px] px-[10px] rounded-sm">
-                <FaEdit className="text-white h-[14px] w-[14px]" />
+                <IoEyeSharp className="text-white h-[14px] w-[14px]" />
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
