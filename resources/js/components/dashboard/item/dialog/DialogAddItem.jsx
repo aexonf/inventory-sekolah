@@ -53,6 +53,7 @@ const formSchema = z.object({
 export function DialogAddItem() {
     const [openModal, setOpenModal] = useState(false);
     const [imageFile, setImageFile] = useState(null);
+    const [listCategory, setListcategory] = useState([]);
     const {
         register,
         handleSubmit,
@@ -95,7 +96,14 @@ export function DialogAddItem() {
                     },
                 }
             );
+            setOpenModal(false);
+            toast.success("Success Add Categories", {
+                duration: 3000,
+            });
         } catch (error) {
+            toast.error("Failed Add Categories", {
+                duration: 3000,
+            });
             console.log(error);
             if (error.response?.data?.message === "Unauthenticated.") {
                 Inertia.visit("/login");
@@ -109,6 +117,28 @@ export function DialogAddItem() {
         setImageFile(e.target.files[0]);
     };
 
+    const getAllCategory = async () => {
+        try {
+            const { data: getCategory } = await axios("/api/v1/categories", {
+                headers: {
+                    Authorization: `Bearer ${inventoryToken}`,
+                },
+            });
+            setListcategory(getCategory?.data);
+        } catch (error) {
+            console.log(error);
+            // if (error.response.data.message === "Unauthenticated.") {
+            //     Inertia.visit("/login");
+            //     return;
+            // }
+        }
+    };
+    console.log(listCategory);
+
+    useEffect(() => {
+        getAllCategory();
+    }, []);
+
     return (
         <>
             <Toaster richColors position="top-center" />
@@ -121,7 +151,7 @@ export function DialogAddItem() {
                     <DialogHeader>
                         <DialogTitle>
                             <h1 className="text-center mb-[20px] text-[20px] font-semibold text-neutral-700">
-                                Add Category
+                                Add Item
                             </h1>
                         </DialogTitle>
                     </DialogHeader>
@@ -270,13 +300,18 @@ export function DialogAddItem() {
                                                     />
                                                 </SelectTrigger>
                                             </FormControl>
+
                                             <SelectContent>
-                                                <SelectItem value="active">
-                                                    Active
-                                                </SelectItem>
-                                                <SelectItem value="inactive">
-                                                    Inactive
-                                                </SelectItem>
+                                                {listCategory.map(
+                                                    (item, index) => (
+                                                        <SelectItem
+                                                            key={index}
+                                                            value={item?.id}
+                                                        >
+                                                            {item.name}
+                                                        </SelectItem>
+                                                    )
+                                                )}
                                             </SelectContent>
                                         </Select>
 
