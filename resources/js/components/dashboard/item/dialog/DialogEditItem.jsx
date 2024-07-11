@@ -1,3 +1,4 @@
+import { FaEdit } from "react-icons/fa";
 import React from "react";
 import {
     Dialog,
@@ -7,15 +8,12 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "../../../ui";
-import { FaTrash } from "react-icons/fa";
-import { FiPlus } from "react-icons/fi";
 
-export function DialogAddTeacher() {
+export function DialogEditItem() {
     return (
         <Dialog>
-            <DialogTrigger className="flex items-center gap-1 bg-violet-500 text-white py-[5px] text-[14px] px-[15px] rounded-[20px] hover:bg-violet-400">
-                <FiPlus className="h-[16px] w-[16px] " />{" "}
-                <span className="mt-[3px]">Tambah</span>
+            <DialogTrigger className="bg-violet-500 py-[10px] px-[10px] rounded-sm">
+                <FaEdit className="text-white h-[14px] w-[14px]" />
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>

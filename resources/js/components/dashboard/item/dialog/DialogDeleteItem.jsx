@@ -9,7 +9,7 @@ import {
 } from "../../../ui";
 import { FaTrash } from "react-icons/fa";
 
-export function DialogDeleteTeacher() {
+export function DialogDeleteItem() {
     return (
         <Dialog>
             <DialogTrigger className="bg-red-500 py-[10px] px-[10px] rounded-sm">

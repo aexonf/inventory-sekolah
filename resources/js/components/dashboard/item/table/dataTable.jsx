@@ -21,7 +21,7 @@ import {
     TableHeader,
     TableRow,
 } from "../../../ui/index";
-import { DialogAddTeacher } from "../../teacher/dialog/index";
+import { DialogAddItem } from "../dialog/index";
 
 export function DataTable({ columns, data }) {
     const [sorting, setSorting] = React.useState([]);
@@ -61,7 +61,7 @@ export function DataTable({ columns, data }) {
                     }
                     className="max-w-sm"
                 />
-                <DialogAddTeacher />
+                <DialogAddItem />
                 {/* <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-auto">

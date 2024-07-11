@@ -1,3 +1,3 @@
-export * from "./DialogDeleteTeacher";
-export * from "./DialogEditTeacher";
-export * from "./DialogAddTeacher";
+export * from "./DialogDeleteItem";
+export * from "./DialogEditItem";
+export * from "./DialogAddItem";
