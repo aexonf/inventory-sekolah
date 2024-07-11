@@ -1,3 +1,3 @@
-export * from "./DialogDeleteTeacher";
-export * from "./DialogEditTeacher";
-export * from "./DialogAddTeacher";
+export * from "./DialogDeleteCategory";
+export * from "./DialogEditCategory";
+export * from "./DialogAddCategory";
