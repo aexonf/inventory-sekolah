@@ -37,7 +37,7 @@ const formSchema = z.object({
     }),
 });
 
-export function DialogEditCategory({ id, name }) {
+export default function DialogEditCategory({ id, name }) {
     const [openModal, setOpenModal] = useState(false);
     const {
         register,

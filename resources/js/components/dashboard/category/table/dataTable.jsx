@@ -21,7 +21,7 @@ import {
     TableHeader,
     TableRow,
 } from "../../../ui/index";
-import { DialogAddCategory } from "../dialog/DialogAddCategory";
+import { DialogAddCategory } from "../dialog/index";
 
 export function DataTable({ columns, data }) {
     const [sorting, setSorting] = React.useState([]);

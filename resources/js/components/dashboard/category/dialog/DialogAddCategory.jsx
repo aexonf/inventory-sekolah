@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Dialog,
     DialogContent,
@@ -30,6 +30,7 @@ import { Toaster, toast } from "sonner";
 import { Info } from "lucide-react";
 import { z } from "zod";
 import { FiPlus } from "react-icons/fi";
+import { useItemRefresher } from "@/lib/context/refresherItem";
 
 const formSchema = z.object({
     name: z.string().min(1, {
@@ -37,7 +38,7 @@ const formSchema = z.object({
     }),
 });
 
-export function DialogAddCategory() {
+export default function DialogAddCategory() {
     const [openModal, setOpenModal] = useState(false);
     const {
         register,
@@ -52,6 +53,7 @@ export function DialogAddCategory() {
         },
     });
     const inventoryToken = Cookies.get("inventory_token");
+    const { refresh } = useItemRefresher();
 
     const onSubmit = async (data) => {
         const body = {
@@ -68,10 +70,11 @@ export function DialogAddCategory() {
                     },
                 }
             );
-            setOpenModal(false);
             toast.success("Success Add Categories", {
                 duration: 3000,
             });
+            setOpenModal(false);
+            refresh();
         } catch (error) {
             toast.error("Failed Add Categories", {
                 duration: 3000,
@@ -84,6 +87,12 @@ export function DialogAddCategory() {
             }
         }
     };
+
+    // useEffect(() => {
+    //     toast.success("Success Add Categories", {
+    //         duration: 3000,
+    //     });
+    // }, []);
 
     return (
         <>

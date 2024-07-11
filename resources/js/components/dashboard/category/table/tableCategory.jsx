@@ -4,10 +4,12 @@ import { DataTable } from "./dataTable";
 import axios from "axios";
 import { Inertia } from "@inertiajs/inertia";
 import Cookies from "js-cookie";
+import { useItemRefresher } from "@/lib/context/refresherItem";
 
 export default function TableCategory() {
     const inventoryToken = Cookies.get("inventory_token");
     const [categoryList, setCategoryList] = useState([]);
+    const { refreshKey } = useItemRefresher();
 
     const getAllCategory = async () => {
         try {
@@ -28,7 +30,7 @@ export default function TableCategory() {
 
     useEffect(() => {
         getAllCategory();
-    }, []);
+    }, [refreshKey]);
 
     return (
         <div className="mx-auto max-w-[900px] py-10">
