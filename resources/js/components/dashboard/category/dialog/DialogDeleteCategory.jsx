@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+    Button,
     Dialog,
     DialogContent,
     DialogDescription,
@@ -51,11 +52,26 @@ export function DialogDeleteCategory({ id }) {
                 <DialogTrigger className="bg-red-500 py-[10px] px-[10px] rounded-sm">
                     <FaTrash className="text-white h-[14px] w-[14px]" />
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent className="w-auto py-[20px] px-[25px]">
                     <DialogHeader>
-                        <DialogTitle>Are delete this category?</DialogTitle>
+                        <DialogTitle className="text-center font-medium">
+                            are you sure to delete this category?
+                        </DialogTitle>
                     </DialogHeader>
-                    <button onClick={DeleteCategory}>Hapus</button>
+                    <div className="flex items-center justify-center gap-3 mt-[10px]">
+                        <Button
+                            className="bg-violet-500 hover:bg-violet-400 font-semibold"
+                            onClick={() => setOpenModal(false)}
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            className="bg-red-500 hover:bg-red-400 font-semibold"
+                            onClick={DeleteCategory}
+                        >
+                            Hapus
+                        </Button>
+                    </div>
                 </DialogContent>
             </Dialog>
         </>
