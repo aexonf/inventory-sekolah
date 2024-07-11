@@ -57,6 +57,7 @@ export function DialogAddItem() {
     const {
         register,
         handleSubmit,
+        reset,
         watch,
         formState: { errors },
     } = useForm();
@@ -79,12 +80,23 @@ export function DialogAddItem() {
         formData.append("id_number", number_id);
         formData.append("name", name);
         formData.append("description", description);
-        formData.append("stock", stock);
-        formData.append("category", 10);
+        formData.append("stock", Number(stock));
+        formData.append("category", Number(category));
         if (imageFile) {
             formData.append("image", imageFile);
         }
 
+        // const body = {
+        //     id_number: number_id,
+        //     name: name,
+        //     description: description,
+        //     stock: ,
+        //     category: ,
+        //     image: imageFile,
+        // };
+
+        // console.log(body);
+        // return;
         try {
             const { data: getUser } = await axios.post(
                 "/api/v1/items",
@@ -97,6 +109,7 @@ export function DialogAddItem() {
                 }
             );
             setOpenModal(false);
+            form.reset();
             toast.success("Success Add Categories", {
                 duration: 3000,
             });
@@ -127,10 +140,6 @@ export function DialogAddItem() {
             setListcategory(getCategory?.data);
         } catch (error) {
             console.log(error);
-            // if (error.response.data.message === "Unauthenticated.") {
-            //     Inertia.visit("/login");
-            //     return;
-            // }
         }
     };
     console.log(listCategory);
@@ -138,6 +147,13 @@ export function DialogAddItem() {
     useEffect(() => {
         getAllCategory();
     }, []);
+
+    useEffect(() => {
+        if (!openModal) {
+            form.reset();
+            setImageFile(null);
+        }
+    }, [openModal]);
 
     return (
         <>
@@ -277,52 +293,62 @@ export function DialogAddItem() {
                             <FormField
                                 control={form.control}
                                 name="category"
-                                render={({ field }) => (
-                                    <FormItem className="space-y-0">
-                                        <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
-                                            Category
-                                        </FormLabel>
-                                        <Select
-                                            onValueChange={field.onChange}
-                                            defaultValue={field.value}
-                                        >
-                                            <FormControl>
-                                                <SelectTrigger
-                                                    className={`${
-                                                        form.formState.errors
-                                                            .category &&
-                                                        "outline-red-500 focus:outline-red-400"
-                                                    }`}
-                                                >
-                                                    <SelectValue
-                                                        placeholder="Select Category"
-                                                        className=""
-                                                    />
-                                                </SelectTrigger>
-                                            </FormControl>
+                                render={({ field }) => {
+                                    console.log(field);
+                                    return (
+                                        <FormItem className="space-y-0">
+                                            <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
+                                                Category
+                                            </FormLabel>
+                                            <Select
+                                                onValueChange={field.onChange}
+                                                defaultValue={field.value}
+                                            >
+                                                <FormControl>
+                                                    <SelectTrigger
+                                                        className={`${
+                                                            form.formState
+                                                                .errors
+                                                                .category &&
+                                                            "outline-red-500 focus:outline-red-400"
+                                                        }`}
+                                                    >
+                                                        <SelectValue
+                                                            placeholder="Select Category"
+                                                            className=""
+                                                        />
+                                                    </SelectTrigger>
+                                                </FormControl>
 
-                                            <SelectContent>
-                                                {listCategory.map(
-                                                    (item, index) => (
-                                                        <SelectItem
-                                                            key={index}
-                                                            value={item?.id}
-                                                        >
-                                                            {item.name}
-                                                        </SelectItem>
-                                                    )
-                                                )}
-                                            </SelectContent>
-                                        </Select>
+                                                <SelectContent>
+                                                    {listCategory.map(
+                                                        (item, index) => (
+                                                            <SelectItem
+                                                                key={index}
+                                                                value={`${item?.id}`}
+                                                            >
+                                                                {item.name}
+                                                            </SelectItem>
+                                                        )
+                                                    )}
+                                                    {/* <SelectItem value="active">
+                                                        Active
+                                                    </SelectItem>
+                                                    <SelectItem value="inactive">
+                                                        In ctive
+                                                    </SelectItem> */}
+                                                </SelectContent>
+                                            </Select>
 
-                                        {form.formState.errors.category && (
-                                            <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
-                                                <Info size={14} />
-                                                <FormMessage className="text-[13px] mt-[3px] leading-none" />
-                                            </div>
-                                        )}
-                                    </FormItem>
-                                )}
+                                            {form.formState.errors.category && (
+                                                <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
+                                                    <Info size={14} />
+                                                    <FormMessage className="text-[13px] mt-[3px] leading-none" />
+                                                </div>
+                                            )}
+                                        </FormItem>
+                                    );
+                                }}
                             />
                             <FormField
                                 control={form.control}
