@@ -68,7 +68,14 @@ export function DialogAddCategory() {
                     },
                 }
             );
+            setOpenModal(false);
+            toast.success("Success Add Categories", {
+                duration: 3000,
+            });
         } catch (error) {
+            toast.error("Failed Add Categories", {
+                duration: 3000,
+            });
             console.log(error);
             if (error.response?.data?.message === "Unauthenticated.") {
                 Inertia.visit("/login");
@@ -79,72 +86,76 @@ export function DialogAddCategory() {
     };
 
     return (
-        <Dialog>
-            <DialogTrigger className="flex items-center gap-1 bg-violet-500 text-white py-[5px] text-[14px] px-[15px] rounded-[20px] hover:bg-violet-400">
-                <FiPlus className="h-[16px] w-[16px] " />{" "}
-                <span className="mt-[3px]">Tambah</span>
-            </DialogTrigger>
-            <DialogContent>
-                <DialogHeader>
-                    <DialogTitle>
-                        <h1 className="text-center mb-[20px] text-[20px] font-semibold text-neutral-700">
-                            Add Category
-                        </h1>
-                    </DialogTitle>
-                </DialogHeader>
-                <Form {...form}>
-                    <form
-                        onSubmit={form.handleSubmit(onSubmit)}
-                        className="flex flex-col gap-8 rounded-md px-[30px] w-full"
-                    >
-                        <FormField
-                            control={form.control}
-                            name="name"
-                            render={({ field }) => (
-                                <FormItem className="space-y-0">
-                                    <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
-                                        Name
-                                    </FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            placeholder="Name. . ."
-                                            {...field}
-                                            className={`${
-                                                form.formState.errors.name &&
-                                                "outline-red-500 focus:outline-red-400"
-                                            }`}
-                                        />
-                                    </FormControl>
-                                    {form.formState.errors.name && (
-                                        <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
-                                            <Info size={14} />
-                                            <FormMessage className="text-[13px] mt-[3px] leading-none" />
-                                        </div>
-                                    )}
-                                </FormItem>
-                            )}
-                        />
+        <>
+            <Toaster richColors position="top-center" />
+            <Dialog open={openModal} onOpenChange={setOpenModal}>
+                <DialogTrigger className="flex items-center gap-1 bg-violet-500 text-white py-[5px] text-[14px] px-[15px] rounded-[20px] hover:bg-violet-400">
+                    <FiPlus className="h-[16px] w-[16px] " />{" "}
+                    <span className="mt-[3px]">Tambah</span>
+                </DialogTrigger>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>
+                            <h1 className="text-center mb-[20px] text-[20px] font-semibold text-neutral-700">
+                                Add Category
+                            </h1>
+                        </DialogTitle>
+                    </DialogHeader>
+                    <Form {...form}>
+                        <form
+                            onSubmit={form.handleSubmit(onSubmit)}
+                            className="flex flex-col gap-8 rounded-md px-[30px] w-full"
+                        >
+                            <FormField
+                                control={form.control}
+                                name="name"
+                                render={({ field }) => (
+                                    <FormItem className="space-y-0">
+                                        <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
+                                            Name
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                placeholder="Name. . ."
+                                                {...field}
+                                                className={`${
+                                                    form.formState.errors
+                                                        .name &&
+                                                    "outline-red-500 focus:outline-red-400"
+                                                }`}
+                                            />
+                                        </FormControl>
+                                        {form.formState.errors.name && (
+                                            <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
+                                                <Info size={14} />
+                                                <FormMessage className="text-[13px] mt-[3px] leading-none" />
+                                            </div>
+                                        )}
+                                    </FormItem>
+                                )}
+                            />
 
-                        <div className="flex gap-7  w-full">
-                            <Button
-                                className="w-full bg-[#A27FFE] mt-[50px] hover:bg-[#b295fb]"
-                                // disable={isLoading}
-                                type="button"
-                                onClick={() => setOpenModal(false)}
-                            >
-                                <span className="text-lg">Cancel</span>
-                            </Button>
-                            <Button
-                                className="w-full bg-[#A27FFE] mt-[50px] hover:bg-[#b295fb]"
-                                // disable={isLoading}
-                                type="submit"
-                            >
-                                <span className="text-lg">Add</span>
-                            </Button>
-                        </div>
-                    </form>
-                </Form>
-            </DialogContent>
-        </Dialog>
+                            <div className="flex gap-7  w-full">
+                                <Button
+                                    className="w-full bg-[#A27FFE] mt-[50px] hover:bg-[#b295fb]"
+                                    // disable={isLoading}
+                                    type="button"
+                                    onClick={() => setOpenModal(false)}
+                                >
+                                    <span className="text-lg">Cancel</span>
+                                </Button>
+                                <Button
+                                    className="w-full bg-[#A27FFE] mt-[50px] hover:bg-[#b295fb]"
+                                    // disable={isLoading}
+                                    type="submit"
+                                >
+                                    <span className="text-lg">Add</span>
+                                </Button>
+                            </div>
+                        </form>
+                    </Form>
+                </DialogContent>
+            </Dialog>
+        </>
     );
 }
