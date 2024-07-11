@@ -132,10 +132,19 @@ export const columns = [
         header: () => <div className="text-left">Action</div>,
         cell: ({ row }) => {
             const payment = row.original;
-
+            console.log(row);
             return (
                 <div className="flex items-center gap-2">
-                    <DialogEditItem />
+                    <DialogEditItem
+                        id={row.original.id}
+                        id_number={row.original.id_number}
+                        name={row.original.name}
+                        description={row.original.description}
+                        status={row.original.status}
+                        stock={row.original.stock}
+                        categories_id={row.original.categories_id}
+                        image={row.original.image}
+                    />
                     <DialogDeleteItem id={row.original.id} />
                 </div>
             );
