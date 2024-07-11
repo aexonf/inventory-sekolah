@@ -86,17 +86,6 @@ export function DialogAddItem() {
             formData.append("image", imageFile);
         }
 
-        // const body = {
-        //     id_number: number_id,
-        //     name: name,
-        //     description: description,
-        //     stock: ,
-        //     category: ,
-        //     image: imageFile,
-        // };
-
-        // console.log(body);
-        // return;
         try {
             const { data: getUser } = await axios.post(
                 "/api/v1/items",
@@ -142,7 +131,6 @@ export function DialogAddItem() {
             console.log(error);
         }
     };
-    console.log(listCategory);
 
     useEffect(() => {
         getAllCategory();
