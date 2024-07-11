@@ -14,12 +14,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Inertia } from "@inertiajs/inertia";
 import Cookies from "js-cookie";
 import { Toaster, toast } from "sonner";
-import { useItemRefresher } from "@/lib/context/refresherItem";
+import { useCategoryRefresher } from "@/lib/context/refresherCategory";
 
 export default function DialogDeleteCategory({ id }) {
     const [openModal, setOpenModal] = useState(false);
     const inventoryToken = Cookies.get("inventory_token");
-    const { refresh } = useItemRefresher();
+    const { refresh } = useCategoryRefresher();
 
     const DeleteCategory = async () => {
         try {

@@ -30,6 +30,7 @@ import { Toaster, toast } from "sonner";
 import { Info } from "lucide-react";
 import { z } from "zod";
 import { FiPlus } from "react-icons/fi";
+import { useItemRefresher } from "@/lib/context/refresherItem";
 
 const formSchema = z.object({
     number_id: z.string().min(1, {
@@ -73,6 +74,7 @@ export function DialogAddItem() {
         },
     });
     const inventoryToken = Cookies.get("inventory_token");
+    const { refresh } = useItemRefresher();
 
     const onSubmit = async (data) => {
         const { number_id, name, description, stock, category } = data;
@@ -102,6 +104,7 @@ export function DialogAddItem() {
             toast.success("Success Add Categories", {
                 duration: 3000,
             });
+            refresh();
         } catch (error) {
             toast.error("Failed Add Categories", {
                 duration: 3000,

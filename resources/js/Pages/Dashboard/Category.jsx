@@ -2,11 +2,11 @@ import React from "react";
 import Layout from "./Layout";
 import { FiPlus } from "react-icons/fi";
 import TableCategory from "@/components/dashboard/category/table/tableCategory";
-import { ItemRefresherProvider } from "@/lib/context/refresherItem";
+import { CategoryRefresherProvider } from "@/lib/context/refresherCategory";
 
 function Setting() {
     return (
-        <ItemRefresherProvider>
+        <CategoryRefresherProvider>
             <div className="relative w-full">
                 <div className="absolute top-[-40px] w-full px-[20px]">
                     <div className="bg-white shadow-[3px_3px_20px_-2px_#00000024]  py-[20px] rounded-md px-[20px]">
@@ -19,7 +19,7 @@ function Setting() {
                     </div>
                 </div>
             </div>
-        </ItemRefresherProvider>
+        </CategoryRefresherProvider>
     );
 }
 

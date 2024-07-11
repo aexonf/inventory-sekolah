@@ -30,7 +30,7 @@ import { Toaster, toast } from "sonner";
 import { Info } from "lucide-react";
 import { z } from "zod";
 import { FiPlus } from "react-icons/fi";
-import { useItemRefresher } from "@/lib/context/refresherItem";
+import { useCategoryRefresher } from "@/lib/context/refresherCategory";
 
 const formSchema = z.object({
     name: z.string().min(1, {
@@ -53,7 +53,7 @@ export default function DialogAddCategory() {
         },
     });
     const inventoryToken = Cookies.get("inventory_token");
-    const { refresh } = useItemRefresher();
+    const { refresh } = useCategoryRefresher();
 
     const onSubmit = async (data) => {
         const body = {

@@ -4,12 +4,12 @@ import { DataTable } from "./dataTable";
 import axios from "axios";
 import { Inertia } from "@inertiajs/inertia";
 import Cookies from "js-cookie";
-import { useItemRefresher } from "@/lib/context/refresherItem";
+import { useCategoryRefresher } from "@/lib/context/refresherCategory";
 
 export default function TableCategory() {
     const inventoryToken = Cookies.get("inventory_token");
     const [categoryList, setCategoryList] = useState([]);
-    const { refreshKey } = useItemRefresher();
+    const { refreshKey } = useCategoryRefresher();
 
     const getAllCategory = async () => {
         try {

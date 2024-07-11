@@ -30,6 +30,7 @@ import Cookies from "js-cookie";
 import { Toaster, toast } from "sonner";
 import { Info } from "lucide-react";
 import { z } from "zod";
+import { useItemRefresher } from "@/lib/context/refresherItem";
 
 const formSchema = z.object({
     number_id: z.string().min(1, {
@@ -81,6 +82,7 @@ export function DialogEditItem({
         },
     });
     const inventoryToken = Cookies.get("inventory_token");
+    const { refresh } = useItemRefresher();
 
     const onSubmit = async (data) => {
         const formData = new FormData();
@@ -107,6 +109,7 @@ export function DialogEditItem({
             toast.success("Success Update Categories", {
                 duration: 3000,
             });
+            refresh();
         } catch (error) {
             toast.error("Failed Update Categories", {
                 duration: 3000,
