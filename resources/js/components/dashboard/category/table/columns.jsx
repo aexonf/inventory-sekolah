@@ -10,7 +10,7 @@ import {
     DropdownMenuTrigger,
 } from "../../../ui/index";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import { DialogDeleteCategory, DialogEditCategory } from "../dialog";
+// import { DialogDeleteCategory, DialogEditCategory } from "../dialog/index";
 import { FaUserAlt } from "react-icons/fa";
 
 export const columns = [
@@ -51,11 +51,11 @@ export const columns = [
         cell: ({ row }) => {
             return (
                 <div className="flex items-center gap-2">
-                    <DialogEditCategory
+                    {/* <DialogEditCategory
                         id={row.original.id}
                         name={row.original.name}
                     />
-                    <DialogDeleteCategory id={row.original.id} />
+                    <DialogDeleteCategory id={row.original.id} /> */}
                 </div>
             );
         },
