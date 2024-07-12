@@ -10,7 +10,11 @@ import {
     DropdownMenuTrigger,
 } from "../../../ui/index";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import { DialogDeleteItem, DialogEditItem } from "../dialog/index";
+import {
+    DialogDeleteItem,
+    DialogEditItem,
+    DialogDetailItem,
+} from "../dialog/index";
 import { FaUserAlt } from "react-icons/fa";
 
 export const columns = [
@@ -133,6 +137,7 @@ export const columns = [
         cell: ({ row }) => {
             return (
                 <div className="flex items-center gap-2">
+                    <DialogDetailItem />
                     <DialogEditItem
                         id={row.original.id}
                         id_number={row.original.id_number}
