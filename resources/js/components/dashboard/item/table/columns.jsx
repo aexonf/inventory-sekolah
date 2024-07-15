@@ -16,6 +16,7 @@ import {
     DialogDetailItem,
 } from "../dialog/index";
 import { FaUserAlt } from "react-icons/fa";
+import { ButtonDownloadPdf } from "../button/ButtonDownloadPdf";
 
 export const columns = [
     {
@@ -137,6 +138,7 @@ export const columns = [
         cell: ({ row }) => {
             return (
                 <div className="flex items-center gap-2">
+                    <ButtonDownloadPdf row={row.original} />
                     <DialogDetailItem />
                     <DialogEditItem
                         id={row.original.id}
