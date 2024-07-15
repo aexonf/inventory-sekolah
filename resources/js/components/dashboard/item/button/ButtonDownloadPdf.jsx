@@ -65,8 +65,11 @@ export function ButtonDownloadPdf({ row }) {
     };
 
     return (
-        <button onClick={generatePDF}>
-            <IoQrCode />
+        <button
+            className="bg-yellow-500 py-[10px] px-[10px] rounded-sm"
+            onClick={generatePDF}
+        >
+            <IoQrCode className="text-white h-[14px] w-[14px]" />
         </button>
     );
 }
