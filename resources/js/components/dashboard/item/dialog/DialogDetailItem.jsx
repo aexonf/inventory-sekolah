@@ -137,11 +137,14 @@ export function DialogDetailItem({ row }) {
                         </div>
                         <div>
                             <h1>Image:</h1>
-                            <p>
-                                {row.image === "" || row.image === null
-                                    ? "-"
-                                    : ""}
-                            </p>
+
+                            {row.image === "" || row.image === null ? (
+                                <p>-</p>
+                            ) : (
+                                <img
+                                    src={`/storage/upload/items/${row.image}`}
+                                />
+                            )}
                         </div>
                     </div>
                     {/* <Form {...form}>
