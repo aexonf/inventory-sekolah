@@ -97,7 +97,7 @@ export function DialogDetailItem({ row }) {
         if (openModal) {
             getDetailCategory();
         }
-    }, [openModal]);
+    }, [openModal === true]);
 
     return (
         <>
