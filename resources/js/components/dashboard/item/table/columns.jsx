@@ -31,26 +31,6 @@ export const columns = [
         },
     },
     {
-        accessorKey: "image",
-        header: () => <div className="text-center">Image</div>,
-        cell: ({ row }) => {
-            const amount = row.getValue("image");
-
-            return (
-                <div className="flex justify-center items-center">
-                    <div className="bg-violet-100 rounded-full h-[40px] w-[40px] flex justify-center items-end overflow-hidden">
-                        {/* <img
-                            className="h-[40px] w-[40px]"
-                            src={amount}
-                            alt="ll"
-                        /> */}
-                        <FaUserAlt className="h-[30px] w-[30px] text-violet-500" />
-                    </div>
-                </div>
-            );
-        },
-    },
-    {
         accessorKey: "name",
         header: ({ column }) => {
             return (
