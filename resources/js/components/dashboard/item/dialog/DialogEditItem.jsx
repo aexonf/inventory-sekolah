@@ -137,7 +137,9 @@ export function DialogEditItem({
     };
 
     useEffect(() => {
-        getAllCategory();
+        if (openModal) {
+            getAllCategory();
+        }
     }, []);
 
     useEffect(() => {

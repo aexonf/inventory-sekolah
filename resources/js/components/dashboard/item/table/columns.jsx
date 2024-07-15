@@ -139,7 +139,7 @@ export const columns = [
             return (
                 <div className="flex items-center gap-2">
                     <ButtonDownloadPdf row={row.original} />
-                    <DialogDetailItem />
+                    <DialogDetailItem row={row.original} />
                     <DialogEditItem
                         id={row.original.id}
                         id_number={row.original.id_number}

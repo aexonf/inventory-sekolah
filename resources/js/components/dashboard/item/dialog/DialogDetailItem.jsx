@@ -52,7 +52,7 @@ const formSchema = z.object({
     image: z.any().optional(),
 });
 
-export function DialogDetailItem() {
+export function DialogDetailItem({ row }) {
     const [openModal, setOpenModal] = useState(false);
     const [imageFile, setImageFile] = useState(null);
     const [listCategory, setListcategory] = useState([]);
@@ -76,74 +76,26 @@ export function DialogDetailItem() {
     });
     const inventoryToken = Cookies.get("inventory_token");
     const { refresh } = useItemRefresher();
+    const [category, setCategory] = useState(``);
 
-    const onSubmit = async (data) => {
-        const { number_id, name, description, stock, category } = data;
-        const formData = new FormData();
-        formData.append("id_number", number_id);
-        formData.append("name", name);
-        formData.append("description", description);
-        formData.append("stock", Number(stock));
-        formData.append("category", Number(category));
-        if (imageFile) {
-            formData.append("image", imageFile);
-        }
-
+    const getDetailCategory = async () => {
         try {
-            const { data: getUser } = await axios.post(
-                "/api/v1/items",
-                formData,
+            const { data: getCategory } = await axios(
+                `/api/v1/categories/${row.categories_id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${inventoryToken}`,
-                        "Content-Type": "multipart/form-data",
                     },
                 }
             );
-            setOpenModal(false);
-            form.reset();
-            toast.success("Success Add Categories", {
-                duration: 3000,
-            });
-            refresh();
-        } catch (error) {
-            toast.error("Failed Add Categories", {
-                duration: 3000,
-            });
-            console.log(error);
-            if (error.response?.data?.message === "Unauthenticated.") {
-                Inertia.visit("/login");
-                setIsVerifyLoading(false);
-                return;
-            }
-        }
-    };
-
-    const handleImageChange = (e) => {
-        setImageFile(e.target.files[0]);
-    };
-
-    const getAllCategory = async () => {
-        try {
-            const { data: getCategory } = await axios("/api/v1/categories", {
-                headers: {
-                    Authorization: `Bearer ${inventoryToken}`,
-                },
-            });
-            setListcategory(getCategory?.data);
+            setCategory(getCategory?.data.name);
         } catch (error) {
             console.log(error);
         }
     };
-
     useEffect(() => {
-        getAllCategory();
-    }, []);
-
-    useEffect(() => {
-        if (!openModal) {
-            form.reset();
-            setImageFile(null);
+        if (openModal) {
+            getDetailCategory();
         }
     }, [openModal]);
 
@@ -158,11 +110,41 @@ export function DialogDetailItem() {
                     <DialogHeader>
                         <DialogTitle>
                             <h1 className="text-center mb-[20px] text-[20px] font-semibold text-neutral-700">
-                                Add Item
+                                Detail Item
                             </h1>
                         </DialogTitle>
                     </DialogHeader>
-                    <Form {...form}>
+                    <div className="flex flex-col gap-8 rounded-md px-[30px] w-full">
+                        <div>
+                            <h1>Number ID:</h1>
+                            <p>{row.id_number}</p>
+                        </div>
+                        <div>
+                            <h1>Name:</h1>
+                            <p>{row.name}</p>
+                        </div>
+                        <div>
+                            <h1>Description:</h1>
+                            <p>{row.description}</p>
+                        </div>
+                        <div>
+                            <h1>Stock:</h1>
+                            <p>{row.stock}</p>
+                        </div>
+                        <div>
+                            <h1>Category:</h1>
+                            <p>{category}</p>
+                        </div>
+                        <div>
+                            <h1>Image:</h1>
+                            <p>
+                                {row.image === "" || row.image === null
+                                    ? "-"
+                                    : ""}
+                            </p>
+                        </div>
+                    </div>
+                    {/* <Form {...form}>
                         <form
                             onSubmit={form.handleSubmit(onSubmit)}
                             className="flex flex-col gap-8 rounded-md px-[30px] w-full"
@@ -322,12 +304,6 @@ export function DialogDetailItem() {
                                                             </SelectItem>
                                                         )
                                                     )}
-                                                    {/* <SelectItem value="active">
-                                                        Active
-                                                    </SelectItem>
-                                                    <SelectItem value="inactive">
-                                                        In ctive
-                                                    </SelectItem> */}
                                                 </SelectContent>
                                             </Select>
 
@@ -384,7 +360,7 @@ export function DialogDetailItem() {
                                 </Button>
                             </div>
                         </form>
-                    </Form>
+                    </Form> */}
                 </DialogContent>
             </Dialog>
         </>
