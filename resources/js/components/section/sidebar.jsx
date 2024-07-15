@@ -89,7 +89,7 @@ export function Sidebar() {
         <nav
             className={`${
                 iconMode ? "w-[100px]" : "w-[300px]"
-            } sticky top-0 hidden min-[1000px]:block transition-all duration-300 shadow-[5px_0px_10px_-5px_#00000024] overflow-auto  h-screen pt-[20px]`}
+            } sticky top-0 hidden min-[1000px]:block transition-all duration-300 shadow-[5px_0px_10px_-5px_#00000024] overflow-auto h-screen pt-[20px]`}
         >
             <div className="flex justify-center">
                 <h1 className="text-[18px]">Inventory</h1>
