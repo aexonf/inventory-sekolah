@@ -16,7 +16,7 @@ import Cookies from "js-cookie";
 import { Toaster, toast } from "sonner";
 import { useItemRefresher } from "@/lib/context/refresherItem";
 
-export function DialogDeleteItem({ id }) {
+export function DialogDeleteTemporary({ id }) {
     const [openModal, setOpenModal] = useState(false);
     const inventoryToken = Cookies.get("inventory_token");
     const { refresh } = useItemRefresher();

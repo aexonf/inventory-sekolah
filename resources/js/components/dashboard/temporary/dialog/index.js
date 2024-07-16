@@ -1,4 +1,4 @@
-export * from "./DialogDeleteItem";
-export * from "./DialogEditItem";
-export * from "./DialogAddItem";
+export * from "./DialogDeleteTemporary";
+export * from "./DialogEditTemporary";
+export * from "./DialogAddTemporary";
 export * from "./DialogDetailItem";

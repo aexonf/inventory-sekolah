@@ -11,8 +11,8 @@ import {
 } from "../../../ui/index";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import {
-    DialogDeleteItem,
-    DialogEditItem,
+    DialogDeleteTemporary,
+    DialogEditTemporary,
     DialogDetailItem,
 } from "../dialog/index";
 import { FaUserAlt } from "react-icons/fa";
@@ -51,7 +51,7 @@ export const columns = [
         },
     },
     {
-        accessorKey: "description",
+        accessorKey: "level",
         header: ({ column }) => {
             return (
                 <Button
@@ -66,14 +66,13 @@ export const columns = [
             );
         },
         cell: ({ row }) => {
-            const getDescription = row.getValue("description");
             return (
-                <div className="text-left font-medium">{getDescription}</div>
+                <div className="text-left font-medium">{`${row.original.level} ${row.original.student_class}`}</div>
             );
         },
     },
     {
-        accessorKey: "stock",
+        accessorKey: "number_id",
         header: ({ column }) => {
             return (
                 <Button
@@ -88,12 +87,15 @@ export const columns = [
             );
         },
         cell: ({ row }) => {
-            const getStock = row.getValue("stock");
-            return <div className="text-left font-medium">{getStock}</div>;
+            return (
+                <div className="text-left font-medium">
+                    {row.original.number_id}
+                </div>
+            );
         },
     },
     {
-        accessorKey: "status",
+        accessorKey: "phone",
         header: ({ column }) => {
             return (
                 <Button
@@ -108,8 +110,11 @@ export const columns = [
             );
         },
         cell: ({ row }) => {
-            const getStatus = row.getValue("status");
-            return <div className="text-left font-medium">{getStatus}</div>;
+            return (
+                <div className="text-left font-medium">
+                    {row.original.phone}
+                </div>
+            );
         },
     },
     {
@@ -118,19 +123,10 @@ export const columns = [
         cell: ({ row }) => {
             return (
                 <div className="flex items-center gap-2">
-                    <ButtonDownloadPdf row={row.original} />
-                    <DialogDetailItem row={row.original} />
-                    <DialogEditItem
-                        id={row.original.id}
-                        id_number={row.original.id_number}
-                        name={row.original.name}
-                        description={row.original.description}
-                        status={row.original.status}
-                        stock={row.original.stock}
-                        categories_id={row.original.categories_id}
-                        image={row.original.image}
-                    />
-                    <DialogDeleteItem id={row.original.id} />
+                    {/* <ButtonDownloadPdf row={row.original} />
+                    <DialogDetailItem row={row.original} /> */}
+                    <DialogEditTemporary row={row.original} />
+                    <DialogDeleteTemporary id={row.original.id} />
                 </div>
             );
         },

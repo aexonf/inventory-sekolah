@@ -32,9 +32,26 @@ export default function TableTemporary() {
     //     getAllItems();
     // }, [refreshKey]);
 
+    const dummy = [
+        {
+            number_id: "222222",
+            name: "Test User 1",
+            phone: "0111121212",
+            student_class: "PPLG 2",
+            level: "X",
+        },
+        {
+            number_id: "333333",
+            name: "Test User 2",
+            phone: "02222222",
+            student_class: "PPLG 1",
+            level: "XII",
+        },
+    ];
+
     return (
         <div className="mx-auto max-w-[900px] py-10">
-            <DataTable columns={columns} data={itemsList} />
+            <DataTable columns={columns} data={dummy} />
         </div>
     );
 }

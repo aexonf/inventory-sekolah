@@ -1,3 +1,4 @@
+import { FaEdit } from "react-icons/fa";
 import React, { useState, useEffect } from "react";
 import {
     Dialog,
@@ -29,7 +30,6 @@ import Cookies from "js-cookie";
 import { Toaster, toast } from "sonner";
 import { Info } from "lucide-react";
 import { z } from "zod";
-import { FiPlus } from "react-icons/fi";
 import { useItemRefresher } from "@/lib/context/refresherItem";
 
 const formSchema = z.object({
@@ -50,100 +50,92 @@ const formSchema = z.object({
     }),
 });
 
-export function DialogAddItem() {
+export function DialogEditTemporary({ row }) {
     const [openModal, setOpenModal] = useState(false);
-    const [imageFile, setImageFile] = useState(null);
     const [listCategory, setListcategory] = useState([]);
+    const [imageFile, setImageFile] = useState(null);
     const {
         register,
         handleSubmit,
-        reset,
         watch,
         formState: { errors },
     } = useForm();
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            number_id: "",
-            name: "",
-            phone: "",
-            student_class: "",
-            level: "",
+            number_id: row.number_id,
+            name: row.name,
+            phone: row.phone,
+            student_class: row.student_class,
+            level: row.level,
         },
     });
     const inventoryToken = Cookies.get("inventory_token");
     const { refresh } = useItemRefresher();
 
     const onSubmit = async (data) => {
-        const { number_id, name, phone, student_class, level } = data;
-        const formData = new FormData();
-        const body = {
-            id_number: number_id,
-            name: name,
-            phone: phone,
-            student_class: student_class,
-            level: level,
-        };
-        // formData.append("id_number", number_id);
-        // formData.append("name", name);
-        // formData.append("phone", description);
-        // formData.append("class", Number(stock));
-
-        // try {
-        //     const { data: getUser } = await axios.post(
-        //         "/api/v1/items",
-        //         formData,
-        //         {
-        //             headers: {
-        //                 Authorization: `Bearer ${inventoryToken}`,
-        //                 "Content-Type": "multipart/form-data",
-        //             },
-        //         }
-        //     );
-        //     setOpenModal(false);
-        //     form.reset();
-        //     toast.success("Success Add Categories", {
-        //         duration: 3000,
-        //     });
-        //     refresh();
-        // } catch (error) {
-        //     toast.error("Failed Add Categories", {
-        //         duration: 3000,
-        //     });
-        //     console.log(error);
-        //     if (error.response?.data?.message === "Unauthenticated.") {
-        //         Inertia.visit("/login");
-        //         setIsVerifyLoading(false);
-        //         return;
-        //     }
+        // const formData = new FormData();
+        // formData.append("id_number", data.number_id);
+        // formData.append("name", data.name);
+        // formData.append("description", data.description);
+        // formData.append("stock", Number(data.stock));
+        // formData.append("categories_id", Number(data.category));
+        // if (imageFile) {
+        //     formData.append("image", imageFile);
         // }
-    };
 
-    const handleImageChange = (e) => {
-        setImageFile(e.target.files[0]);
-    };
-
-    const getAllCategory = async () => {
+        return;
         try {
-            const { data: getCategory } = await axios("/api/v1/categories", {
-                headers: {
-                    Authorization: `Bearer ${inventoryToken}`,
-                },
+            const { data: updateItem } = await axios.post(
+                `/api/v1/items/${id}`,
+                formData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${inventoryToken}`,
+                    },
+                }
+            );
+            setOpenModal(false);
+            toast.success("Success Update Categories", {
+                duration: 3000,
             });
-            setListcategory(getCategory?.data);
+            refresh();
         } catch (error) {
+            toast.error("Failed Update Categories", {
+                duration: 3000,
+            });
             console.log(error);
+            if (error.response?.data?.message === "Unauthenticated.") {
+                Inertia.visit("/login");
+                setIsVerifyLoading(false);
+                return;
+            }
         }
     };
 
-    // useEffect(() => {
-    //     getAllCategory();
-    // }, []);
+    // const getAllCategory = async () => {
+    //     try {
+    //         const { data: getCategory } = await axios(`/api/v1/categories`, {
+    //             headers: {
+    //                 Authorization: `Bearer ${inventoryToken}`,
+    //             },
+    //         });
+    //         setListcategory(getCategory?.data);
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
+
+    useEffect(() => {
+        if (openModal) {
+            getAllCategory();
+        }
+    }, []);
 
     useEffect(() => {
         if (!openModal) {
             form.reset();
-            setImageFile(null);
+            //  setImageFile(null);
         }
     }, [openModal]);
 
@@ -151,15 +143,14 @@ export function DialogAddItem() {
         <>
             <Toaster richColors position="top-center" />
             <Dialog open={openModal} onOpenChange={setOpenModal}>
-                <DialogTrigger className="flex items-center gap-1 bg-violet-500 text-white py-[5px] text-[14px] px-[15px] rounded-[20px] hover:bg-violet-400">
-                    <FiPlus className="h-[16px] w-[16px] " />{" "}
-                    <span className="mt-[3px]">Tambah</span>
+                <DialogTrigger className="bg-violet-500 py-[10px] px-[10px] rounded-sm">
+                    <FaEdit className="text-white h-[14px] w-[14px]" />
                 </DialogTrigger>
                 <DialogContent className="py-[25px] px-[23px] h-auto max-w-[400px]">
                     <DialogHeader>
                         <DialogTitle>
                             <h1 className="text-center mb-[20px] text-[20px] font-semibold text-neutral-700">
-                                Add Temporary
+                                Edit Temporary
                             </h1>
                         </DialogTitle>
                     </DialogHeader>
@@ -355,18 +346,18 @@ export function DialogAddItem() {
                                 render={({ field }) => (
                                     <FormItem className="space-y-0">
                                         <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
-                                            Phone Number
+                                            Phone
                                         </FormLabel>
                                         <FormControl>
                                             <Input
-                                                placeholder="Phone Number. . ."
+                                                type="text"
+                                                placeholder="Phone. . ."
                                                 {...field}
                                                 className={`${
                                                     form.formState.errors
                                                         .phone &&
                                                     "outline-red-500 focus:outline-red-400"
                                                 }`}
-                                                type="text"
                                             />
                                         </FormControl>
                                         {form.formState.errors.phone && (
@@ -378,31 +369,6 @@ export function DialogAddItem() {
                                     </FormItem>
                                 )}
                             />
-
-                            {/* <FormField
-                                control={form.control}
-                                name="image"
-                                render={({ field }) => (
-                                    <FormItem className="space-y-0">
-                                        <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
-                                            Image
-                                        </FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                type="file"
-                                                accept="image/*"
-                                                onChange={handleImageChange}
-                                            />
-                                        </FormControl>
-                                        {form.formState.errors.image && (
-                                            <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
-                                                <Info size={14} />
-                                                <FormMessage className="text-[13px] mt-[3px] leading-none" />
-                                            </div>
-                                        )}
-                                    </FormItem>
-                                )}
-                            /> */}
 
                             <div className="mt-[20px] flex gap-4 justify-end w-full">
                                 <Button
@@ -418,7 +384,7 @@ export function DialogAddItem() {
                                     // disable={isLoading}
                                     type="submit"
                                 >
-                                    <span className="text-md">Add</span>
+                                    <span className="text-md">Update</span>
                                 </Button>
                             </div>
                         </form>
