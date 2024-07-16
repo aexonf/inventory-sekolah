@@ -8,8 +8,9 @@ import { BiSolidCategory } from "react-icons/bi";
 import { FaQrcode } from "react-icons/fa6";
 import { useState } from "react";
 import { LuChevronsLeft, LuChevronsRight } from "react-icons/lu";
-import { FiChevronRight } from "react-icons/fi";
+import { FiChevronRight, FiBox  } from "react-icons/fi";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/index";
+import { PiUserCircleDashedFill } from "react-icons/pi";
 
 export function Sidebar() {
     const pathname = usePage();
@@ -91,8 +92,9 @@ export function Sidebar() {
                 iconMode ? "w-[100px]" : "w-[300px]"
             } sticky top-0 hidden min-[1000px]:block transition-all duration-300 shadow-[5px_0px_10px_-5px_#00000024] overflow-auto h-screen pt-[20px]`}
         >
-            <div className="flex justify-center">
-                <h1 className="text-[18px]">Inventory</h1>
+            <div className="flex justify-center text-violet-700 font-medium gap-1 items-center">
+                <FiBox className={`${iconMode ? 'h-[25px] w-[25px]' : 'h-[19px] w-[19px]'}`} />
+               {iconMode ? null :  <h1 className="text-[18px] mt-[5px]">Inventory</h1>}
             </div>
             <div
                 className={`px-[20px] flex items-center mt-[20px] ${
@@ -165,6 +167,23 @@ export function Sidebar() {
                     </div>
                     {!iconMode && (
                         <h1 className="mt-[4px] text-[15px]">Notification</h1>
+                    )}
+                </Link>
+
+                 <Link
+                    href="/test-admin/temporary"
+                    className={`${HandleActivePath(
+                        "/test-admin/temporary"
+                    )}  flex items-center gap-5 `}
+                >
+                    <div
+                        className={`${HandleIconColor("/test-admin/temporary")}
+                        }`}
+                    >
+                        <PiUserCircleDashedFill className={` h-[19px] w-[19px]`} />
+                    </div>
+                    {!iconMode && (
+                        <h1 className="mt-[4px] text-[15px]">Temporary</h1>
                     )}
                 </Link>
                 <div>

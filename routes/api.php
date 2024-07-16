@@ -9,6 +9,7 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\StudentsController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemsController;
+use App\Http\Controllers\TemporaryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,27 +20,36 @@ Route::get('/user', function (Request $request) {
 Route::prefix("/v1")->group(function () {
     Route::get('/students', [StudentsController::class, 'index']);
 
+    // Route::apiResource('temporary', TemporaryController::class);
+
+    Route::controller(TemporaryController::class)->middleware('auth:sanctum')->prefix("/temporary")->group(function () {
+        Route::get("/", "index");
+        Route::post("/", "create");
+        Route::put("/{id}", "update");
+        Route::delete("/{id}", "delete");
+    });
+
     Route::controller(TeacherController::class)->middleware('auth:sanctum')->prefix("/teachers")->group(function () {
-    Route::get("/", "index");
-    Route::post("/", "create");
-    Route::post("/{id}", "update");
-    Route::delete("/{id}", "delete");
-});
+        Route::get("/", "index");
+        Route::post("/", "create");
+        Route::post("/{id}", "update");
+        Route::delete("/{id}", "delete");
+    });
 
- Route::controller(CategoryController::class)->middleware('auth:sanctum')->prefix("/categories")->group(function () {
-    Route::get("/", "index");
-    Route::post("/", "create");
-    Route::get("/{id}", "show");
-    Route::post("/{id}", "update");
-    Route::delete("/{id}", "delete");
-});
+    Route::controller(CategoryController::class)->middleware('auth:sanctum')->prefix("/categories")->group(function () {
+        Route::get("/", "index");
+        Route::post("/", "create");
+        Route::get("/{id}", "show");
+        Route::post("/{id}", "update");
+        Route::delete("/{id}", "delete");
+    });
 
-Route::controller(ItemsController::class)->middleware('auth:sanctum')->prefix("/items")->group(function () {
-    Route::get("/", "index");
-    Route::post("/", "create");
-    Route::post("/{id}", "update");
-    Route::delete("/{id}", "delete");
-});
+    Route::controller(ItemsController::class)->middleware('auth:sanctum')->prefix("/items")->group(function () {
+        Route::get("/", "index");
+        Route::post("/", "create");
+        Route::post("/{id}", "update");
+        Route::delete("/{id}", "delete");
+    });
 
     // Route::get('/teachers', [TeacherController::class, 'index']);
 
