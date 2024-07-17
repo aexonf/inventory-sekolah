@@ -95,7 +95,7 @@ export const columns = [
         header: () => <div className="text-left">Action</div>,
         cell: ({ row }) => {
             const payment = row.original;
-            console.log(row);
+
             return (
                 <div className="flex items-center gap-2">
                     <DialogEditTeacher

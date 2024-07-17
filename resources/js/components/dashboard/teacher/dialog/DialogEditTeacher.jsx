@@ -30,6 +30,7 @@ import Cookies from "js-cookie";
 import { Toaster, toast } from "sonner";
 import { Info } from "lucide-react";
 import { z } from "zod";
+import { useTeacherRefresher } from "@/lib/context/refresherTeacher";
 
 const formSchema = z.object({
     number_id: z.string().min(1, {
@@ -59,6 +60,7 @@ export function DialogEditTeacher({ id, user_id, number_id, name, image }) {
         },
     });
     const inventoryToken = Cookies.get("inventory_token");
+    const { refresh } = useTeacherRefresher();
 
     const onSubmit = async (data) => {
         const { number_id, name } = data;
@@ -86,7 +88,11 @@ export function DialogEditTeacher({ id, user_id, number_id, name, image }) {
                 }
             );
 
-            console.log(getUser);
+            setOpenModal(false);
+            toast.success("Success Update Categories", {
+                duration: 3000,
+            });
+            refresh();
             // if (getUser.username !== "") {
             //     Inertia.visit("/");
             //     setIsVerifyLoading(false);
