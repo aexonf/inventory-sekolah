@@ -24,7 +24,7 @@ export function DialogDeleteTemporary({ id }) {
     const DeleteItem = async () => {
         try {
             const { data: deleteCategory } = await axios.delete(
-                `/api/v1/items/${id}`,
+                `/api/v1/temporary/${id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${inventoryToken}`,
@@ -58,7 +58,7 @@ export function DialogDeleteTemporary({ id }) {
                 <DialogContent className="w-auto py-[20px] px-[25px]">
                     <DialogHeader>
                         <DialogTitle className="text-center font-medium">
-                            are you sure to delete this item?
+                            are you sure to delete this item iiiiiii?
                         </DialogTitle>
                     </DialogHeader>
                     <div className="flex items-center justify-center gap-3 mt-[10px]">

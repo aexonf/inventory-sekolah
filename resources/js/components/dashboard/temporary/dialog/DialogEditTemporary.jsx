@@ -66,7 +66,7 @@ const dummyItem = [
 
 export function DialogEditTemporary({ row }) {
     const [openModal, setOpenModal] = useState(false);
-    const [listCategory, setListcategory] = useState([]);
+    const [listItems, setListItems] = useState([]);
     const [imageFile, setImageFile] = useState(null);
     const {
         register,
@@ -89,17 +89,29 @@ export function DialogEditTemporary({ row }) {
     const { refresh } = useItemRefresher();
 
     const onSubmit = async (data) => {
-        console.log(row);
-        // const formData = new FormData();
-        // formData.append("id_number", data.number_id);
-        // formData.append("name", data.name);
-        // formData.append("description", data.description);
-        // formData.append("stock", Number(data.stock));
-        // formData.append("categories_id", Number(data.category));
-        // if (imageFile) {
-        //     formData.append("image", imageFile);
-        // }
+        const {
+            item_id,
+            number_id,
+            name,
+            phone,
+            student_class,
+            level,
+            item_number,
+        } = data;
 
+        const parseObject = JSON.parse(item_id);
+        const body = {
+            item_id: `${parseObject.id}`,
+            item_name: parseObject.name,
+            number_id: number_id,
+            name: name,
+            phone: phone,
+            student_class: student_class,
+            level: level,
+            item_number_id: parseObject.id_number,
+        };
+
+        console.log(body);
         return;
         try {
             const { data: updateItem } = await axios.post(
@@ -129,22 +141,36 @@ export function DialogEditTemporary({ row }) {
         }
     };
 
-    // const getAllCategory = async () => {
-    //     try {
-    //         const { data: getCategory } = await axios(`/api/v1/categories`, {
-    //             headers: {
-    //                 Authorization: `Bearer ${inventoryToken}`,
-    //             },
-    //         });
-    //         setListcategory(getCategory?.data);
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
+    const getAllCategory = async () => {
+        try {
+            const { data: getCategory } = await axios(`/api/v1/categories`, {
+                headers: {
+                    Authorization: `Bearer ${inventoryToken}`,
+                },
+            });
+            setListcategory(getCategory?.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const getAllItems = async () => {
+        try {
+            const { data: getItems } = await axios(`/api/v1/items`, {
+                headers: {
+                    Authorization: `Bearer ${inventoryToken}`,
+                },
+            });
+            setListItems(getItems?.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     useEffect(() => {
         if (openModal) {
             getAllCategory();
+            getAllItems();
         }
     }, []);
 
@@ -235,7 +261,7 @@ export function DialogEditTemporary({ row }) {
                                 control={form.control}
                                 name="item"
                                 render={({ field }) => {
-                                    // console.log(JSON.stringify(field.value));
+                                    console.log(JSON.stringify(field.value));
                                     return (
                                         <FormItem className="space-y-0">
                                             <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
@@ -243,13 +269,16 @@ export function DialogEditTemporary({ row }) {
                                             </FormLabel>
                                             <Select
                                                 onValueChange={field.onChange}
-                                                defaultValue={field.value}
+                                                defaultValue={
+                                                    field?.value?.name
+                                                }
                                             >
                                                 <FormControl>
                                                     <SelectTrigger
                                                         className={`${
                                                             form.formState
-                                                                .errors.item &&
+                                                                .errors
+                                                                .item_id &&
                                                             "outline-red-500 focus:outline-red-400"
                                                         }`}
                                                     >
@@ -271,7 +300,7 @@ export function DialogEditTemporary({ row }) {
                                                             </SelectItem>
                                                         )
                                                     )} */}
-                                                    {dummyItem.map(
+                                                    {listItems.map(
                                                         (item, index) => (
                                                             <SelectItem
                                                                 key={index}
@@ -295,7 +324,8 @@ export function DialogEditTemporary({ row }) {
                                                 </SelectContent>
                                             </Select>
 
-                                            {form.formState.errors.item && (
+                                            {form.formState.errors
+                                                .student_class && (
                                                 <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
                                                     <Info size={14} />
                                                     <FormMessage className="text-[13px] mt-[3px] leading-none" />
