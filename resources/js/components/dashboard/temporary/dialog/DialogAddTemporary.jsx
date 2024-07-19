@@ -69,7 +69,7 @@ const dummyItem = [
 export function DialogAddTemporary() {
     const [openModal, setOpenModal] = useState(false);
     const [imageFile, setImageFile] = useState(null);
-    const [listCategory, setListcategory] = useState([]);
+    const [listItems, setListItems] = useState([]);
     const {
         register,
         handleSubmit,
@@ -103,17 +103,15 @@ export function DialogAddTemporary() {
         } = data;
         const parseObject = JSON.parse(item_id);
         const body = {
-            item_id: parseObject.id,
+            item_id: `${parseObject.id}`,
             item_name: parseObject.name,
             number_id: number_id,
             name: name,
             phone: phone,
             student_class: student_class,
             level: level,
-            item_number_id: parseObject.number_id,
+            item_number_id: parseObject.id_number,
         };
-        // console.log(body);
-        // return;
 
         try {
             const { data: postData } = await axios.post(
@@ -149,22 +147,22 @@ export function DialogAddTemporary() {
         setImageFile(e.target.files[0]);
     };
 
-    const getAllCategory = async () => {
+    const getAllItems = async () => {
         try {
-            const { data: getCategory } = await axios("/api/v1/categories", {
+            const { data: getItems } = await axios("/api/v1/items", {
                 headers: {
                     Authorization: `Bearer ${inventoryToken}`,
                 },
             });
-            setListcategory(getCategory?.data);
+            setListItems(getItems?.data);
         } catch (error) {
             console.log(error);
         }
     };
 
-    // useEffect(() => {
-    //     getAllCategory();
-    // }, []);
+    useEffect(() => {
+        getAllItems();
+    }, []);
 
     useEffect(() => {
         if (!openModal) {
@@ -173,6 +171,7 @@ export function DialogAddTemporary() {
         }
     }, [openModal]);
 
+    console.log(listItems);
     return (
         <>
             <Toaster richColors position="top-center" />
@@ -291,7 +290,7 @@ export function DialogAddTemporary() {
                                                             </SelectItem>
                                                         )
                                                     )} */}
-                                                    {dummyItem.map(
+                                                    {listItems.map(
                                                         (item, index) => (
                                                             <SelectItem
                                                                 key={index}
