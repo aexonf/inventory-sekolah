@@ -77,7 +77,11 @@ export function DialogEditTemporary({ row }) {
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            item: JSON.stringify({ name: row.item_name, id: row.item_id }),
+            item: JSON.stringify({
+                name: row?.item_name,
+                id: row?.item_id,
+                id_number: row?.item_number_id,
+            }),
             number_id: row.number_id,
             name: row.name,
             phone: row.phone,
@@ -90,7 +94,7 @@ export function DialogEditTemporary({ row }) {
 
     const onSubmit = async (data) => {
         const {
-            item_id,
+            item,
             number_id,
             name,
             phone,
@@ -99,7 +103,7 @@ export function DialogEditTemporary({ row }) {
             item_number,
         } = data;
 
-        const parseObject = JSON.parse(item_id);
+        const parseObject = JSON.parse(item);
         const body = {
             item_id: `${parseObject.id}`,
             item_name: parseObject.name,
@@ -111,12 +115,10 @@ export function DialogEditTemporary({ row }) {
             item_number_id: parseObject.id_number,
         };
 
-        console.log(body);
-        return;
         try {
-            const { data: updateItem } = await axios.post(
-                `/api/v1/items/${id}`,
-                formData,
+            const { data: updateItem } = await axios.put(
+                `/api/v1/temporary/${row.id}`,
+                body,
                 {
                     headers: {
                         Authorization: `Bearer ${inventoryToken}`,
@@ -124,12 +126,12 @@ export function DialogEditTemporary({ row }) {
                 }
             );
             setOpenModal(false);
-            toast.success("Success Update Categories", {
+            toast.success("Success Update Temporary", {
                 duration: 3000,
             });
             refresh();
         } catch (error) {
-            toast.error("Failed Update Categories", {
+            toast.error("Failed Update Temporary", {
                 duration: 3000,
             });
             console.log(error);
@@ -141,18 +143,18 @@ export function DialogEditTemporary({ row }) {
         }
     };
 
-    const getAllCategory = async () => {
-        try {
-            const { data: getCategory } = await axios(`/api/v1/categories`, {
-                headers: {
-                    Authorization: `Bearer ${inventoryToken}`,
-                },
-            });
-            setListcategory(getCategory?.data);
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    // const getAllCategory = async () => {
+    //     try {
+    //         const { data: getCategory } = await axios(`/api/v1/categories`, {
+    //             headers: {
+    //                 Authorization: `Bearer ${inventoryToken}`,
+    //             },
+    //         });
+    //         setListcategory(getCategory?.data);
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
 
     const getAllItems = async () => {
         try {
@@ -161,7 +163,15 @@ export function DialogEditTemporary({ row }) {
                     Authorization: `Bearer ${inventoryToken}`,
                 },
             });
-            setListItems(getItems?.data);
+            console.log(getItems);
+            const mapping = getItems?.data?.map((item) => {
+                return {
+                    name: item.name,
+                    id: item.id,
+                    id_number: item.id_number,
+                };
+            });
+            setListItems(mapping);
         } catch (error) {
             console.log(error);
         }
@@ -169,10 +179,10 @@ export function DialogEditTemporary({ row }) {
 
     useEffect(() => {
         if (openModal) {
-            getAllCategory();
+            // getAllCategory();
             getAllItems();
         }
-    }, []);
+    }, [openModal]);
 
     useEffect(() => {
         if (!openModal) {
@@ -181,6 +191,7 @@ export function DialogEditTemporary({ row }) {
         }
     }, [openModal]);
 
+    // console.log(listItems);
     return (
         <>
             <Toaster richColors position="top-center" />
@@ -261,7 +272,7 @@ export function DialogEditTemporary({ row }) {
                                 control={form.control}
                                 name="item"
                                 render={({ field }) => {
-                                    console.log(JSON.stringify(field.value));
+                                    console.log("ini loh wwkkwkw:", field);
                                     return (
                                         <FormItem className="space-y-0">
                                             <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
@@ -269,16 +280,13 @@ export function DialogEditTemporary({ row }) {
                                             </FormLabel>
                                             <Select
                                                 onValueChange={field.onChange}
-                                                defaultValue={
-                                                    field?.value?.name
-                                                }
+                                                defaultValue={field.value.name}
                                             >
                                                 <FormControl>
                                                     <SelectTrigger
                                                         className={`${
                                                             form.formState
-                                                                .errors
-                                                                .item_id &&
+                                                                .errors.item &&
                                                             "outline-red-500 focus:outline-red-400"
                                                         }`}
                                                     >
@@ -290,42 +298,27 @@ export function DialogEditTemporary({ row }) {
                                                 </FormControl>
 
                                                 <SelectContent className="max-h-[140px] overflow-auto">
-                                                    {/* {listCategory.map(
-                                                        (item, index) => (
-                                                            <SelectItem
-                                                                key={index}
-                                                                value={`${item?.id}`}
-                                                            >
-                                                                {item.name}
-                                                            </SelectItem>
-                                                        )
-                                                    )} */}
                                                     {listItems.map(
                                                         (item, index) => (
                                                             <SelectItem
                                                                 key={index}
                                                                 value={JSON.stringify(
-                                                                    item
+                                                                    {
+                                                                        name: item.name,
+                                                                        id_number:
+                                                                            item.id_number,
+                                                                        id: item.id,
+                                                                    }
                                                                 )}
                                                             >
                                                                 {item.name}
                                                             </SelectItem>
                                                         )
                                                     )}
-                                                    {/* <SelectItem value="PPLG 1">
-                                                        PPLG 1
-                                                    </SelectItem>
-                                                    <SelectItem value="PPLG 2">
-                                                        PPLG 2
-                                                    </SelectItem>
-                                                    <SelectItem value="PPLG 3">
-                                                        PPLG 3
-                                                    </SelectItem> */}
                                                 </SelectContent>
                                             </Select>
 
-                                            {form.formState.errors
-                                                .student_class && (
+                                            {form.formState.errors.item && (
                                                 <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
                                                     <Info size={14} />
                                                     <FormMessage className="text-[13px] mt-[3px] leading-none" />
