@@ -57,10 +57,12 @@ const dummyItem = [
     {
         name: "Laptop Acer",
         id: "123",
+        number_id: "22222",
     },
     {
         name: "Laptop Macbook",
         id: "123666",
+        number_id: "22323323",
     },
 ];
 
@@ -90,47 +92,57 @@ export function DialogAddTemporary() {
     const { refresh } = useItemRefresher();
 
     const onSubmit = async (data) => {
-        const { item_id, number_id, name, phone, student_class, level } = data;
+        const {
+            item_id,
+            number_id,
+            name,
+            phone,
+            student_class,
+            level,
+            item_number,
+        } = data;
         const parseObject = JSON.parse(item_id);
         const body = {
-            id_item: parseObject.id,
+            item_id: parseObject.id,
             item_name: parseObject.name,
-            id_number: number_id,
+            number_id: number_id,
             name: name,
             phone: phone,
             student_class: student_class,
             level: level,
+            item_number_id: parseObject.number_id,
         };
-        console.log(body);
+        // console.log(body);
+        // return;
 
-        // try {
-        //     const { data: getUser } = await axios.post(
-        //         "/api/v1/items",
-        //         formData,
-        //         {
-        //             headers: {
-        //                 Authorization: `Bearer ${inventoryToken}`,
-        //                 "Content-Type": "multipart/form-data",
-        //             },
-        //         }
-        //     );
-        //     setOpenModal(false);
-        //     form.reset();
-        //     toast.success("Success Add Categories", {
-        //         duration: 3000,
-        //     });
-        //     refresh();
-        // } catch (error) {
-        //     toast.error("Failed Add Categories", {
-        //         duration: 3000,
-        //     });
-        //     console.log(error);
-        //     if (error.response?.data?.message === "Unauthenticated.") {
-        //         Inertia.visit("/login");
-        //         setIsVerifyLoading(false);
-        //         return;
-        //     }
-        // }
+        try {
+            const { data: postData } = await axios.post(
+                "/api/v1/temporary",
+                body,
+                {
+                    headers: {
+                        Authorization: `Bearer ${inventoryToken}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            setOpenModal(false);
+            form.reset();
+            toast.success("Success Add Categories", {
+                duration: 3000,
+            });
+            refresh();
+        } catch (error) {
+            toast.error("Failed Add Categories", {
+                duration: 3000,
+            });
+            console.log(error);
+            if (error.response?.data?.message === "Unauthenticated.") {
+                Inertia.visit("/login");
+                setIsVerifyLoading(false);
+                return;
+            }
+        }
     };
 
     const handleImageChange = (e) => {
