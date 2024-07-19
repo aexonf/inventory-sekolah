@@ -118,6 +118,29 @@ export const columns = [
         },
     },
     {
+        accessorKey: "item_name",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() =>
+                        column.toggleSorting(column.getIsSorted() === "asc")
+                    }
+                >
+                    Item
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            );
+        },
+        cell: ({ row }) => {
+            return (
+                <div className="text-left font-medium">
+                    {`${row.original.item_name} ${row.original.item_number_id}`}
+                </div>
+            );
+        },
+    },
+    {
         id: "actions",
         header: () => <div className="text-left">Action</div>,
         cell: ({ row }) => {

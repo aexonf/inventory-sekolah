@@ -10,26 +10,15 @@ class Temporary extends Model
     use HasFactory;
 
     protected $table = 'temporary';
+
     protected $fillable = [
-        'user_id',
-        'item_id',
         'name',
-        'class',
         'number_id',
         'phone',
-
+        'student_class',
+        'level',
+        'item_name',
+        'item_id',
+        'item_number_id',
     ];
-
-    public $timestamps = true;
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function item()
-    {
-        return $this->belongsTo(Items::class);
-    }
 }
-

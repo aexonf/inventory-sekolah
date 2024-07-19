@@ -48,7 +48,21 @@ const formSchema = z.object({
     level: z.string().min(1, {
         message: "Level is Empty",
     }),
+    item: z.string().min(1, {
+        message: "Item is Empty",
+    }),
 });
+
+const dummyItem = [
+    {
+        name: "Laptop Acer",
+        id: "123",
+    },
+    {
+        name: "Laptop Macbook",
+        id: "123666",
+    },
+];
 
 export function DialogEditTemporary({ row }) {
     const [openModal, setOpenModal] = useState(false);
@@ -63,6 +77,7 @@ export function DialogEditTemporary({ row }) {
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
+            item: JSON.stringify({ name: row.item_name, id: row.item_id }),
             number_id: row.number_id,
             name: row.name,
             phone: row.phone,
@@ -74,6 +89,7 @@ export function DialogEditTemporary({ row }) {
     const { refresh } = useItemRefresher();
 
     const onSubmit = async (data) => {
+        console.log(row);
         // const formData = new FormData();
         // formData.append("id_number", data.number_id);
         // formData.append("name", data.name);
@@ -214,6 +230,80 @@ export function DialogEditTemporary({ row }) {
                                         )}
                                     </FormItem>
                                 )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="item"
+                                render={({ field }) => {
+                                    // console.log(JSON.stringify(field.value));
+                                    return (
+                                        <FormItem className="space-y-0">
+                                            <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
+                                                Item
+                                            </FormLabel>
+                                            <Select
+                                                onValueChange={field.onChange}
+                                                defaultValue={field.value}
+                                            >
+                                                <FormControl>
+                                                    <SelectTrigger
+                                                        className={`${
+                                                            form.formState
+                                                                .errors.item &&
+                                                            "outline-red-500 focus:outline-red-400"
+                                                        }`}
+                                                    >
+                                                        <SelectValue
+                                                            placeholder="Select Item"
+                                                            className=""
+                                                        />
+                                                    </SelectTrigger>
+                                                </FormControl>
+
+                                                <SelectContent className="max-h-[140px] overflow-auto">
+                                                    {/* {listCategory.map(
+                                                        (item, index) => (
+                                                            <SelectItem
+                                                                key={index}
+                                                                value={`${item?.id}`}
+                                                            >
+                                                                {item.name}
+                                                            </SelectItem>
+                                                        )
+                                                    )} */}
+                                                    {dummyItem.map(
+                                                        (item, index) => (
+                                                            <SelectItem
+                                                                key={index}
+                                                                value={JSON.stringify(
+                                                                    item
+                                                                )}
+                                                            >
+                                                                {item.name}
+                                                            </SelectItem>
+                                                        )
+                                                    )}
+                                                    {/* <SelectItem value="PPLG 1">
+                                                        PPLG 1
+                                                    </SelectItem>
+                                                    <SelectItem value="PPLG 2">
+                                                        PPLG 2
+                                                    </SelectItem>
+                                                    <SelectItem value="PPLG 3">
+                                                        PPLG 3
+                                                    </SelectItem> */}
+                                                </SelectContent>
+                                            </Select>
+
+                                            {form.formState.errors.item && (
+                                                <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
+                                                    <Info size={14} />
+                                                    <FormMessage className="text-[13px] mt-[3px] leading-none" />
+                                                </div>
+                                            )}
+                                        </FormItem>
+                                    );
+                                }}
                             />
                             <FormField
                                 control={form.control}

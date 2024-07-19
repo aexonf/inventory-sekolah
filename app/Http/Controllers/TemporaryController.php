@@ -4,91 +4,141 @@ namespace App\Http\Controllers;
 
 use App\Models\Temporary;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class TemporaryController extends Controller
 {
     public function index()
     {
-        $temporary = Temporary::all();
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Temporaries retrieved successfully',
-            'data' => $temporary
-        ]);
+        try {
+            $temporaries = Temporary::all();
+
+            return response()->json([
+                "status" => "success",
+                "message" => "Temporaries fetched successfully",
+                "data" => $temporaries
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                "message" => "An error occurred while fetching temporaries.",
+                "error" => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function create(Request $request)
     {
-        $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'item_id' => 'required|exists:items,id',
-            'name' => 'nullable|string',
-            'class' => 'nullable|string',
-            'number_id' => 'nullable|string',
-            'phone' => 'nullable|string',
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'number_id' => 'required|string|max:255',
+            'phone' => 'required|string|max:255',
+            'student_class' => 'required|string|max:255',
+            'level' => 'required|string|max:255',
+            'item_name' => 'required|string|max:255',
+            'item_id' => 'required|string|max:255',
+            'item_number_id' => 'required|string|max:255',
         ]);
 
-        $temporary = Temporary::create($request->all());
+        if ($validator->fails()) {
+            return response()->json([
+                "status" => "error",
+                "message" => "Validation error",
+                "errors" => $validator->errors()
+            ], 422);
+        }
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Temporary created successfully',
-            'data' => $temporary
-        ], 201);
+        try {
+            $temporary = Temporary::create($request->all());
+
+            return response()->json([
+                "status" => "success",
+                "message" => "Temporary created successfully",
+                "data" => $temporary
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                "message" => "An error occurred while creating the temporary.",
+                "error" => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function show($id)
     {
-        $temporary = Temporary::with('user', 'item')->findOrFail($id);
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Temporary retrieved successfully',
-            'data' => $temporary
-        ]);
+        try {
+            $temporary = Temporary::findOrFail($id);
+
+            return response()->json([
+                "status" => "success",
+                "message" => "Temporary fetched successfully",
+                "data" => $temporary
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                "message" => "An error occurred while fetching the temporary.",
+                "error" => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function update(Request $request, $id)
     {
-        $temporary = Temporary::find($id);
-
-        $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'item_id' => 'required|exists:items,id',
-            'name' => 'nullable|string',
-            'class' => 'nullable|string',
-            'number_id' => 'nullable|string',
-            'phone' => 'nullable|string',
-            // 'user_id' => 'required|exists:users,id',
-            // 'item_id' => 'required|exists:items,id',
-            // 'borrow_date' => 'required|date',
-            // 'return_date' => 'nullable|date',
+        $validator = Validator::make($request->all(), [
+            'name' => 'sometimes|required|string|max:255',
+            'number_id' => 'sometimes|required|string|max:255',
+            'phone' => 'sometimes|required|string|max:255',
+            'student_class' => 'sometimes|required|string|max:255',
+            'level' => 'sometimes|required|string|max:255',
+            'item_name' => 'sometimes|required|string|max:255',
+            'item_id' => 'sometimes|required|string|max:255',
+            'item_number_id' => 'sometimes|required|string|max:255',
         ]);
 
-        $temporary->update($request->all());
+        if ($validator->fails()) {
+            return response()->json([
+                "status" => "error",
+                "message" => "Validation error",
+                "errors" => $validator->errors()
+            ], 422);
+        }
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Temporary updated successfully',
-            'data' => $temporary
-        ]);
+        try {
+            $temporary = Temporary::findOrFail($id);
+            $temporary->update($request->all());
+
+            return response()->json([
+                "status" => "success",
+                "message" => "Temporary updated successfully",
+                "data" => $temporary
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "error",
+                "message" => "An error occurred while updating the temporary.",
+                "error" => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function delete($id)
     {
-        $temporary = Temporary::find($id);
+        try {
+            $temporary = Temporary::findOrFail($id);
+            $temporary->delete();
 
-        if (!$temporary) {
+            return response()->json([
+                "status" => "success",
+                "message" => "Temporary deleted successfully"
+            ]);
+        } catch (\Exception $e) {
             return response()->json([
                 "status" => "error",
-                "message" => "Category not found"
-            ], 404);
+                "message" => "An error occurred while deleting the temporary.",
+                "error" => $e->getMessage()
+            ], 500);
         }
-
-        $temporary->delete();
-
-        return response()->json([
-            "status" => "success",
-            "message" => "Category deleted successfully"
-        ]);
     }
 }

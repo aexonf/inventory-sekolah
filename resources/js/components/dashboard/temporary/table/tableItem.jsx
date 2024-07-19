@@ -34,18 +34,24 @@ export default function TableTemporary() {
 
     const dummy = [
         {
-            number_id: "222222",
             name: "Test User 1",
+            number_id: "1111111",
             phone: "0111121212",
             student_class: "PPLG 2",
             level: "X",
+            item_name: "Laptop Acer",
+            item_id: "123",
+            item_number_id: "122222",
         },
         {
-            number_id: "333333",
             name: "Test User 2",
+            number_id: "2222222",
             phone: "02222222",
             student_class: "PPLG 1",
             level: "XII",
+            item_name: "Laptop Acer",
+            item_id: "123",
+            item_number_id: "122222",
         },
     ];
 
