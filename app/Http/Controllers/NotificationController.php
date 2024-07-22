@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Notification;
 use App\Models\Items;
 use App\Models\User;
@@ -10,7 +11,7 @@ use Illuminate\Http\Request;
 class NotificationController extends Controller
 {
     /**
-     * Menampilkan semua notifikasi.
+     * Show all notification.
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -21,7 +22,9 @@ class NotificationController extends Controller
         $notifications = $notifications->map(function ($notification) {
             return [
                 'id' => $notification->id,
+                'item_id' => $notification->item->id,
                 'item_name' => $notification->item->name,
+                'user_id' => $notification->user->id,
                 'user_name' => $notification->user->username,
                 'status' => $notification->status,
                 'borrowed_at' => $notification->borrowed_at,
@@ -36,7 +39,7 @@ class NotificationController extends Controller
     }
 
     /**
-     * Menangani peminjaman barang.
+     * handle borrow item
      *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
@@ -63,14 +66,14 @@ class NotificationController extends Controller
             'item_id' => $item->id,
             'user_id' => $request->user_id,
             'status' => 'borrowed',
-            'borrowed_at' => now(),
+            'borrowed_at' => Carbon::now('Asia/Jakarta'),
         ]);
 
         return response()->json(['message' => 'Item borrowed successfully', 'notification' => $notification], 201);
     }
 
     /**
-     * Menangani pengembalian barang.
+     * handle return item
      *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
@@ -111,6 +114,14 @@ class NotificationController extends Controller
 
         if (!$notification) {
             return response()->json(['message' => 'Notification not found'], 404);
+        }
+
+        $item = Items::find($notification->item_id);
+
+        // Update item status to available if it's currently borrowed
+        if ($notification->status === 'borrowed') {
+            $item->status = 'available';
+            $item->save();
         }
 
         $notification->delete();

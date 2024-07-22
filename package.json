@@ -42,6 +42,7 @@
     "laravel-echo": "^1.16.1",
     "lucide-react": "^0.394.0",
     "moment": "^2.30.1",
+    "moment-timezone": "^0.5.45",
     "next-themes": "^0.3.0",
     "pusher-js": "^8.4.0-rc2",
     "qr-scanner": "^1.4.2",

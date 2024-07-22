@@ -21,7 +21,7 @@ import {
     TableHeader,
     TableRow,
 } from "../../../ui/index";
-import { DialogAddTemporary } from "../dialog/index";
+import { DialogAddTeacher } from "../../teacher/dialog/index";
 
 export function DataTable({ columns, data }) {
     const [sorting, setSorting] = React.useState([]);
@@ -53,15 +53,15 @@ export function DataTable({ columns, data }) {
             <div className="flex items-center justify-between py-4">
                 <Input
                     placeholder="Filter Name..."
-                    value={table.getColumn("item_name")?.getFilterValue() ?? ""}
+                    value={table.getColumn("name")?.getFilterValue() ?? ""}
                     onChange={(event) =>
                         table
-                            .getColumn("item_name")
+                            .getColumn("name")
                             ?.setFilterValue(event.target.value)
                     }
                     className="max-w-sm"
                 />
-                <DialogAddTemporary />
+                <DialogAddTeacher />
                 {/* <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-auto">

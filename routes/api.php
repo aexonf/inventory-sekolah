@@ -22,10 +22,6 @@ Route::get('/user', function (Request $request) {
 Route::prefix("/v1")->group(function () {
     Route::get('/students', [StudentsController::class, 'index']);
 
-    // Route::apiResource('temporary', TemporaryController::class);
-
-    // Route::post('/import-users', [UserImportController::class, 'import'])->name('import-users');
-
      Route::controller(NotificationController::class)->middleware('auth:sanctum')->prefix("/notification")->group(function () {
         Route::get("/", "index");
         Route::post("/borrow", "borrowItem");
@@ -62,8 +58,6 @@ Route::prefix("/v1")->group(function () {
         Route::post("/{id}/available", "updateAvailable");
         Route::delete("/{id}", "delete");
     });
-
-    // Route::get('/teachers', [TeacherController::class, 'index']);
 
     Route::get('/active-students', [ActiveStudentsController::class, 'index']);
 
