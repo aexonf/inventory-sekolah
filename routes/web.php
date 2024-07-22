@@ -9,10 +9,14 @@ use App\Http\Controllers\Back\SettingController;
 use App\Http\Controllers\Back\StudentController;
 use App\Http\Controllers\Back\TeacherController;
 use App\Models\ActiveStudents;
+use App\Http\Controllers\TestUserController;
 use App\Models\Students;
 use App\Models\Teachers;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
+Route::get('/upload-excel', [TestUserController::class, 'showUploadForm'])->name('upload.form');
+Route::post('/upload-excel', [TestUserController::class, 'uploadExcel'])->name('upload.excel');
 
 Route::prefix("/admin")->group(function () {
 

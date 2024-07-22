@@ -4,6 +4,7 @@ import { FaUsers } from "react-icons/fa";
 import axios from "axios";
 import { Inertia } from "@inertiajs/inertia";
 import Cookies from "js-cookie";
+import UploadForm from "./test";
 
 function Dashboard() {
     const inventoryToken = Cookies.get("inventory_token");

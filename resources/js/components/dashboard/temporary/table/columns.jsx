@@ -135,7 +135,7 @@ export const columns = [
         cell: ({ row }) => {
             return (
                 <div className="text-left font-medium">
-                    {`${row.original.item_name} ${row.original.item_number_id}`}
+                    {`${row.original.item_name}`}
                 </div>
             );
         },

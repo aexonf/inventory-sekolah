@@ -42,9 +42,9 @@ const formSchema = z.object({
     description: z.string().min(1, {
         message: "Description is Empty",
     }),
-    stock: z.string().min(1, {
-        message: "Stock is Empty",
-    }),
+    // stock: z.string().min(1, {
+    //     message: "Stock is Empty",
+    // }),
     category: z.string().min(1, {
         message: "Category is Empty",
     }),
@@ -76,7 +76,7 @@ export function DialogEditItem({
             number_id: id_number,
             name: name,
             description: description,
-            stock: `${stock}`,
+            // stock: `${stock}`,
             category: `${categories_id}`,
             image: image,
         },
@@ -89,7 +89,7 @@ export function DialogEditItem({
         formData.append("id_number", data.number_id);
         formData.append("name", data.name);
         formData.append("description", data.description);
-        formData.append("stock", Number(data.stock));
+        // formData.append("stock", Number(data.stock));
         formData.append("categories_id", Number(data.category));
         if (imageFile) {
             formData.append("image", imageFile);
@@ -140,7 +140,7 @@ export function DialogEditItem({
         if (openModal) {
             getAllCategory();
         }
-    }, []);
+    }, [openModal]);
 
     useEffect(() => {
         if (!openModal) {
@@ -149,6 +149,7 @@ export function DialogEditItem({
         }
     }, [openModal]);
 
+    console.log(listCategory);
     return (
         <>
             <Toaster richColors position="top-center" />
@@ -254,7 +255,7 @@ export function DialogEditItem({
                                     </FormItem>
                                 )}
                             />
-                            <FormField
+                            {/* <FormField
                                 control={form.control}
                                 name="stock"
                                 render={({ field }) => (
@@ -282,7 +283,7 @@ export function DialogEditItem({
                                         )}
                                     </FormItem>
                                 )}
-                            />
+                            /> */}
 
                             <FormField
                                 control={form.control}
@@ -309,7 +310,7 @@ export function DialogEditItem({
                                                     >
                                                         <SelectValue
                                                             placeholder="Select Category"
-                                                            className=""
+                                                            className="text-neutral-300"
                                                         />
                                                     </SelectTrigger>
                                                 </FormControl>
@@ -325,12 +326,6 @@ export function DialogEditItem({
                                                             </SelectItem>
                                                         )
                                                     )}
-                                                    {/* <SelectItem value="active">
-                                                        Active
-                                                    </SelectItem>
-                                                    <SelectItem value="inactive">
-                                                        In ctive
-                                                    </SelectItem> */}
                                                 </SelectContent>
                                             </Select>
 

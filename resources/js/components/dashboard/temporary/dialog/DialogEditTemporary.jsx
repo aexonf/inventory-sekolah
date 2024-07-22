@@ -77,11 +77,12 @@ export function DialogEditTemporary({ row }) {
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            item: JSON.stringify({
-                name: row?.item_name,
-                id: row?.item_id,
-                id_number: row?.item_number_id,
-            }),
+            // item: JSON.stringify({
+            //     name: row?.item_name,
+            //     id: row?.item_id,
+            //     id_number: row?.item_number_id,
+            // }),
+            item: row?.item_name,
             number_id: row.number_id,
             name: row.name,
             phone: row.phone,
@@ -271,6 +272,34 @@ export function DialogEditTemporary({ row }) {
                             <FormField
                                 control={form.control}
                                 name="item"
+                                render={({ field }) => (
+                                    <FormItem className="space-y-0">
+                                        <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
+                                            Item
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                placeholder="Item. . ."
+                                                {...field}
+                                                className={`${
+                                                    form.formState.errors
+                                                        .name &&
+                                                    "outline-red-500 focus:outline-red-400"
+                                                }`}
+                                            />
+                                        </FormControl>
+                                        {form.formState.errors.item && (
+                                            <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
+                                                <Info size={14} />
+                                                <FormMessage className="text-[13px] mt-[3px] leading-none" />
+                                            </div>
+                                        )}
+                                    </FormItem>
+                                )}
+                            />
+                            {/* <FormField
+                                control={form.control}
+                                name="item"
                                 render={({ field }) => {
                                     console.log("ini loh wwkkwkw:", field);
                                     return (
@@ -327,7 +356,7 @@ export function DialogEditTemporary({ row }) {
                                         </FormItem>
                                     );
                                 }}
-                            />
+                            /> */}
                             <FormField
                                 control={form.control}
                                 name="level"

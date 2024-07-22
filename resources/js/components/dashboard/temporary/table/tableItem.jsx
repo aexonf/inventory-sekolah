@@ -33,7 +33,7 @@ export default function TableTemporary() {
     }, [refreshKey]);
 
     return (
-        <div className="mx-auto max-w-[900px] py-10">
+        <div className="mx-auto max-w-[800px] py-10">
             <DataTable columns={columns} data={temporaryList} />
         </div>
     );

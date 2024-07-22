@@ -100,18 +100,22 @@ export function DialogAddTemporary() {
             student_class,
             level,
             item_number,
+            item,
         } = data;
-        const parseObject = JSON.parse(item_id);
+        // const parseObject = JSON.parse(item_id);
         const body = {
-            item_id: `${parseObject.id}`,
-            item_name: parseObject.name,
+            item_id: "1",
+            item_name: item_id,
             number_id: number_id,
             name: name,
             phone: phone,
             student_class: student_class,
             level: level,
-            item_number_id: parseObject.id_number,
+            item_number_id: "1",
         };
+
+        // console.log(body);
+        // return;
 
         try {
             const { data: postData } = await axios.post(
@@ -171,7 +175,6 @@ export function DialogAddTemporary() {
         }
     }, [openModal]);
 
-    console.log(listItems);
     return (
         <>
             <Toaster richColors position="top-center" />
@@ -252,6 +255,34 @@ export function DialogAddTemporary() {
                             <FormField
                                 control={form.control}
                                 name="item_id"
+                                render={({ field }) => (
+                                    <FormItem className="space-y-0">
+                                        <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
+                                            Item
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                placeholder="Item Name. . ."
+                                                {...field}
+                                                className={`${
+                                                    form.formState.errors
+                                                        .item_id &&
+                                                    "outline-red-500 focus:outline-red-400"
+                                                }`}
+                                            />
+                                        </FormControl>
+                                        {form.formState.errors.item_id && (
+                                            <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
+                                                <Info size={14} />
+                                                <FormMessage className="text-[13px] mt-[3px] leading-none" />
+                                            </div>
+                                        )}
+                                    </FormItem>
+                                )}
+                            />
+                            {/* <FormField
+                                control={form.control}
+                                name="item_id"
                                 render={({ field }) => {
                                     console.log(JSON.stringify(field.value));
                                     return (
@@ -280,16 +311,6 @@ export function DialogAddTemporary() {
                                                 </FormControl>
 
                                                 <SelectContent className="max-h-[140px] overflow-auto">
-                                                    {/* {listCategory.map(
-                                                        (item, index) => (
-                                                            <SelectItem
-                                                                key={index}
-                                                                value={`${item?.id}`}
-                                                            >
-                                                                {item.name}
-                                                            </SelectItem>
-                                                        )
-                                                    )} */}
                                                     {listItems.map(
                                                         (item, index) => (
                                                             <SelectItem
@@ -302,15 +323,6 @@ export function DialogAddTemporary() {
                                                             </SelectItem>
                                                         )
                                                     )}
-                                                    {/* <SelectItem value="PPLG 1">
-                                                        PPLG 1
-                                                    </SelectItem>
-                                                    <SelectItem value="PPLG 2">
-                                                        PPLG 2
-                                                    </SelectItem>
-                                                    <SelectItem value="PPLG 3">
-                                                        PPLG 3
-                                                    </SelectItem> */}
                                                 </SelectContent>
                                             </Select>
 
@@ -324,12 +336,11 @@ export function DialogAddTemporary() {
                                         </FormItem>
                                     );
                                 }}
-                            />
+                            /> */}
                             <FormField
                                 control={form.control}
                                 name="level"
                                 render={({ field }) => {
-                                    console.log(field);
                                     return (
                                         <FormItem className="space-y-0">
                                             <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">

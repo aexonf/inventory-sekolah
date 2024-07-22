@@ -36,7 +36,6 @@ class ItemsController extends Controller
         $request->validate([
             "id_number" => "required",
             "name" => "required",
-            "stock" => "required",
             "image" => "nullable|image|mimes:jpeg,png,jpg,gif,svg",
             "description" => "required",
             "category" => "required"
@@ -54,7 +53,6 @@ class ItemsController extends Controller
         $item = Items::create([
             "id_number" => $request->id_number,
             "name" => $request->name,
-            "stock" => $request->stock,
             "description" => $request->description,
             "categories_id" => $request->category,
             "image" => $image,
@@ -73,7 +71,6 @@ class ItemsController extends Controller
     $request->validate([
         "id_number" => "required",
         "name" => "required",
-        "stock" => "required",
         "description" => "required",
         "categories_id" => "required",
         "image" => "image|mimes:jpeg,png,jpg,gif,svg"
@@ -106,7 +103,6 @@ class ItemsController extends Controller
     $updateItem = $findItem->update([
         "id_number" => $request->id_number,
         "name" => $request->name,
-        "stock" => $request->stock,
         "description" => $request->description,
         "categories_id" => $categoryFind->id,
         "image" => $image

@@ -42,9 +42,9 @@ const formSchema = z.object({
     description: z.string().min(1, {
         message: "Description is Empty",
     }),
-    stock: z.string().min(1, {
-        message: "Stock is Empty",
-    }),
+    // stock: z.string().min(1, {
+    //     message: "Stock is Empty",
+    // }),
     category: z.string().min(1, {
         message: "Category is Empty",
     }),
@@ -68,7 +68,7 @@ export function DialogAddItem() {
             number_id: "",
             name: "",
             description: "",
-            stock: "",
+            //   stock: "",
             category: "",
             image: "",
         },
@@ -82,7 +82,7 @@ export function DialogAddItem() {
         formData.append("id_number", number_id);
         formData.append("name", name);
         formData.append("description", description);
-        formData.append("stock", Number(stock));
+        //formData.append("stock", Number(stock));
         formData.append("category", Number(category));
         if (imageFile) {
             formData.append("image", imageFile);
@@ -252,7 +252,7 @@ export function DialogAddItem() {
                                     </FormItem>
                                 )}
                             />
-                            <FormField
+                            {/* <FormField
                                 control={form.control}
                                 name="stock"
                                 render={({ field }) => (
@@ -280,7 +280,7 @@ export function DialogAddItem() {
                                         )}
                                     </FormItem>
                                 )}
-                            />
+                            /> */}
                             <FormField
                                 control={form.control}
                                 name="category"
@@ -297,7 +297,7 @@ export function DialogAddItem() {
                                             >
                                                 <FormControl>
                                                     <SelectTrigger
-                                                        className={`${
+                                                        className={` [&>span]:text-neutral-400 ${
                                                             form.formState
                                                                 .errors
                                                                 .category &&
@@ -306,7 +306,7 @@ export function DialogAddItem() {
                                                     >
                                                         <SelectValue
                                                             placeholder="Select Category"
-                                                            className=""
+                                                            className="text-neutral-400"
                                                         />
                                                     </SelectTrigger>
                                                 </FormControl>

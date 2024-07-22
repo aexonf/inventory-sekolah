@@ -32,13 +32,13 @@ export function DialogDeleteTemporary({ id }) {
                 }
             );
             setOpenModal(false);
-            toast.success("Success Delete Categories", {
+            toast.success("Success Delete Temporary", {
                 duration: 3000,
             });
             refresh();
         } catch (error) {
             console.log(error);
-            toast.error("Failed Delete Categories", {
+            toast.error("Failed Delete Temporary", {
                 duration: 3000,
             });
             if (error.response?.data?.message === "Unauthenticated.") {

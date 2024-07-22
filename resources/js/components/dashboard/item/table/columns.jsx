@@ -73,26 +73,6 @@ export const columns = [
         },
     },
     {
-        accessorKey: "stock",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
-                >
-                    Stock
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            );
-        },
-        cell: ({ row }) => {
-            const getStock = row.getValue("stock");
-            return <div className="text-left font-medium">{getStock}</div>;
-        },
-    },
-    {
         accessorKey: "status",
         header: ({ column }) => {
             return (
