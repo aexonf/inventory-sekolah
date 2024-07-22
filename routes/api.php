@@ -10,6 +10,7 @@ use App\Http\Controllers\StudentsController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemsController;
 use App\Http\Controllers\TemporaryController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\UserImportController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,13 @@ Route::prefix("/v1")->group(function () {
     // Route::apiResource('temporary', TemporaryController::class);
 
     // Route::post('/import-users', [UserImportController::class, 'import'])->name('import-users');
+
+     Route::controller(NotificationController::class)->middleware('auth:sanctum')->prefix("/notification")->group(function () {
+        Route::get("/", "index");
+        Route::post("/borrow", "borrowItem");
+        Route::post("/return", "returnItem");
+        Route::delete("/{id}", "delete");
+    });
 
     Route::controller(TemporaryController::class)->middleware('auth:sanctum')->prefix("/temporary")->group(function () {
         Route::get("/", "index");

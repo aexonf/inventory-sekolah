@@ -104,18 +104,20 @@ export function DialogEditTemporary({ row }) {
             item_number,
         } = data;
 
-        const parseObject = JSON.parse(item);
+        // const parseObject = JSON.parse(item);
         const body = {
-            item_id: `${parseObject.id}`,
-            item_name: parseObject.name,
+            item_id: row?.item_id,
+            item_name: item,
             number_id: number_id,
             name: name,
             phone: phone,
             student_class: student_class,
             level: level,
-            item_number_id: parseObject.id_number,
+            item_number_id: row?.item_number_id,
         };
 
+        // console.log(body);
+        // return;
         try {
             const { data: updateItem } = await axios.put(
                 `/api/v1/temporary/${row.id}`,
