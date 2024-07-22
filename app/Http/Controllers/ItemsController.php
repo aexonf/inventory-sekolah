@@ -17,11 +17,11 @@ class ItemsController extends Controller
     {
         $itemsQuery = Items::query();
 
-        if ($request->has("status")) {
-            $itemsQuery->where("status", $request->status);
-        } else {
-            $itemsQuery->where("status", "available");
-        }
+        // if ($request->has("status")) {
+        //     $itemsQuery->where("status", $request->status);
+        // } else {
+        //     $itemsQuery->where("status", "available");
+        // }
 
         $items = $itemsQuery->get();
 
@@ -115,6 +115,24 @@ class ItemsController extends Controller
     return response()->json(["message" => "Something went wrong"], 500);
 }
 
+
+  public function updateAvailable($id, Request $request)
+    {
+        $request->validate([
+            "status" => "required|string"
+        ]);
+
+        $findItem = Items::find($id);
+
+        if (!$findItem) {
+            return response()->json(["message" => "Item not found"], 404);
+        }
+
+        $findItem->status = $request->status;
+        $findItem->save();
+
+        return response()->json(["message" => "Item status updated successfully", "item" => $findItem], 200);
+    }
 
     public function delete($id)
     {

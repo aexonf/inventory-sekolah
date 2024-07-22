@@ -89,7 +89,11 @@ export const columns = [
         },
         cell: ({ row }) => {
             const getStatus = row.getValue("status");
-            return <div className="text-left font-medium">{getStatus}</div>;
+            return (
+                <div className="text-left font-medium">
+                    {getStatus === "available" ? "Available" : "Not Available"}
+                </div>
+            );
         },
     },
     {

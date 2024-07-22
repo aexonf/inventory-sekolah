@@ -51,6 +51,7 @@ Route::prefix("/v1")->group(function () {
         Route::get("/", "index");
         Route::post("/", "create");
         Route::post("/{id}", "update");
+        Route::post("/{id}/available", "updateAvailable");
         Route::delete("/{id}", "delete");
     });
 
