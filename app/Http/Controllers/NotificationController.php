@@ -83,29 +83,40 @@ class NotificationController extends Controller
         $request->validate([
             'item_id' => 'required|exists:items,id',
             'user_id' => 'required|exists:users,id',
+            'status' => 'required|in:returned,borrowed', // Validasi status
         ]);
 
         $notification = Notification::where('item_id', $request->item_id)
                                      ->where('user_id', $request->user_id)
-                                     ->where('status', 'borrowed')
+                                     ->whereIn('status', ['borrowed', 'returned'])
                                      ->first();
 
         if (!$notification) {
             return response()->json(['message' => 'Borrow record not found'], 404);
         }
 
+        $item = Items::find($request->item_id);
+
+        if ($request->status === 'borrowed' && $item->status !== 'available') {
+            return response()->json(['message' => 'Item is not available for borrowing'], 400);
+        }
+
         // Update notification status
         $notification->update([
-            'status' => 'returned',
-            'returned_at' => now(),
+            'status' => $request->status, // Menggunakan status dari request
+            'returned_at' => ($request->status === 'returned') ? Carbon::now('Asia/Jakarta') : null,
         ]);
 
-        // Update item status
-        $item = Items::find($request->item_id);
-        $item->status = 'available';
+        // Update item status jika item dikembalikan dengan status 'returned'
+        if ($request->status === 'returned') {
+            $item->status = 'available';
+        }  else if ($request->status === 'borrowed') {
+            $item->status = 'not_available';
+        }
+
         $item->save();
 
-        return response()->json(['message' => 'Item returned successfully', 'notification' => $notification], 200);
+        return response()->json(['message' => 'Item status updated successfully', 'notification' => $notification], 200);
     }
 
     public function delete($id)

@@ -4,10 +4,12 @@ import { DataTable } from "./dataTable";
 import axios from "axios";
 import { Inertia } from "@inertiajs/inertia";
 import Cookies from "js-cookie";
+import { useNotificationRefresher } from "@/lib/context/refresherNotification";
 
 export default function TableNotification() {
     const inventoryToken = Cookies.get("inventory_token");
     const [activeStudentList, setActiveStudentList] = useState([]);
+    const { refreshKey } = useNotificationRefresher();
 
     const getAllNotification = async () => {
         try {
@@ -28,7 +30,7 @@ export default function TableNotification() {
 
     useEffect(() => {
         getAllNotification();
-    }, []);
+    }, [refreshKey]);
 
     const data = [
         {

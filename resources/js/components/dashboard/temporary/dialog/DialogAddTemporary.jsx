@@ -33,18 +33,18 @@ import { FiPlus } from "react-icons/fi";
 import { useItemRefresher } from "@/lib/context/refresherItem";
 
 const formSchema = z.object({
-    number_id: z.string().min(1, {
-        message: "Number Id is Empty",
-    }),
+    // number_id: z.string().min(1, {
+    //     message: "Number Id is Empty",
+    // }),
     item_id: z.string().min(1, {
         message: "Item is Empty",
     }),
     name: z.string().min(1, {
         message: "Name is Empty",
     }),
-    phone: z.string().min(1, {
-        message: "Phone is Empty",
-    }),
+    // phone: z.string().min(1, {
+    //     message: "Phone is Empty",
+    // }),
     student_class: z.string().min(1, {
         message: "Class is Empty",
     }),
@@ -106,9 +106,9 @@ export function DialogAddTemporary() {
         const body = {
             item_id: "1",
             item_name: item_id,
-            number_id: number_id,
+            number_id: "1",
             name: name,
-            phone: phone,
+            phone: "1",
             student_class: student_class,
             level: level,
             item_number_id: "1",
@@ -196,7 +196,7 @@ export function DialogAddTemporary() {
                             onSubmit={form.handleSubmit(onSubmit)}
                             className="flex flex-col gap-8 rounded-md w-full"
                         >
-                            <FormField
+                            {/* <FormField
                                 control={form.control}
                                 name="number_id"
                                 render={({ field }) => (
@@ -223,7 +223,7 @@ export function DialogAddTemporary() {
                                         )}
                                     </FormItem>
                                 )}
-                            />
+                            /> */}
                             <FormField
                                 control={form.control}
                                 name="name"
@@ -461,7 +461,7 @@ export function DialogAddTemporary() {
                                     );
                                 }}
                             />
-                            <FormField
+                            {/* <FormField
                                 control={form.control}
                                 name="phone"
                                 render={({ field }) => (
@@ -489,7 +489,7 @@ export function DialogAddTemporary() {
                                         )}
                                     </FormItem>
                                 )}
-                            />
+                            /> */}
 
                             {/* <FormField
                                 control={form.control}

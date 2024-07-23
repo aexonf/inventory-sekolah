@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useEffect } from "react";
 import {
     getSortedRowModel,
     flexRender,
@@ -7,6 +8,7 @@ import {
     getPaginationRowModel,
     useReactTable,
 } from "@tanstack/react-table";
+import { useForm } from "react-hook-form";
 import {
     Button,
     Input,
@@ -20,11 +22,21 @@ import {
     TableHead,
     TableHeader,
     TableRow,
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
 } from "../../../ui/index";
 import { DialogAddTeacher } from "../../teacher/dialog/index";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export function DataTable({ columns, data }) {
     const [sorting, setSorting] = React.useState([]);
+    const [status, setStatus] = React.useState("");
     const [columnFilters, setColumnFilters] = React.useState([]);
     const [columnVisibility, setColumnVisibility] = React.useState({});
     const [rowSelection, setRowSelection] = React.useState({});
@@ -48,20 +60,48 @@ export function DataTable({ columns, data }) {
         },
     });
 
+    useEffect(() => {
+        table.getColumn("status")?.setFilterValue(status);
+    }, [status]);
+
     return (
         <div>
             <div className="flex items-center justify-between py-4">
                 <Input
-                    placeholder="Filter Name..."
-                    value={table.getColumn("name")?.getFilterValue() ?? ""}
+                    placeholder="Search Item..."
+                    value={table.getColumn("status")?.getFilterValue() ?? ""}
                     onChange={(event) =>
                         table
-                            .getColumn("name")
+                            .getColumn("status")
                             ?.setFilterValue(event.target.value)
                     }
                     className="max-w-sm"
                 />
-                <DialogAddTeacher />
+
+                <Select>
+                    <SelectTrigger className="max-w-max">
+                        <SelectValue placeholder="Status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectGroup>
+                            <SelectLabel>Status</SelectLabel>
+                            <SelectItem
+                                onClick={() => setStatus("returned")}
+                                value="returned"
+                            >
+                                Dikembalikan
+                            </SelectItem>
+                            <SelectItem
+                                onClick={() => setStatus("borrowed")}
+                                value="borrowed"
+                            >
+                                Dipinjam
+                            </SelectItem>
+                        </SelectGroup>
+                    </SelectContent>
+                </Select>
+
+                {/* <DialogAddTeacher /> */}
                 {/* <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-auto">

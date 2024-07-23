@@ -151,8 +151,8 @@ export const columns = [
 
             return (
                 <div className="flex items-center gap-2">
-                    <DialogEditNotification />
-                    <DialogDeleteNotification />
+                    <DialogEditNotification row={row.original} />
+                    <DialogDeleteNotification row={row.original} />
                 </div>
             );
         },
