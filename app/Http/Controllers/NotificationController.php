@@ -53,9 +53,22 @@ class NotificationController extends Controller
 
         $item = Items::find($request->item_id);
 
-        if ($item->status != 'available') {
-            return response()->json(['message' => 'Item is not available for borrowing'], 400);
-        }
+        // Check if the item is already borrowed by the same user
+    $existingNotification = Notification::where('item_id', $request->item_id)
+                                        ->where('user_id', $request->user_id)
+                                        ->where('status', 'borrowed')
+                                        ->first();
+
+ if ($existingNotification) {
+        return response()->json(['message' => 'You have already borrowed this item'], 400);
+    }
+
+    // Check if the item is available for borrowing
+    if ($item->status != 'available') {
+        return response()->json(['message' => 'Item is not available for borrowing'], 400);
+    }
+
+    
 
         // Update item status
         $item->status = 'not_available';

@@ -10,8 +10,10 @@ import { Inertia } from "@inertiajs/inertia";
 import Cookies from "js-cookie";
 import { Header } from "../components/section/index";
 import QrScanner from "qr-scanner";
+import { Link, usePage } from "@inertiajs/inertia-react";
 
 const Home = () => {
+    const { props } = usePage();
     const [result, setResult] = useState("");
     const [isScannerOpen, setIsScannerOpen] = useState(false);
     const [alertOpen, setAlertOpen] = useState(false);
@@ -20,6 +22,35 @@ const Home = () => {
     const videoRef = useRef(null);
     const qrScannerRef = useRef(null);
     const inventoryToken = Cookies.get("inventory_token");
+    const [userId, setUserId] = useState(0);
+    const [message, setMessage] = useState("");
+    const userIdRef = useRef(userId);
+
+    useEffect(() => {
+        userIdRef.current = userId;
+    }, [userId]);
+
+    const getData = async () => {
+        setIsLoading(true);
+        try {
+            const { data: getUserId } = await axios("/api/user", {
+                headers: {
+                    Authorization: `Bearer ${inventoryToken}`,
+                },
+            });
+
+            setUserId(getUserId.id);
+            console.log(getUserId);
+            setIsLoading(false);
+        } catch (error) {
+            console.log(error);
+            if (error.response.data.message === "Unauthenticated.") {
+                Inertia.visit("/login");
+                setTimeout(() => {}, 3000);
+                return;
+            }
+        }
+    };
 
     const handleScan = useCallback(async (data) => {
         if (data) {
@@ -30,9 +61,10 @@ const Home = () => {
             try {
                 const body = {
                     item_id: Number(data.data),
+                    user_id: userIdRef.current,
                 };
                 const { data: postData } = await axios.post(
-                    "/api/v1/scan-qr/loan",
+                    "/api/v1/notification/borrow",
                     body,
                     {
                         headers: {
@@ -40,12 +72,30 @@ const Home = () => {
                         },
                     }
                 );
+                setMessage("Berhasil pinjam barang");
                 // console.log(postData);
             } catch (error) {
+                if (
+                    error.response.data.message ===
+                    "Item is not available for borrowing"
+                ) {
+                    setMessage("Barang sedang dipinjam orang lain");
+                } else if (
+                    error.response.data.message ===
+                    "You have already borrowed this item"
+                ) {
+                    setMessage("Kamu sudah meminjam barang ini");
+                } else {
+                    setMessage("Gagal meminjam Barang");
+                }
                 console.log(error);
             }
             console.log(data);
         }
+    }, []);
+
+    useEffect(() => {
+        getData();
     }, []);
 
     const handleError = useCallback((err) => {
@@ -111,29 +161,7 @@ const Home = () => {
         }
     };
 
-    const getData = async () => {
-        setIsLoading(true);
-        try {
-            const getUser = await axios("/api/user", {
-                headers: {
-                    Authorization: `Bearer ${inventoryToken}`,
-                },
-            });
-
-            setIsLoading(false);
-        } catch (error) {
-            console.log(error);
-            if (error.response.data.message === "Unauthenticated.") {
-                Inertia.visit("/login");
-                setTimeout(() => {}, 3000);
-                return;
-            }
-        }
-    };
-
-    useEffect(() => {
-        getData();
-    }, []);
+    console.log(userId);
 
     return (
         <>
@@ -196,7 +224,7 @@ const Home = () => {
                                                 </Button>
                                             </div>
                                             <p className="ml-[25px] mt-[5px] text-[14px]">
-                                                Your QR Code has been scanned
+                                                {message}
                                             </p>
                                         </div>
                                     ) : (

@@ -48,19 +48,13 @@ const formSchema = z.object({
     category: z.string().min(1, {
         message: "Category is Empty",
     }),
+    status: z.string().min(1, {
+        message: "Status is Empty",
+    }),
     image: z.any().optional(),
 });
 
-export function DialogEditItem({
-    categories_id,
-    description,
-    id,
-    id_number,
-    image,
-    name,
-    status,
-    stock,
-}) {
+export function DialogEditItem({ row }) {
     const [openModal, setOpenModal] = useState(false);
     const [listCategory, setListcategory] = useState([]);
     const [imageFile, setImageFile] = useState(null);
@@ -68,17 +62,19 @@ export function DialogEditItem({
         register,
         handleSubmit,
         watch,
+        reset,
         formState: { errors },
     } = useForm();
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            number_id: id_number,
-            name: name,
-            description: description,
+            number_id: row.id_number,
+            name: row.name,
+            description: row.description,
+            status: row.status,
             // stock: `${stock}`,
-            category: `${categories_id}`,
-            image: image,
+            category: `${row.categories_id}`,
+            image: row.image,
         },
     });
     const inventoryToken = Cookies.get("inventory_token");
@@ -89,7 +85,7 @@ export function DialogEditItem({
         formData.append("id_number", data.number_id);
         formData.append("name", data.name);
         formData.append("description", data.description);
-        // formData.append("stock", Number(data.stock));
+        formData.append("status", data.status);
         formData.append("categories_id", Number(data.category));
         if (imageFile) {
             formData.append("image", imageFile);
@@ -97,7 +93,7 @@ export function DialogEditItem({
 
         try {
             const { data: updateItem } = await axios.post(
-                `/api/v1/items/${id}`,
+                `/api/v1/items/${row.id}`,
                 formData,
                 {
                     headers: {
@@ -138,9 +134,17 @@ export function DialogEditItem({
 
     useEffect(() => {
         if (openModal) {
+            form.reset({
+                number_id: row.id_number,
+                name: row.name,
+                description: row.description,
+                status: row.status,
+                category: `${row.categories_id}`,
+                image: row.image,
+            });
             getAllCategory();
         }
-    }, [openModal]);
+    }, [openModal, row, reset]);
 
     useEffect(() => {
         if (!openModal) {
@@ -287,9 +291,69 @@ export function DialogEditItem({
 
                             <FormField
                                 control={form.control}
+                                name="status"
+                                render={({ field }) => {
+                                    return (
+                                        <FormItem className="space-y-0">
+                                            <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">
+                                                Status
+                                            </FormLabel>
+                                            <Select
+                                                onValueChange={field.onChange}
+                                                defaultValue={field.value}
+                                            >
+                                                <FormControl>
+                                                    <SelectTrigger
+                                                        className={`${
+                                                            form.formState
+                                                                .errors
+                                                                .status &&
+                                                            "outline-red-500 focus:outline-red-400"
+                                                        }`}
+                                                    >
+                                                        <SelectValue
+                                                            placeholder="Select Status"
+                                                            className="text-neutral-300"
+                                                        />
+                                                    </SelectTrigger>
+                                                </FormControl>
+
+                                                <SelectContent>
+                                                    <SelectItem
+                                                        value={`available`}
+                                                    >
+                                                        Tersedia
+                                                    </SelectItem>
+                                                    <SelectItem
+                                                        value={`not_available`}
+                                                    >
+                                                        Dipinjam
+                                                    </SelectItem>
+                                                    <SelectItem
+                                                        value={`damaged`}
+                                                    >
+                                                        Rusak
+                                                    </SelectItem>
+                                                    <SelectItem value={`lost`}>
+                                                        Hilang
+                                                    </SelectItem>
+                                                </SelectContent>
+                                            </Select>
+
+                                            {form.formState.errors.status && (
+                                                <div className=" pt-[5px] text-red-500 leading-none flex items-center gap-1">
+                                                    <Info size={14} />
+                                                    <FormMessage className="text-[13px] mt-[3px] leading-none" />
+                                                </div>
+                                            )}
+                                        </FormItem>
+                                    );
+                                }}
+                            />
+                            <FormField
+                                control={form.control}
                                 name="category"
                                 render={({ field }) => {
-                                    console.log(field);
                                     return (
                                         <FormItem className="space-y-0">
                                             <FormLabel className="text-[16px] text-neutral-800 leading-3 mb-[6px]">

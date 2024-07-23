@@ -89,11 +89,20 @@ export const columns = [
         },
         cell: ({ row }) => {
             const getStatus = row.getValue("status");
-            return (
-                <div className="text-left font-medium">
-                    {getStatus === "available" ? "Available" : "Not Available"}
-                </div>
-            );
+
+            const checkStatus = () => {
+                switch (getStatus) {
+                    case "not_available":
+                        return "Dipinjam";
+                    case "lost":
+                        return "Hilang";
+                    case "damaged":
+                        return "Rusak";
+                    default:
+                        return "Tersedia";
+                }
+            };
+            return <div className="text-left font-medium">{checkStatus()}</div>;
         },
     },
     {
@@ -104,16 +113,7 @@ export const columns = [
                 <div className="flex items-center gap-2">
                     <ButtonDownloadPdf row={row.original} />
                     <DialogDetailItem row={row.original} />
-                    <DialogEditItem
-                        id={row.original.id}
-                        id_number={row.original.id_number}
-                        name={row.original.name}
-                        description={row.original.description}
-                        status={row.original.status}
-                        stock={row.original.stock}
-                        categories_id={row.original.categories_id}
-                        image={row.original.image}
-                    />
+                    <DialogEditItem row={row.original} />
                     <DialogDeleteItem id={row.original.id} />
                 </div>
             );

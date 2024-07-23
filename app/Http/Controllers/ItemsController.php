@@ -73,6 +73,7 @@ class ItemsController extends Controller
         "name" => "required",
         "description" => "required",
         "categories_id" => "required",
+        "status" => "required|in:available,not_available,lost,damaged",
         "image" => "image|mimes:jpeg,png,jpg,gif,svg"
     ]);
 
@@ -86,6 +87,9 @@ class ItemsController extends Controller
     if (!$categoryFind) {
         return response()->json(["message" => "Category not found"], 404);
     }
+
+// Check if the current status is 'not_available'
+    $status = $findItem->status == 'not_available' ? 'not_available' : $request->status;
 
     $image = $findItem->image;
 
@@ -103,6 +107,7 @@ class ItemsController extends Controller
     $updateItem = $findItem->update([
         "id_number" => $request->id_number,
         "name" => $request->name,
+         "status" => $status,
         "description" => $request->description,
         "categories_id" => $categoryFind->id,
         "image" => $image
