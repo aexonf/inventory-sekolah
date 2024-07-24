@@ -6,8 +6,9 @@ import Cookies from "js-cookie";
 import { Header, LogoutButton } from "../components/section/index";
 import { Mail, Phone, BookOpen, GraduationCap, MapPin } from "lucide-react";
 import QRCode from "react-qr-code";
+import Layout from "./Layout";
 
-export default function History() {
+function Profile() {
     const [isVerifyUser, setIsVerifyUser] = useState(true);
     const inventoryToken = Cookies.get("inventory_token");
     const [userInformation, setUserInformation] = useState({
@@ -61,7 +62,7 @@ export default function History() {
             {!isVerifyUser && (
                 <>
                     {" "}
-                    <main className="h-auto w-full max-w-[420px] mx-auto pb-[0px]">
+                    <div className="h-auto w-full max-w-[420px] mx-auto pb-[0px]">
                         <Header title={"Profile"} profilePage={true} />
                         <div className="mt-[40px] pb-[100px] max-h-[70vh] overflow-auto">
                             <div className="flex flex-col items-center">
@@ -149,10 +150,12 @@ export default function History() {
                                 <LogoutButton />
                             </div>
                         </div>
-                    </main>
-                    <Navigation />
+                    </div>
                 </>
             )}
         </>
     );
 }
+
+Profile.layout = (page) => <Layout children={page} />;
+export default Profile;

@@ -11,6 +11,7 @@ import Cookies from "js-cookie";
 import { Header } from "../components/section/index";
 import QrScanner from "qr-scanner";
 import { Link, usePage } from "@inertiajs/inertia-react";
+import Layout from "./Layout";
 
 const Home = () => {
     const { props } = usePage();
@@ -161,13 +162,13 @@ const Home = () => {
         }
     };
 
-    console.log(userId);
+    // console.log(userId);
 
     return (
         <>
             {!isLoading && (
                 <>
-                    <main className="h-auto w-full max-w-[420px] mx-auto pb-[110px] relative">
+                    <div className="h-auto w-full max-w-[420px] mx-auto pb-[110px] relative">
                         <Header title="Scan QR" />
 
                         <div
@@ -254,12 +255,14 @@ const Home = () => {
                                 </>
                             )}
                         </div>
-                    </main>
-                    <Navigation />
+                    </div>
+                    {/* <Navigation /> */}
                 </>
             )}
         </>
     );
 };
+
+Home.layout = (page) => <Layout children={page} />;
 
 export default Home;

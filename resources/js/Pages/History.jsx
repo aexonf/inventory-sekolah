@@ -11,6 +11,7 @@ import { Inertia } from "@inertiajs/inertia";
 import Cookies from "js-cookie";
 import { Header, HistoryCard } from "../components/section/index";
 import { History as HistoryIcon } from "lucide-react";
+import Layout from "./Layout";
 
 const dummyData = [
     {
@@ -75,7 +76,7 @@ const dummyData = [
     },
 ];
 
-export default function History() {
+function History() {
     const [isVerifyUser, setIsVerifyUser] = useState(true);
     const inventoryToken = Cookies.get("inventory_token");
     const [history, setHistory] = useState([]);
@@ -110,7 +111,7 @@ export default function History() {
         <>
             {!isVerifyUser && (
                 <>
-                    <main className="h-auto w-full max-w-[420px] mx-auto pb-[0px]">
+                    <div className="h-auto w-full max-w-[420px] mx-auto pb-[0px]">
                         <Header title={"History"} />
                         <Tabs
                             defaultValue="borrowed"
@@ -195,8 +196,7 @@ export default function History() {
                                 </div>
                             </TabsContent>
                         </Tabs>
-                    </main>
-                    <Navigation />
+                    </div>
                 </>
             )}
         </>
@@ -213,3 +213,6 @@ function EmptyHistory() {
         </div>
     );
 }
+
+History.layout = (page) => <Layout children={page} />;
+export default History;
