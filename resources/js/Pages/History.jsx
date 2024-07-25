@@ -13,69 +13,6 @@ import { Header, HistoryCard } from "../components/section/index";
 import { History as HistoryIcon } from "lucide-react";
 import Layout from "./Layout";
 
-const dummyData = [
-    {
-        id: 4,
-        name: "Bahasa Indonesia",
-        description_item:
-            "Buku ini adalah buku yang berisi tata cara  untuk belajar bahasa Indonesia dengan baik dan benar dan sopan dan bagus",
-        category: "Book",
-        loan_date: "2024-06-27 07:23:13",
-        return_date: null,
-        status: "borrowed",
-    },
-    {
-        id: 4,
-        name: "Bahasa Inggris",
-        description_item:
-            "Buku ini adalah buku yang berisi tata cara  untuk belajar bahasa Inggris dengan baik dan benar dan sopan dan bagus",
-        category: "Book",
-        loan_date: "2024-06-27 07:23:13",
-        return_date: null,
-        status: "returned",
-    },
-    {
-        id: 4,
-        name: "Bahasa Inggris",
-        description_item:
-            "Buku ini adalah buku yang berisi tata cara  untuk belajar bahasa Inggris dengan baik dan benar dan sopan dan bagus",
-        category: "Book",
-        loan_date: "2024-06-27 07:23:13",
-        return_date: null,
-        status: "returned",
-    },
-    {
-        id: 4,
-        name: "Bahasa Inggris",
-        description_item:
-            "Buku ini adalah buku yang berisi tata cara  untuk belajar bahasa Inggris dengan baik dan benar dan sopan dan bagus",
-        category: "Book",
-        loan_date: "2024-06-27 07:23:13",
-        return_date: null,
-        status: "returned",
-    },
-    {
-        id: 4,
-        name: "Bahasa Asing",
-        description_item:
-            "Buku ini adalah buku yang berisi tata cara  untuk belajar bahasa Inggris dengan baik dan benar dan sopan dan bagus",
-        category: "Book",
-        loan_date: "2024-06-27 07:23:13",
-        return_date: null,
-        status: "returned",
-    },
-    {
-        id: 4,
-        name: "Bahasa Asing",
-        description_item:
-            "Buku ini adalah buku yang berisi tata cara  untuk belajar bahasa Inggris dengan baik dan benar dan sopan dan bagus",
-        category: "Book",
-        loan_date: "2024-06-27 07:23:13",
-        return_date: null,
-        status: "borrowed",
-    },
-];
-
 function History() {
     const [isVerifyUser, setIsVerifyUser] = useState(true);
     const inventoryToken = Cookies.get("inventory_token");
@@ -107,6 +44,17 @@ function History() {
         verifyUser();
     }, []);
 
+    function TotalData(status) {
+        if (history.length === 0) {
+            return 0;
+        } else {
+            const filteredData = history.filter(
+                (item) => item.status === status
+            );
+            return filteredData.length;
+        }
+    }
+
     return (
         <>
             {!isVerifyUser && (
@@ -127,7 +75,7 @@ function History() {
                             </TabsList>
                             <TabsContent className="w-full" value="borrowed">
                                 <div className="w-full flex flex-col gap-4 px-[20px] pb-[0] max-h-[60vh] overflow-auto">
-                                    {history.length === 0 ? (
+                                    {TotalData("borrowed") === 0 ? (
                                         <EmptyHistory />
                                     ) : (
                                         <>
@@ -158,7 +106,7 @@ function History() {
                             </TabsContent>
                             <TabsContent className="w-full" value="returned">
                                 <div className="w-full flex flex-col gap-4 px-[20px] pb-[0] max-h-[66vh] overflow-auto">
-                                    {history.length === 0 ? (
+                                    {TotalData("returned") === 0 ? (
                                         <EmptyHistory />
                                     ) : (
                                         <>

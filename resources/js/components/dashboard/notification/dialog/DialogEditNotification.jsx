@@ -100,7 +100,6 @@ export function DialogEditNotification({ row }) {
         }
     };
 
-    console.log(watch("status"));
     return (
         <>
             <Toaster richColors position="top-center" />

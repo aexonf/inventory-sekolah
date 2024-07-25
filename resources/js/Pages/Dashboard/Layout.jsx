@@ -6,7 +6,8 @@ import Cookies from "js-cookie";
 
 export default function Layout({ children }) {
     const [isLoading, setIsLoading] = useState(false);
-    const [verifyLoading, setIsVerifyLoading] = useState(true);
+    const [verifyLoading, setIsVerifyLoading] = useState(false);
+    const [checkRole, setCheckRole] = useState(false);
     const inventoryToken = Cookies.get("inventory_token");
 
     const checkingRole = async () => {
@@ -22,18 +23,24 @@ export default function Layout({ children }) {
             if (role === "student") {
                 setIsLoading(false);
                 Inertia.visit("/");
-            } else if (role === "teacher" || role === "admin") {
-                setIsLoading(false);
-                Inertia.visit("/test-admin");
             }
+            setCheckRole(true);
         } catch (error) {
-            setIsLoading(false);
-            console.log(error);
+            setCheckRole(true);
+            if (error.response.data.message) {
+                if (checkRole) {
+                    Inertia.visit("/login");
+                }
+                setIsVerifyLoading(true);
+                return;
+            }
         }
     };
 
     useEffect(() => {
-        checkingRole();
+        if (checkRole === false) {
+            checkingRole();
+        }
     }, []);
 
     return (

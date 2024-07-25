@@ -46,6 +46,7 @@ export default function Login() {
     });
     const [isLoading, setIsLoading] = useState(false);
     const [verifyLoading, setIsVerifyLoading] = useState(true);
+    const [checkRole, setCheckRole] = useState(false);
     const inventoryToken = Cookies.get("inventory_token");
 
     const onSubmit = async (data) => {
@@ -55,16 +56,13 @@ export default function Login() {
             password: password,
         };
 
-        // if (body.username === "" || body.password === "") {
-        //     return;
-        // }
         setIsLoading(true);
         try {
             const { data: postData } = await axios.post(
                 "/api/v1/auth/login",
                 body
             );
-            console.log(postData);
+
             setIsLoading(false);
             Cookies.set("inventory_token", postData.token, { expires: 7 });
             const { data: getUser } = await axios.get("/api/user", {
@@ -76,7 +74,7 @@ export default function Login() {
             const role = getUser.role;
             if (role === "student") {
                 setIsLoading(false);
-                Inertia.visit("/test-admin");
+                Inertia.visit("/");
             } else if (role === "admin") {
                 setIsLoading(false);
                 Inertia.visit("/test-admin");
@@ -105,12 +103,8 @@ export default function Login() {
                 },
             });
 
-            // if (getUser.username !== "") {
-            //     Inertia.visit("/");
-            //     setIsVerifyLoading(false);
-            // }
-
             const role = getUser.role;
+            setCheckRole(true);
             if (role === "student" || role === "teacher") {
                 setIsLoading(false);
                 Inertia.visit("/");
@@ -119,9 +113,12 @@ export default function Login() {
                 Inertia.visit("/test-admin");
             }
         } catch (error) {
+            setCheckRole(true);
             console.log(error);
             if (error.response.data.message === "Unauthenticated.") {
-                Inertia.visit("/login");
+                if (checkRole) {
+                    Inertia.visit("/login");
+                }
                 setIsVerifyLoading(false);
                 return;
             }
@@ -132,7 +129,7 @@ export default function Login() {
         if (inventoryToken === undefined || inventoryToken === "") {
             setIsVerifyLoading(false);
             return;
-        } else {
+        } else if (checkRole === false) {
             verifyUser();
         }
     }, []);
@@ -229,15 +226,6 @@ export default function Login() {
                                             {isLoading ? "Loading..." : "Login"}
                                         </span>
                                     </Button>
-                                    <p className="text-center text-[13px] mt-[6px]">
-                                        Don’t have an account ?{" "}
-                                        <Link
-                                            href="/register"
-                                            className="text-[#A27FFE] font-semibold hover:underline"
-                                        >
-                                            Register
-                                        </Link>
-                                    </p>
                                 </div>
                             </form>
                         </Form>
