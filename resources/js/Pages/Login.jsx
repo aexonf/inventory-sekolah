@@ -67,7 +67,20 @@ export default function Login() {
             console.log(postData);
             setIsLoading(false);
             Cookies.set("inventory_token", postData.token, { expires: 7 });
-            Inertia.visit("/");
+            const { data: getUser } = await axios.get("/api/user", {
+                headers: {
+                    Authorization: `Bearer ${postData.token}`,
+                },
+            });
+
+            const role = getUser.role;
+            if (role === "student") {
+                setIsLoading(false);
+                Inertia.visit("/test-admin");
+            } else if (role === "admin") {
+                setIsLoading(false);
+                Inertia.visit("/test-admin");
+            }
         } catch (error) {
             setIsLoading(false);
             if (
@@ -92,10 +105,18 @@ export default function Login() {
                 },
             });
 
-            console.log(getUser);
-            if (getUser.username !== "") {
+            // if (getUser.username !== "") {
+            //     Inertia.visit("/");
+            //     setIsVerifyLoading(false);
+            // }
+
+            const role = getUser.role;
+            if (role === "student" || role === "teacher") {
+                setIsLoading(false);
                 Inertia.visit("/");
-                setIsVerifyLoading(false);
+            } else if (role === "admin") {
+                setIsLoading(false);
+                Inertia.visit("/test-admin");
             }
         } catch (error) {
             console.log(error);
@@ -196,11 +217,17 @@ export default function Login() {
 
                                 <div className="w-full">
                                     <Button
-                                        className="w-full bg-[#A27FFE] mt-[50px] hover:bg-[#b295fb]"
-                                        disable={isLoading}
+                                        className={`${
+                                            isLoading
+                                                ? "bg-[#cab7fa]"
+                                                : "bg-[#A27FFE] hover:bg-[#b295fb] "
+                                        } w-full  mt-[50px] `}
+                                        disabled={isLoading}
                                         type="submit"
                                     >
-                                        <span className="text-lg">Login</span>
+                                        <span className="text-lg">
+                                            {isLoading ? "Loading..." : "Login"}
+                                        </span>
                                     </Button>
                                     <p className="text-center text-[13px] mt-[6px]">
                                         Don’t have an account ?{" "}
@@ -214,77 +241,6 @@ export default function Login() {
                                 </div>
                             </form>
                         </Form>
-                        {/* <form
-                            className="flex flex-col gap-8 rounded-md px-[30px] w-full"
-                            onSubmit={handleSubmit(onSubmit)}
-                        >
-                            <label className="flex flex-col">
-                                <span className=" text-neutral-800 leading-3 mb-[6px]">
-                                    Username
-                                </span>
-                                <Input
-                                    {...register("username", {
-                                        required: "Username is Empty",
-                                    })}
-                                    value={watch("username")}
-                                    type="text"
-                                    placeholder="Username. . ."
-                                    className={`${
-                                        errors.username &&
-                                        "outline-red-500 focus:outline-red-400"
-                                    }`}
-                                />
-                                {errors.username && (
-                                    <div className="text-[13px] mt-[4px] text-red-500 leading-none flex items-center gap-1">
-                                        <Info size={14} />
-                                        <span className="mt-[3px] leading-none">
-                                            {errors.username.message}
-                                        </span>
-                                    </div>
-                                )}
-                            </label>
-
-                            <label className="flex flex-col">
-                                <span className=" text-neutral-800 leading-3 mb-[6px]">
-                                    Password
-                                </span>
-                                <Input
-                                    {...register("password", {
-                                        required: "Password is Empty",
-                                    })}
-                                    value={watch("password")}
-                                    type="password"
-                                    placeholder="Password. . ."
-                                    className={`${
-                                        errors.password &&
-                                        "outline-red-500 focus:outline-red-400"
-                                    }`}
-                                />
-                                {errors.password && (
-                                    <div className="text-[13px] mt-[4px] text-red-500 leading-none flex items-center gap-1">
-                                        <Info size={14} />
-                                        <span className="mt-[3px] leading-none">
-                                            {errors.password.message}
-                                        </span>
-                                    </div>
-                                )}
-                            </label>
-
-                            <div>
-                                <Button className="bg-[#A27FFE] mt-[50px]">
-                                    <span className="text-lg">Login</span>
-                                </Button>
-                                <p className="text-center text-[13px] mt-[6px]">
-                                    Don’t have an account ?{" "}
-                                    <Link
-                                        href="/register"
-                                        className="text-[#A27FFE] font-semibold hover:underline"
-                                    >
-                                        Register
-                                    </Link>
-                                </p>
-                            </div>
-                        </form> */}
                     </div>
                 </>
             )}

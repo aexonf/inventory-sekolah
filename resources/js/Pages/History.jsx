@@ -92,7 +92,7 @@ function History() {
 
             setIsVerifyUser(false);
 
-            setHistory(getUser.data.items);
+            setHistory(getUser.data);
         } catch (error) {
             console.log(error);
             if (error.response.data.message === "Unauthenticated.") {
@@ -132,29 +132,25 @@ function History() {
                                     ) : (
                                         <>
                                             {history.map((item, index) => (
-                                                <>
+                                                <React.Fragment key={index}>
                                                     {item.status ===
                                                     "borrowed" ? (
                                                         <HistoryCard
                                                             key={index}
-                                                            id={item.id}
-                                                            name={item.name}
-                                                            description_item={
-                                                                item.description_item
-                                                            }
-                                                            category={
-                                                                item.category
+                                                            id={item.item_id}
+                                                            name={
+                                                                item.item_name
                                                             }
                                                             loan_date={
-                                                                item.loan_date
+                                                                item.borrowed_at
                                                             }
                                                             return_date={
-                                                                item.return_date
+                                                                item.returned_at
                                                             }
                                                             status={item.status}
                                                         />
                                                     ) : null}
-                                                </>
+                                                </React.Fragment>
                                             ))}
                                         </>
                                     )}
@@ -167,18 +163,14 @@ function History() {
                                     ) : (
                                         <>
                                             {history.map((item, index) => (
-                                                <>
+                                                <React.Fragment key={index}>
                                                     {item.status ===
                                                     "returned" ? (
                                                         <HistoryCard
                                                             key={index}
-                                                            id={item.id}
-                                                            name={item.name}
-                                                            description_item={
-                                                                item.description_item
-                                                            }
-                                                            category={
-                                                                item.category
+                                                            id={item.item_id}
+                                                            name={
+                                                                item.item_name
                                                             }
                                                             loan_date={
                                                                 item.loan_date
@@ -189,7 +181,7 @@ function History() {
                                                             status={item.status}
                                                         />
                                                     ) : null}
-                                                </>
+                                                </React.Fragment>
                                             ))}
                                         </>
                                     )}

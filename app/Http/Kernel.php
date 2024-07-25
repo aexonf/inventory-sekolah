@@ -20,6 +20,7 @@ class Kernel extends HttpKernel
         'web' => [
             \App\Http\Middleware\HandleInertiaRequests::class,
         ],
+          'auth' => \App\Http\Middleware\Authenticate::class,
 
         'api' => [
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,

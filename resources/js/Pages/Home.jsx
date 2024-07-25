@@ -41,7 +41,6 @@ const Home = () => {
             });
 
             setUserId(getUserId.id);
-            console.log(getUserId);
             setIsLoading(false);
         } catch (error) {
             console.log(error);
@@ -162,8 +161,6 @@ const Home = () => {
         }
     };
 
-    // console.log(userId);
-
     return (
         <>
             {!isLoading && (
@@ -256,7 +253,6 @@ const Home = () => {
                             )}
                         </div>
                     </div>
-                    {/* <Navigation /> */}
                 </>
             )}
         </>

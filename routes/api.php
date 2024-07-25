@@ -20,10 +20,6 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::get('/haii', function () {
-    return response()->json(['message' => 'Hellod'], 200);
-});
-
 Route::prefix("/v1")->group(function () {
     Route::get('/students', [StudentsController::class, 'index']);
 

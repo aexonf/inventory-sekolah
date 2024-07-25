@@ -49,11 +49,11 @@ function Profile() {
         verifyUser();
     }, []);
 
-    let words = userInformation.name.split(" ");
+    let words =
+        userInformation.name === null ? "" : userInformation.name.split(" ");
     let firstWordFirstChar = words[0] ? words[0].charAt(0) : "";
     let secondWordSecondChar = words[1] ? words[1].charAt(1) : "";
-    let firstWordFirstCharUppercase = firstWordFirstChar.toUpperCase();
-    let secondWordSecondCharUppercase = secondWordSecondChar.toUpperCase();
+    secondWordSecondChar.toUpperCase();
     let UppercaseText =
         `${firstWordFirstChar}${secondWordSecondChar}`.toUpperCase();
 
@@ -91,59 +91,72 @@ function Profile() {
                             )}
 
                             <div className="mt-[40px] flex flex-col gap-[21px] px-[30px]">
-                                <div>
-                                    <h1 className="text-[14px] text-[#6F6F6F]">
-                                        Email
-                                    </h1>
-                                    <div className="bg-[#F4F0FF] rounded-sm flex items-center justify-between py-[7px] px-[17px]">
-                                        <p>{userInformation.email}</p>
+                                {userInformation.email && (
+                                    <div>
+                                        <h1 className="text-[14px] text-[#6F6F6F]">
+                                            Email
+                                        </h1>
+                                        <div className="bg-[#F4F0FF] rounded-sm flex items-center justify-between py-[7px] px-[17px]">
+                                            <p>{userInformation.email}</p>
 
-                                        <Mail size={19} />
+                                            <Mail size={19} />
+                                        </div>
                                     </div>
-                                </div>
-                                <div>
-                                    <h1 className="text-[14px] text-[#6F6F6F]">
-                                        Phone Number
-                                    </h1>
-                                    <div className="bg-[#F4F0FF] rounded-sm flex items-center justify-between py-[7px] px-[17px]">
-                                        <p>{userInformation.phone_number}</p>
+                                )}
+                                {userInformation.phone_number && (
+                                    <div>
+                                        <h1 className="text-[14px] text-[#6F6F6F]">
+                                            Phone Number
+                                        </h1>
+                                        <div className="bg-[#F4F0FF] rounded-sm flex items-center justify-between py-[7px] px-[17px]">
+                                            <p>
+                                                {userInformation.phone_number}
+                                            </p>
 
-                                        <Phone size={19} />
+                                            <Phone size={19} />
+                                        </div>
                                     </div>
-                                </div>
-                                <div>
-                                    <h1 className="text-[14px] text-[#6F6F6F]">
-                                        Class
-                                    </h1>
-                                    <div className="bg-[#F4F0FF] rounded-sm flex items-center justify-between py-[7px] px-[17px]">
-                                        <p>
-                                            {userInformation.generation}{" "}
-                                            {userInformation.class}
-                                        </p>
+                                )}
+                                {userInformation.generation && (
+                                    <div>
+                                        <h1 className="text-[14px] text-[#6F6F6F]">
+                                            Class
+                                        </h1>
+                                        <div className="bg-[#F4F0FF] rounded-sm flex items-center justify-between py-[7px] px-[17px]">
+                                            <p>
+                                                {userInformation.generation}{" "}
+                                                {userInformation.class}
+                                            </p>
 
-                                        <BookOpen size={19} />
+                                            <BookOpen size={19} />
+                                        </div>
                                     </div>
-                                </div>
-                                <div>
-                                    <h1 className="text-[14px] text-[#6F6F6F]">
-                                        School Year
-                                    </h1>
-                                    <div className="bg-[#F4F0FF] rounded-sm flex items-center justify-between py-[7px] px-[17px]">
-                                        <p>{userInformation.school_year}</p>
+                                )}
+                                {userInformation.school_year && (
+                                    <div>
+                                        <h1 className="text-[14px] text-[#6F6F6F]">
+                                            School Year
+                                        </h1>
+                                        <div className="bg-[#F4F0FF] rounded-sm flex items-center justify-between py-[7px] px-[17px]">
+                                            <p>{userInformation.school_year}</p>
 
-                                        <GraduationCap size={19} />
+                                            <GraduationCap size={19} />
+                                        </div>
                                     </div>
-                                </div>
-                                <div>
-                                    <h1 className="text-[14px] text-[#6F6F6F]">
-                                        Address
-                                    </h1>
-                                    <div className="bg-[#F4F0FF] rounded-sm flex items-start justify-between py-[7px] px-[17px]">
-                                        <p>{userInformation.address}</p>
+                                )}
 
-                                        <MapPin size={19} />
+                                {userInformation.address && (
+                                    <div>
+                                        <h1 className="text-[14px] text-[#6F6F6F]">
+                                            Address
+                                        </h1>
+                                        <div className="bg-[#F4F0FF] rounded-sm flex items-start justify-between py-[7px] px-[17px]">
+                                            <p>{userInformation.address}</p>
+
+                                            <MapPin size={19} />
+                                        </div>
                                     </div>
-                                </div>
+                                )}
                             </div>
 
                             <div className="mt-[54px] w-full flex justify-center items-center">

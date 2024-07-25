@@ -2,51 +2,42 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\LoanHistoryProfileResource;
-use App\Models\Items;
-use App\Models\Loans;
-use App\Models\User;
+use App\Http\Resources\LoanHistoryResource;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 
 class HistoryLoanController extends Controller
 {
+    /**
+     * Show the loan history for the currently authenticated user.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index()
+    {
+        // Ambil ID pengguna yang sedang login
+        $userId = auth()->user()->id;
 
-    public function index(){
-        $user = User::with('student.activeStudents')->where("id", auth()->user()->id)->first();
-        $lastActiveStudent = $user->student->activeStudents()->latest()->first();
-        // Check if the user has a student relationship and if the student is active
-        if (!$user->student || !$user->student->activeStudents()->exists()) {
-            return response()->json([
-                "status" => "error",
-                "message" => "User is not a student or is not active. Please register as an active student with the admin.",
-            ], 403);
-        }
+        // Ambil semua notifikasi untuk pengguna yang sedang login
+        $notifications = Notification::with('item') // Muat relasi 'item'
+            ->where('user_id', $userId)
+            ->get();
 
-        $items = Loans::with(["item", "activeStudents", "item.category"])->where("active_student_id",$lastActiveStudent->id)->get();
-
-        $data = [
-            "id" => $lastActiveStudent->id,
-            "name" => $user->student->name,
-            "id_number" => $user->student->id_number,
-            "address" => $user->student->address,
-            "phone_number" => $user->student->phone_number,
-            "email" => $user->email,
-            "status" => $user->status,
-            "class" => $lastActiveStudent->class,
-            "generation" => $lastActiveStudent->generation,
-            "school_year" => $lastActiveStudent->school_year,
-            "items"  => $items
-        ];
-
-         // Convert the array to an object to prevent the "Attempt to read property \"id\" on array" error
-         $data = (object)$data;
+        // Format data untuk respons
+        $formattedNotifications = $notifications->map(function ($notification) {
+            return [
+                'id' => $notification->id,
+                'item_id' => $notification->item->id,
+                'item_name' => $notification->item->name,
+                'status' => $notification->status,
+                'borrowed_at' => $notification->borrowed_at,
+                'returned_at' => $notification->returned_at,
+            ];
+        });
 
         return response()->json([
-            "status" => "success",
-            "message" => "Profile fetched successfully",
-            "data" => new LoanHistoryProfileResource($data)
+            'status' => 'success',
+            'data' => $formattedNotifications,
         ]);
-
     }
-
 }

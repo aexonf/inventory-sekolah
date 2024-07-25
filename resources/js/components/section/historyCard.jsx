@@ -10,15 +10,7 @@ import {
     DialogTrigger,
 } from "../ui/index";
 
-export function HistoryCard({
-    id,
-    name,
-    description_item,
-    category,
-    loan_date,
-    return_date,
-    status,
-}) {
+export function HistoryCard({ id, name, loan_date, return_date, status }) {
     const formatDate = (dateString) => {
         return moment(dateString).format("DD MMMM YYYY");
     };
@@ -31,9 +23,7 @@ export function HistoryCard({
         <Dialog>
             <DialogTrigger className="w-full flex flex-col items-start bg-[#E1D6FF] bg-opacity-[25%] py-[16px] px-[23px] rounded-[5px]">
                 <h1 className="text-[17px] font-semibold mb-[7px]">{name}</h1>
-                <p className="text-start text-[14px] line-clamp-2">
-                    {description_item}
-                </p>
+
                 <div className="mt-[21px] flex justify-end w-full gap-2">
                     <p className="text-[12px] text-[#4E3984] rounded-[50px] px-[11px] py-[4px] bg-[#DACDFF]">
                         {capitalizeFirstLetter(status)}
@@ -52,16 +42,7 @@ export function HistoryCard({
                     <h1 className="text-[20px] mt-[25px] font-semibold mb-[5px]">
                         {name}
                     </h1>
-                    <p className="text-start text-[14px]">{description_item}</p>
 
-                    <div className="mt-[21px]">
-                        <p className="text-[#3C3B3B] text-[12px]">Categories</p>
-                        <div className="bg-[#F0EBFF] max-w-max px-[7px] rounded-md py-[4px]">
-                            <p className="text-[#4E3984] text-[14px] rounded-[50px]">
-                                {category}
-                            </p>
-                        </div>
-                    </div>
                     <div className="mt-[21px] flex gap-[20px]">
                         <div>
                             <p className="text-[#3C3B3B] text-[12px]">
