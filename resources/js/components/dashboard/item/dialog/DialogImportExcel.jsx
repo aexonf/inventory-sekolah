@@ -41,6 +41,8 @@ import { useItemRefresher } from "@/lib/context/refresherItem";
 import ItemImport from "../excel/ImportItem";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import jsPDF from "jspdf";
+import QRCode from "qrcode";
 
 export function DialogImportExcel() {
     const [openModal, setOpenModal] = useState(false);
@@ -118,7 +120,7 @@ export function DialogImportExcel() {
                             <ImportItem />
                         </TabsContent>
                         <TabsContent className="w-[260px]" value="export">
-                            Export Data
+                            <ExportAllItemsPDF />
                         </TabsContent>
                     </Tabs>
                 </PopoverContent>
@@ -204,5 +206,93 @@ function ImportItem() {
                 </Button>
             </div>
         </form>
+    );
+}
+
+function ExportAllItemsPDF() {
+    const [items, setItems] = useState([]);
+    const inventoryToken = Cookies.get("inventory_token");
+
+    const fetchData = async () => {
+        try {
+            const response = await axios.get("/api/v1/items", {
+                headers: {
+                    Authorization: `Bearer ${inventoryToken}`,
+                },
+            });
+            if (response.data.status === "success") {
+                setItems(response.data.data);
+                generatePDF(response.data.data);
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
+    const generatePDF = async (items) => {
+        const doc = new jsPDF();
+        const pageHeight = doc.internal.pageSize.height;
+        const pageWidth = doc.internal.pageSize.width;
+        let yPosition = 10;
+        const margin = 10;
+        const qrCodeSize = 50;
+        const textHeight = 10;
+        const padding = 5;
+        const itemHeight = qrCodeSize + textHeight + padding * 4; // QR code height + text height + padding
+
+        for (let i = 0; i < items.length; i++) {
+            const item = items[i];
+            const qrCodeDataUrl = await QRCode.toDataURL(item.id.toString());
+
+            if (yPosition + itemHeight > pageHeight) {
+                doc.addPage();
+                yPosition = margin;
+            }
+
+            // Calculate the width and height of the border to fit content
+            const contentWidth = qrCodeSize + padding * 2;
+            const contentHeight = qrCodeSize + textHeight + padding * 3;
+
+            // Draw border for item
+            doc.setDrawColor(0);
+            doc.setLineWidth(0.5);
+            doc.rect(
+                (pageWidth - contentWidth) / 2,
+                yPosition,
+                contentWidth,
+                contentHeight
+            );
+
+            // Add QR Code
+            doc.addImage(
+                qrCodeDataUrl,
+                "PNG",
+                (pageWidth - qrCodeSize) / 2,
+                yPosition + padding,
+                qrCodeSize,
+                qrCodeSize
+            );
+
+            // Add item name
+            doc.setFontSize(12);
+            doc.text(
+                item.name,
+                pageWidth / 2,
+                yPosition + qrCodeSize + padding * 2 + textHeight,
+                { align: "center" }
+            );
+
+            yPosition += contentHeight + 10; // Move to the next item position with some spacing
+        }
+
+        doc.save("inventory_items.pdf");
+    };
+    return (
+        <Button
+            onClick={fetchData}
+            className="bg-blue-500 text-white py-2 px-4 rounded"
+        >
+            Export All Items to PDF
+        </Button>
     );
 }
