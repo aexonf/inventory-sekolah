@@ -153,7 +153,6 @@ export function DialogEditItem({ row }) {
         }
     }, [openModal]);
 
-    console.log(listCategory);
     return (
         <>
             <Toaster richColors position="top-center" />

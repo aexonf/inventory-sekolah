@@ -15,8 +15,11 @@ use App\Models\Teachers;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/upload-excel', [TestUserController::class, 'showUploadForm'])->name('upload.form');
-Route::post('/upload-excel', [TestUserController::class, 'uploadExcel'])->name('upload.excel');
+
+Route::post('/import-users', [TestUserController::class, 'import']);
+// Route::get('/upload-excel', [TestUserController::class, 'showUploadForm'])->name('upload.form');
+// Route::post('/upload-excel', [TestUserController::class, 'uploadExcel'])->name('upload.excel');
+
 
 Route::prefix("/admin")->group(function () {
 
@@ -92,44 +95,44 @@ Route::prefix("/admin")->group(function () {
 
 });
 
-Route::get('/test-admin', function () {
-    return Inertia::render('Dashboard/Dashboard');
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard/Dashboard/Dashboard');
 });
 
-Route::get('/test-admin/setting', function () {
-    return Inertia::render('Dashboard/Setting');
+// Route::get('/dashboard/setting', function () {
+//     return Inertia::render('Dashboard/Setting/Setting');
+// });
+
+Route::get('/dashboard/item', function () {
+    return Inertia::render('Dashboard/Item/Item');
 });
 
-Route::get('/test-admin/item', function () {
-    return Inertia::render('Dashboard/Item');
+Route::get('/dashboard/temporary', function () {
+    return Inertia::render('Dashboard/Temporary/Temporary');
 });
 
-Route::get('/test-admin/temporary', function () {
-    return Inertia::render('Dashboard/Temporary');
+Route::get('/dashboard/student', function () {
+    return Inertia::render('Dashboard/Student/Student');
 });
 
-Route::get('/test-admin/student', function () {
-    return Inertia::render('Dashboard/Student');
+Route::get('/dashboard/active-student', function () {
+    return Inertia::render('Dashboard/ActiveStudent/ActiveStudent');
 });
 
-Route::get('/test-admin/active-student', function () {
-    return Inertia::render('Dashboard/ActiveStudent');
+Route::get('/dashboard/category', function () {
+    return Inertia::render('Dashboard/Category/Category');
 });
 
-Route::get('/test-admin/category', function () {
-    return Inertia::render('Dashboard/Category');
+Route::get('/dashboard/notification', function () {
+    return Inertia::render('Dashboard/Notification/Notification');
 });
 
-Route::get('/test-admin/notification', function () {
-    return Inertia::render('Dashboard/Notification');
+Route::get('/dashboard/teacher', function () {
+    return Inertia::render('Dashboard/Teacher/Teacher');
 });
 
-Route::get('/test-admin/teacher', function () {
-    return Inertia::render('Dashboard/Teacher');
-});
-
-Route::get('/test-admin/qr-scan', function () {
-    return Inertia::render('Dashboard/QrScan');
+Route::get('/dashboard/qr-scan', function () {
+    return Inertia::render('Dashboard/QrScan/QrScan');
 });
 
 Route::get('/', function () {

@@ -1,11 +1,11 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
-import Layout from "./Layout";
+import Layout from "../Layout";
 import QrScanner from "qr-scanner";
 import Cookies from "js-cookie";
-import { Button, Card, Navigation } from "../../components/ui/index";
-import QrCodeIcon from "../../../../public/img/qr-code.svg";
-import CloseIcon from "../../../../public/img/close-icon.svg";
-import InformationIcon from "../../../../public/img/information-icon.svg";
+import { Button, Card, Navigation } from "../../../components/ui/index";
+import QrCodeIcon from "../../../../../public/img/qr-code.svg";
+import CloseIcon from "../../../../../public/img/close-icon.svg";
+import InformationIcon from "../../../../../public/img/information-icon.svg";
 import { Inertia } from "@inertiajs/inertia";
 
 function QrScan() {

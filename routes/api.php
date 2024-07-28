@@ -12,13 +12,25 @@ use App\Http\Controllers\ItemsController;
 use App\Http\Controllers\TemporaryController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\UserImportController;
-use App\Http\Controllers\HelloWorldController;
+
+use App\Http\Controllers\TestUserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TestingUploadController;
+
+Route::post('/upload-json', [ItemsController::class, 'import']);
+
+
+Route::post('/import-users', [TestUserController::class, 'import']);
 
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
+
+Route::post('/test', function (Request $request) {
+    return response()->json(['message' => $request], 200);
+});
+
 
 Route::prefix("/v1")->group(function () {
     Route::get('/students', [StudentsController::class, 'index']);
@@ -58,6 +70,7 @@ Route::prefix("/v1")->group(function () {
         Route::post("/{id}", "update");
         Route::post("/{id}/available", "updateAvailable");
         Route::delete("/{id}", "delete");
+       // Route::post("/import", "import");
     });
 
     Route::get('/active-students', [ActiveStudentsController::class, 'index']);

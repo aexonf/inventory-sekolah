@@ -39,15 +39,11 @@ const formSchema = z.object({
     name: z.string().min(1, {
         message: "Name is Empty",
     }),
-    description: z.string().min(1, {
-        message: "Description is Empty",
-    }),
+    description: z.any().optional(),
     // stock: z.string().min(1, {
     //     message: "Stock is Empty",
     // }),
-    category: z.string().min(1, {
-        message: "Category is Empty",
-    }),
+    category: z.any().optional(),
     image: z.any().optional(),
 });
 
@@ -81,9 +77,12 @@ export function DialogAddItem() {
         const formData = new FormData();
         formData.append("id_number", number_id);
         formData.append("name", name);
-        formData.append("description", description);
+        formData.append("description", description === "" ? null : description);
         //formData.append("stock", Number(stock));
-        formData.append("category", Number(category));
+        //formData.append("category", category === "" ? null : Number(category));
+        if (imageFile) {
+            formData.append("category", Number(category));
+        }
         if (imageFile) {
             formData.append("image", imageFile);
         }
@@ -96,7 +95,15 @@ export function DialogAddItem() {
                     headers: {
                         Authorization: `Bearer ${inventoryToken}`,
                         "Content-Type": "multipart/form-data",
-                    },
+                    }, // const response = await fetch("", {
+                    //     method: "POST",
+                    //     headers: {
+                    //         "Content-Type": "application/json",
+                    //         Accept: "application/json",
+                    //         Authorization: `Bearer ${inventoryToken}`,
+                    //     },
+                    //     body: JSON.stringify({ data: data }),
+                    // });
                 }
             );
             setOpenModal(false);

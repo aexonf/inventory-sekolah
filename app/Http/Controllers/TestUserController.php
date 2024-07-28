@@ -2,26 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TestUser;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\TestUsersImport;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Log;
 
 class TestUserController extends Controller
 {
-    public function showUploadForm()
-    {
-        return inertia('UploadForm'); // Pastikan Anda telah membuat komponen UploadForm di frontend
-    }
-
-    public function uploadExcel(Request $request)
+    public function import(Request $request)
     {
         $request->validate([
-            'file' => 'required|mimes:xlsx,xls,csv',
+            'file' => 'required|file|mimes:xlsx,xls',
         ]);
 
-        Excel::import(new TestUsersImport, $request->file('file'));
+        Log::info('Uploaded file:', ['file' => $request->file('file')]);
 
-        return redirect()->back()->with('success', 'File uploaded successfully!');
+        try {
+            Excel::import(new TestUsersImport, $request->file('file'));
+            return response()->json(['message' => 'Import successful'], 200);
+        } catch (\Exception $e) {
+            Log::error('Import failed: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to import data: ' . $e->getMessage()], 500);
+        }
     }
 }

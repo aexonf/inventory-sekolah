@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Layout from "./Layout";
+import Layout from "../Layout";
 import { FiPlus } from "react-icons/fi";
 import TableTeacher from "@/components/dashboard/teacher/table/tableTeacher";
 import { TeacherRefresherProvider } from "@/lib/context/refresherTeacher";

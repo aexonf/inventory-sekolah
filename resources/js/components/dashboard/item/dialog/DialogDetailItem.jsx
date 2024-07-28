@@ -78,26 +78,26 @@ export function DialogDetailItem({ row }) {
     const { refresh } = useItemRefresher();
     const [category, setCategory] = useState(``);
 
-    const getDetailCategory = async () => {
-        try {
-            const { data: getCategory } = await axios(
-                `/api/v1/categories/${row.categories_id}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${inventoryToken}`,
-                    },
-                }
-            );
-            setCategory(getCategory?.data.name);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-    useEffect(() => {
-        if (openModal) {
-            getDetailCategory();
-        }
-    }, [openModal === true]);
+    // const getDetailCategory = async () => {
+    //     try {
+    //         const { data: getCategory } = await axios(
+    //             `/api/v1/items/${row.id}`,
+    //             {
+    //                 headers: {
+    //                     Authorization: `Bearer ${inventoryToken}`,
+    //                 },
+    //             }
+    //         );
+    //         setCategory(getCategory?.data.name);
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
+    // useEffect(() => {
+    //     if (openModal) {
+    //         getDetailCategory();
+    //     }
+    // }, [openModal === true]);
 
     return (
         <>
@@ -125,11 +125,12 @@ export function DialogDetailItem({ row }) {
                         </div>
                         <div>
                             <h1>Description:</h1>
-                            <p>{row.description}</p>
-                        </div>
-                        <div>
-                            <h1>Stock:</h1>
-                            <p>{row.stock}</p>
+                            <p>
+                                {(row.description === "null") |
+                                (row.description === null)
+                                    ? "-"
+                                    : row.description}
+                            </p>
                         </div>
                         <div>
                             <h1>Category:</h1>

@@ -23,6 +23,7 @@
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://sim.smkn1kasreman.sch.id//" />
     <meta property="twitter:title" content="Kasir / UPJ - SMK N 1 Kasreman" />
+     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta property="twitter:description" content="Sistem Manajemen Sekolah untuk Ketertiban dan Lainya." />
     <meta property="twitter:image" content="https://sim.smkn1kasreman.sch.id/img/logo_skanka.png" />
     <link rel="manifest" href="/manifest.webmanifest">

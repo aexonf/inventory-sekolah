@@ -8,7 +8,7 @@ import { BiSolidCategory } from "react-icons/bi";
 import { FaQrcode } from "react-icons/fa6";
 import { useState } from "react";
 import { LuChevronsLeft, LuChevronsRight } from "react-icons/lu";
-import { FiChevronRight, FiBox  } from "react-icons/fi";
+import { FiChevronRight, FiBox } from "react-icons/fi";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/index";
 import { PiUserCircleDashedFill } from "react-icons/pi";
 
@@ -93,8 +93,14 @@ export function Sidebar() {
             } sticky top-0 hidden min-[1000px]:block transition-all duration-300 shadow-[5px_0px_10px_-5px_#00000024] overflow-auto h-screen pt-[20px]`}
         >
             <div className="flex justify-center text-violet-700 font-medium gap-1 items-center">
-                <FiBox className={`${iconMode ? 'h-[25px] w-[25px]' : 'h-[19px] w-[19px]'}`} />
-               {iconMode ? null :  <h1 className="text-[18px] mt-[5px]">Inventory</h1>}
+                <FiBox
+                    className={`${
+                        iconMode ? "h-[25px] w-[25px]" : "h-[19px] w-[19px]"
+                    }`}
+                />
+                {iconMode ? null : (
+                    <h1 className="text-[18px] mt-[5px]">Inventory</h1>
+                )}
             </div>
             <div
                 className={`px-[20px] flex items-center mt-[20px] ${
@@ -123,26 +129,26 @@ export function Sidebar() {
                 }`}
             >
                 <Link
-                    href="/test-admin"
+                    href="/dashboard"
                     className={`${HandleActivePath(
-                        "/test-admin"
+                        "/dashboard"
                     )} flex items-center gap-5 `}
                 >
-                    <div className={`${HandleIconColor("/test-admin")}`}>
+                    <div className={`${HandleIconColor("/dashboard")}`}>
                         <TiHome className={`h-[19px] w-[19px]`} />
                     </div>
                     {!iconMode && (
                         <h1 className="mt-[4px] text-[15px]">Dashboard</h1>
                     )}
                 </Link>
-                <Link
-                    href="/test-admin/setting"
+                {/* <Link
+                    href="/dashboard/setting"
                     className={`${HandleActivePath(
-                        "/test-admin/setting"
+                        "/dashboard/setting"
                     )}  flex items-center gap-5 `}
                 >
                     <div
-                        className={`${HandleIconColor("/test-admin/setting")}
+                        className={`${HandleIconColor("/dashboard/setting")}
                         }`}
                     >
                         <IoSettingsSharp className={` h-[19px] w-[19px]`} />
@@ -150,16 +156,16 @@ export function Sidebar() {
                     {!iconMode && (
                         <h1 className="mt-[4px] text-[15px]">Setting</h1>
                     )}
-                </Link>
+                </Link> */}
                 <Link
-                    href="/test-admin/notification"
+                    href="/dashboard/notification"
                     className={`${HandleActivePath(
-                        "/test-admin/notification"
+                        "/dashboard/notification"
                     )}  flex items-center gap-5 `}
                 >
                     <div
                         className={`${HandleIconColor(
-                            "/test-admin/notification"
+                            "/dashboard/notification"
                         )}
                         }`}
                     >
@@ -170,17 +176,19 @@ export function Sidebar() {
                     )}
                 </Link>
 
-                 <Link
-                    href="/test-admin/temporary"
+                <Link
+                    href="/dashboard/temporary"
                     className={`${HandleActivePath(
-                        "/test-admin/temporary"
+                        "/dashboard/temporary"
                     )}  flex items-center gap-5 `}
                 >
                     <div
-                        className={`${HandleIconColor("/test-admin/temporary")}
+                        className={`${HandleIconColor("/dashboard/temporary")}
                         }`}
                     >
-                        <PiUserCircleDashedFill className={` h-[19px] w-[19px]`} />
+                        <PiUserCircleDashedFill
+                            className={` h-[19px] w-[19px]`}
+                        />
                     </div>
                     {!iconMode && (
                         <h1 className="mt-[4px] text-[15px]">Temporary</h1>
@@ -191,8 +199,8 @@ export function Sidebar() {
                         onClick={() => HandleOpenSubMenu("student")}
                         className={`cursor-pointer  ${HandleSubMenuWrapper(
                             "link",
-                            "/test-admin/student",
-                            "/test-admin/active-student"
+                            "/dashboard/student",
+                            "/dashboard/active-student"
                         )}`}
                     >
                         <div className="flex items-center gap-5">
@@ -206,8 +214,8 @@ export function Sidebar() {
                                         <PopoverTrigger
                                             className={`${HandleSubMenuWrapper(
                                                 "icon",
-                                                "/test-admin/student",
-                                                "/test-admin/active-student"
+                                                "/dashboard/student",
+                                                "/dashboard/active-student"
                                             )}`}
                                         >
                                             <FaUsers
@@ -216,17 +224,17 @@ export function Sidebar() {
                                         </PopoverTrigger>
                                         <PopoverContent className="right-[-160px] top-[-44px] flex flex-col py-[5px] w-max">
                                             <Link
-                                                href="/test-admin/student"
+                                                href="/dashboard/student"
                                                 className={`${HandleActiveSubMenu(
-                                                    "/test-admin/student"
+                                                    "/dashboard/student"
                                                 )}`}
                                             >
                                                 Student
                                             </Link>
                                             <Link
-                                                href="/test-admin/active-student"
+                                                href="/dashboard/active-student"
                                                 className={`${HandleActiveSubMenu(
-                                                    "/test-admin/active-student"
+                                                    "/dashboard/active-student"
                                                 )}`}
                                             >
                                                 Active Student
@@ -269,17 +277,17 @@ export function Sidebar() {
                             } overflow-hidden transition-all duration-300 flex flex-col gap-3 ml-[60px]`}
                         >
                             <Link
-                                href="/test-admin/student"
+                                href="/dashboard/student"
                                 className={`${HandleActiveSubMenu(
-                                    "/test-admin/student"
+                                    "/dashboard/student"
                                 )}`}
                             >
                                 Student
                             </Link>
                             <Link
-                                href="/test-admin/active-student"
+                                href="/dashboard/active-student"
                                 className={`${HandleActiveSubMenu(
-                                    "/test-admin/active-student"
+                                    "/dashboard/active-student"
                                 )}`}
                             >
                                 Active Student
@@ -394,13 +402,13 @@ export function Sidebar() {
                     )}
                 </div> */}
                 <Link
-                    href="/test-admin/teacher"
+                    href="/dashboard/teacher"
                     className={`${HandleActivePath(
-                        "/test-admin/teacher"
+                        "/dashboard/teacher"
                     )}  flex items-center gap-5 `}
                 >
                     <div
-                        className={`${HandleIconColor("/test-admin/teacher")}
+                        className={`${HandleIconColor("/dashboard/teacher")}
                         }`}
                     >
                         <FaUserAlt className={` h-[19px] w-[19px]`} />
@@ -415,8 +423,8 @@ export function Sidebar() {
                         onClick={() => HandleOpenSubMenu("category & item")}
                         className={`cursor-pointer ${HandleSubMenuWrapper(
                             "link",
-                            "/test-admin/item",
-                            "/test-admin/category"
+                            "/dashboard/item",
+                            "/dashboard/category"
                         )}`}
                     >
                         <div className="flex items-center gap-5">
@@ -430,8 +438,8 @@ export function Sidebar() {
                                         <PopoverTrigger
                                             className={`${HandleSubMenuWrapper(
                                                 "icon",
-                                                "/test-admin/item",
-                                                "/test-admin/category"
+                                                "/dashboard/item",
+                                                "/dashboard/category"
                                             )}`}
                                         >
                                             <BiSolidCategory
@@ -440,17 +448,17 @@ export function Sidebar() {
                                         </PopoverTrigger>
                                         <PopoverContent className="right-[-120px] top-[-44px] flex flex-col py-[5px] w-max">
                                             <Link
-                                                href="/test-admin/item"
+                                                href="/dashboard/item"
                                                 className={`${HandleActiveSubMenu(
-                                                    "/test-admin/item"
+                                                    "/dashboard/item"
                                                 )}`}
                                             >
                                                 Item
                                             </Link>
                                             <Link
-                                                href="/test-admin/category"
+                                                href="/dashboard/category"
                                                 className={`${HandleActiveSubMenu(
-                                                    "/test-admin/category"
+                                                    "/dashboard/category"
                                                 )}`}
                                             >
                                                 Category
@@ -497,17 +505,17 @@ export function Sidebar() {
                             } overflow-hidden transition-all duration-300 flex flex-col gap-3 ml-[60px]`}
                         >
                             <Link
-                                href="/test-admin/item"
+                                href="/dashboard/item"
                                 className={`${HandleActiveSubMenu(
-                                    "/test-admin/item"
+                                    "/dashboard/item"
                                 )}`}
                             >
                                 Item
                             </Link>
                             <Link
-                                href="/test-admin/category"
+                                href="/dashboard/category"
                                 className={`${HandleActiveSubMenu(
-                                    "/test-admin/category"
+                                    "/dashboard/category"
                                 )}`}
                             >
                                 Category
@@ -516,13 +524,13 @@ export function Sidebar() {
                     )}
                 </div>
                 <Link
-                    href="/test-admin/qr-scan"
+                    href="/dashboard/qr-scan"
                     className={`${HandleActivePath(
-                        "/test-admin/qr-scan"
+                        "/dashboard/qr-scan"
                     )}  flex items-center gap-5 `}
                 >
                     <div
-                        className={`${HandleIconColor("/test-admin/qr-scan")}
+                        className={`${HandleIconColor("/dashboard/qr-scan")}
                         }`}
                     >
                         <FaQrcode lassName={` h-[19px] w-[19px]`} />

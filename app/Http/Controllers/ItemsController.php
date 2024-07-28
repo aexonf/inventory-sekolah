@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Categories;
 use App\Models\Items;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -16,12 +17,6 @@ class ItemsController extends Controller
   public function index(Request $request)
     {
         $itemsQuery = Items::query();
-
-        // if ($request->has("status")) {
-        //     $itemsQuery->where("status", $request->status);
-        // } else {
-        //     $itemsQuery->where("status", "available");
-        // }
 
         $items = $itemsQuery->get();
 
@@ -37,8 +32,8 @@ class ItemsController extends Controller
             "id_number" => "required",
             "name" => "required",
             "image" => "nullable|image|mimes:jpeg,png,jpg,gif,svg",
-            "description" => "required",
-            "category" => "required"
+            "description" => "nullable|string",
+            "category" => "nullable|numeric"
         ]);
 
         $image = null;
@@ -53,9 +48,9 @@ class ItemsController extends Controller
         $item = Items::create([
             "id_number" => $request->id_number,
             "name" => $request->name,
-            "description" => $request->description,
-            "categories_id" => $request->category,
-            "image" => $image,
+            "description" => $request->description ?? null,
+            "categories_id" => $request->category ?? null,
+            "image" => $image ?? null,
             "status" => "available"
         ]);
 
@@ -66,13 +61,43 @@ class ItemsController extends Controller
         return response()->json(["message" => "Something went wrong"], 500);
     }
 
+  public function import(Request $request)
+    {
+        $request->validate([
+            "data" => "required|array",
+            'data.*.number_id' => 'required|string',
+            'data.*.name' => 'required|string',
+        ]);
+ Log::info('Uploaded file:', ['itemData' => $request]);
+        $items = $request->input('data');
+ 
+        foreach ($items as $itemData) {
+             Log::info('Uploaded file:', ['itemData' => $itemData]);
+            $item = Items::create([
+                "id_number" => $itemData['number_id'],
+                "name" => $itemData['name'],
+                "description" =>  null,
+                "categories_id" =>null,
+                "image" => null, // Asumsikan tidak ada image untuk import data dari excel
+                "status" => "available"
+            ]);
+
+            if (!$item) {
+                Log::error('Failed to create item:', ['itemData' => $itemData]);
+                return response()->json(["message" => "Something went wrong"], 500);
+
+            }
+        }
+
+        return response()->json(["message" => "Data imported successfully"], 201);
+    }
    public function update($id, Request $request)
 {
     $request->validate([
         "id_number" => "required",
         "name" => "required",
         "description" => "required",
-        "categories_id" => "required",
+        "categories_id" => "nullable|required",
         "status" => "required|in:available,not_available,lost,damaged",
         "image" => "image|mimes:jpeg,png,jpg,gif,svg"
     ]);

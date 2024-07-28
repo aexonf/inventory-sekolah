@@ -68,7 +68,11 @@ export const columns = [
         cell: ({ row }) => {
             const getDescription = row.getValue("description");
             return (
-                <div className="text-left font-medium">{getDescription}</div>
+                <div className="text-left font-medium">
+                    {getDescription === null || getDescription === "null"
+                        ? "-"
+                        : getDescription}
+                </div>
             );
         },
     },
